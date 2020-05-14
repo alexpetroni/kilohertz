@@ -1,0 +1,11 @@
+fragment FeatureSetData on FeatureSet{
+  id
+  createdAt
+  updatedAt
+  name
+  slug 
+  items {
+    name
+    slug
+  }
+}

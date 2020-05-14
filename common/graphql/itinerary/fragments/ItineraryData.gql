@@ -1,0 +1,17 @@
+fragment ItineraryData on Itinerary{
+  id
+  createdAt
+  updatedAt
+  name
+  slug
+  location
+  length
+  dives
+  experience
+  description
+  image
+  stopovers {
+    title
+    description
+  }
+}

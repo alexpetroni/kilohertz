@@ -1,7 +1,7 @@
 const merge = require('deepmerge')
 
 const Common = require('./common')
-const Attachment = require('./attachment')
+
 const Brand = require('./brand')
 const Category = require('./category')
 const CategoryMeta = require('./category-meta')
@@ -14,7 +14,7 @@ const VariableFeature = require('./variable-feature')
 
 const resolvers = merge.all([
   Common,
-  Attachment,
+
   Brand,
   Category,
   CategoryMeta,

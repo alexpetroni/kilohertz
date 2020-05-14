@@ -1,0 +1,6 @@
+#import "./fragments/ShipData.gql"
+mutation createShip ($input: ShipInput!) {
+    createShip(input: $input){
+      ... ShipData
+    }
+ }

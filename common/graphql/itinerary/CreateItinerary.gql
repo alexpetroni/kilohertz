@@ -1,0 +1,6 @@
+#import "./fragments/ItineraryData.gql"
+mutation createItinerary ($input: ItineraryInput!) {
+    createItinerary(input: $input){
+      ... ItineraryData
+    }
+ }

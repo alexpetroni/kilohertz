@@ -1,0 +1,4 @@
+fragment DestinationData on Destination{
+  name
+  code
+}

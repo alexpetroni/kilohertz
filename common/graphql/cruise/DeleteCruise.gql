@@ -1,0 +1,3 @@
+mutation deleteCruise ($id: ID!) {
+    deleteCruise(id: $id)
+ }

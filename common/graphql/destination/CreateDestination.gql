@@ -1,0 +1,6 @@
+#import "./fragments/DestinationData.gql"
+mutation createDestination ($input: DestinationInput!) {
+    createDestination(input: $input){
+      ... DestinationData
+    }
+ }

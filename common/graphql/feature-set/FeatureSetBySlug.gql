@@ -1,0 +1,6 @@
+#import "./fragments/FeatureSetData.gql"
+query FeatureSetBySlug ($slug:String!) {
+    featureSetBySlug(slug: $slug){
+      ... FeatureSetData
+    }
+ }

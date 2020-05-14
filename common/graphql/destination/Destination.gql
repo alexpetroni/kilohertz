@@ -1,0 +1,6 @@
+#import "./fragments/DestinationData.gql"
+query destination ($id: ID!) {
+    destination(id: $id){
+      ... DestinationData
+    }
+ }

@@ -1,0 +1,6 @@
+#import "./fragments/CountryData.gql"
+query country ($id: ID!) {
+    country(id: $id){
+      ... CountryData
+    }
+ }

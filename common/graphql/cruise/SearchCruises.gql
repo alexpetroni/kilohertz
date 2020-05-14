@@ -1,0 +1,6 @@
+#import "./fragments/CruiseBasicData.gql"
+query searchCruises ($args: JSON) {
+    searchCruises(args: $args){
+      ... CruiseBasicData
+    }
+ }

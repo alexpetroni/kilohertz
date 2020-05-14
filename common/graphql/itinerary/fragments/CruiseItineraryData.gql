@@ -1,0 +1,14 @@
+fragment CruiseItineraryData on Itinerary{
+  name
+  slug
+  location
+  length
+  dives
+  experience
+  description
+  image
+  stopovers {
+    title
+    description
+  }
+}

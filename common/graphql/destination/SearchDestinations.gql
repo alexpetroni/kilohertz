@@ -1,0 +1,6 @@
+#import "./fragments/DestinationData.gql"
+query searchDestinations ($args: JSON) {
+    searchDestinations(args: $args){
+      ... DestinationData
+    }
+ }

@@ -1,0 +1,6 @@
+#import "./fragments/CountryData.gql"
+query publishedCountries {
+    publishedCountries {
+      ... CountryData
+    }
+ }

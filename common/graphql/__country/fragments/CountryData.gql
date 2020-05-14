@@ -1,0 +1,4 @@
+fragment CountryData on Country{
+  name
+  code
+}

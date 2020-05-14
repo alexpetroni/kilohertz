@@ -1,0 +1,6 @@
+#import "./fragments/CabinData.gql"
+mutation createCabin ($shipId: ID!, $input: CabinInput!) {
+    createCabin(shipId: $shipId, input: $input){
+      ... CabinData
+    }
+ }

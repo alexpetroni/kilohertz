@@ -1,0 +1,6 @@
+#import "./fragments/CabinData.gql"
+query cabinFeatures () {
+    cabin(shipId: $shipId, id: $id){
+      ... CabinData
+    }
+ }

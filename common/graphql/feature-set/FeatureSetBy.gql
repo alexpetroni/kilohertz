@@ -1,0 +1,6 @@
+#import "./fragments/FeatureSetData.gql"
+query featureSetBy ($field:String!, $value: String!) {
+    featureSetBy(field: $field, value: $value){
+      ... FeatureSetData
+    }
+ }

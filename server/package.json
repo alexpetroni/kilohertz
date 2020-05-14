@@ -11,13 +11,16 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "apollo-server-express": "^2.10.0",
+    "apollo-server-express": "^2.9.15",
+    "cloudinary": "^1.18.1",
     "deepmerge": "^4.2.2",
     "dotenv": "^8.2.0",
+    "fs-extra": "^8.1.0",
     "graphql-type-json": "^0.3.1",
+    "jszip": "^3.2.2",
     "moment": "^2.24.0",
-    "mongoose": "^5.8.11",
+    "mongoose": "^5.8.3",
     "nodemon": "^2.0.2",
-    "slug": "^2.1.1"
+    "slug": "^2.1.0"
   }
 }

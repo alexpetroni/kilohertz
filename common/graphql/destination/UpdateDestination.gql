@@ -1,0 +1,6 @@
+#import "./fragments/DestinationData.gql"
+mutation updateDestination ($id: ID!, $input: DestinationInput!) {
+    updateDestination(id: $id, input: $input){
+      ... DestinationData
+    }
+ }

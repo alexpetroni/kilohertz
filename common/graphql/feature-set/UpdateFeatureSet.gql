@@ -1,0 +1,6 @@
+#import "./fragments/FeatureSetData.gql"
+mutation UpdateFeatureSet ($slug:ID!, $input: FeatureSetInput!) {
+    updateFeatureSet(slug: $slug, input: $input){
+      ... FeatureSetData
+    }
+ }

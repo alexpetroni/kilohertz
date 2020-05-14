@@ -1,0 +1,17 @@
+fragment CabinData on Cabin{
+  id
+  createdAt
+  updatedAt
+  name
+  slug
+  excerpt
+  description
+  order
+  image
+  gallery
+  features
+  featuresText
+  capacity
+  bedding
+  airconditioning
+}

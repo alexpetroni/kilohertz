@@ -1,0 +1,6 @@
+#import "./fragments/CountryData.gql"
+mutation updateCountry ($id: ID!, $input: CountryInput!) {
+    updateCountry(id: $id, input: $input){
+      ... CountryData
+    }
+ }

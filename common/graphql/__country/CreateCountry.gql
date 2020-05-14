@@ -1,0 +1,6 @@
+#import "./fragments/CountryData.gql"
+mutation createCountry ($input: CountryInput!) {
+    createCountry(input: $input){
+      ... CountryData
+    }
+ }

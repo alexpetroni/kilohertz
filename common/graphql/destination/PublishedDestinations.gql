@@ -1,0 +1,6 @@
+#import "./fragments/DestinationData.gql"
+query publishedDestinations {
+    publishedDestinations {
+      ... DestinationData
+    }
+ }
