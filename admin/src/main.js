@@ -3,15 +3,15 @@ import App from './App.vue'
 import './registerServiceWorker'
 import router from './router'
 import store from './store'
-import vuetify from './plugins/vuetify';
 import { createProvider } from './vue-apollo'
+import vuetify from './plugins/vuetify';
 
 Vue.config.productionTip = false
 
 new Vue({
   router,
   store,
-  vuetify,
   apolloProvider: createProvider(),
+  vuetify,
   render: h => h(App)
 }).$mount('#app')
