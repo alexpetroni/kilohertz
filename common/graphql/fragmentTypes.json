@@ -1,0 +1,1 @@
+{"__schema":{"types":[{"kind":"INTERFACE","name":"Product","possibleTypes":[{"name":"SimpleProduct"},{"name":"VariableProduct"},{"name":"ProductVariation"}]},{"kind":"INTERFACE","name":"Paginated","possibleTypes":[]}]}}

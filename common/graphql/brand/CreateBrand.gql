@@ -1,0 +1,6 @@
+#import "./fragments/BrandFragment.gql"
+mutation createBrand ($input: BrandInput!) {
+  createBrand(input: $input){
+    ... BrandData
+  }
+}

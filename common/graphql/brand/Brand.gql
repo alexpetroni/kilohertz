@@ -1,0 +1,6 @@
+#import "./fragments/BrandFragment.gql"
+query brand ($id: ID!) {
+  brand(id: $id){
+    ... BrandData
+  }
+}

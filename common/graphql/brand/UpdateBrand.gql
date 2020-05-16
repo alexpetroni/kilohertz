@@ -1,0 +1,6 @@
+#import "./fragments/BrandFragment.gql"
+mutation updateBrand ($id: ID!, $input: BrandInput!) {
+  updateBrand(id: $id, input: $input){
+    ... BrandData
+  }
+}

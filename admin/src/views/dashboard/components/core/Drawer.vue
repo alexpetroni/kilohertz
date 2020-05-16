@@ -21,9 +21,9 @@
 
     <v-list-item two-line>
       <v-list-item-content>
-        <v-list-item-title class="text-uppercase font-weight-regular display-2">
-          <span class="logo-mini">{{ $t('ct') }}</span>
-          <span class="logo-normal">{{ $t('tim') }}</span>
+        <v-list-item-title class="text-center font-weight-regular display-2">
+          <span class="logo-mini" v-if="expandOnHover">K</span>
+          <span class="logo-normal" v-else>Kilohertz Gmbh</span>
         </v-list-item-title>
       </v-list-item-content>
     </v-list-item>
@@ -93,6 +93,13 @@
           title: 'dashboard',
           to: '/',
         },
+
+        {
+          icon: 'mdi-view-dashboard',
+          title: 'Brands',
+          to: '/brands',
+        },
+
         {
           group: '/pages',
           icon: 'mdi-image',

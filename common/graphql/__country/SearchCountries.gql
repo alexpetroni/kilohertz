@@ -1,6 +1,0 @@
-#import "./fragments/CountryData.gql"
-query searchCountries ($args: JSON) {
-    searchCountries(args: $args){
-      ... CountryData
-    }
- }

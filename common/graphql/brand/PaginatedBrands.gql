@@ -1,0 +1,9 @@
+#import "./fragments/BrandFragment.gql"
+query paginatedBrands ($args: JSON) {
+    paginatedBrands(args: $args){
+      total
+      items {
+        ... BrandData
+      }
+    }
+ }

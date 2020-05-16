@@ -72,6 +72,16 @@ export default new Router({
           path: '',
           component: () => import('@/views/dashboard/Dashboard'),
         },
+
+        // Editors
+        {
+          name: 'Brands',
+          path: 'brands',
+          component: () => import('@/views/Brands'),
+        },
+
+
+
         // Pages
         {
           name: 'RTL',

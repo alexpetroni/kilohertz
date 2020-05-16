@@ -1,0 +1,8 @@
+fragment BrandData on Brand {
+  id
+  createdAt
+  updatedAt
+  name
+  slug
+  logo
+}
