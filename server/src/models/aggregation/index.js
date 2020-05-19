@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const ObjectId = mongoose.Types.ObjectId
 
-const { guaranteeArr } = require('./../utils')
+const { guaranteeArr, isEmptyArray } = require('./../utils')
 
 // defaults & max values
 const defaultResultsForSearch = parseInt(process.env.DEFAULT_SEARCH_RESULTS) || 10
@@ -69,10 +69,29 @@ function parseMatchRegexFilters (search, searchPaths = 'name', searchOptions = '
   return resultArr.length == 1 ? resultArr[0] : {'$or': resultArr}
 }
 
+// type field String | Array
+// type order String | Array
+function sort (field, sortDesc) {
+  console.log('sort field %s sortDesc %s  ', field, sortDesc)
+  // default
+  if(!field || isEmptyArray(field)) {
+    return { "$sort": { 'createdAt' : -1 } }
+  }
 
-function sort (field = 'createdAt', order = 'DESC') {
-  const sort = order == 'DESC' ? -1 : 1
-  return { "$sort": { [field] : sort } }
+  if(!Array.isArray(field)) {
+    field = [field]
+  }
+  if(!Array.isArray(sortDesc)) {
+    sortDesc = [sortDesc]
+  }
+
+  let sortObj = field.reduce((acc, e, index) => {
+    acc[e] = sortDesc[index] ? -1 : 1
+    return acc
+  }, {})
+  console.log('sortObj %o ', sortObj)
+  // const sort = order == 'DESC' ? -1 : 1
+  return { "$sort": sortObj }
 }
 
 function limit (n = 10) {

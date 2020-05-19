@@ -8,6 +8,11 @@ const FormState = {
   EDIT: 'edit',
 }
 
+const EVENTS = {
+  NEW_ITEM: 'new-item',
+
+}
+
 const isNewForm = (val) => {
   return val == FormState.NEW
 }
@@ -159,10 +164,36 @@ const parentEmitter = function (comp, event) {
   }
 }
 
+// associate same handler function to multiple events
+const groupEventsHandler = function (eventsArr, handler) {
+  if(!handler || !Array.isArray(eventsArr)) {
+    throw new Error ("Wrong arguments!")
+  }
+
+  return eventsArr.reduce((acc, e) => {
+    acc[e] = handler
+    return acc
+  }, {})
+}
+
+// emit events from the provided component
+const pipeUp = function (comp, eventsArr) {
+  if(!comp || !(comp instanceof Vue)){
+    throw new Error ("A Vue instance should be provided as emmiter component.")
+  }
+
+  return eventsArr.reduce((acc, e) => {
+    acc[e] = (val) => { comp.$emit(e, val) }
+    return acc
+  },
+  {})
+}
+
 
 export {
   EventBus,
   FormState,
+  EVENTS,
   isNewForm,
   isEditForm,
   jsonCopy,
@@ -178,4 +209,6 @@ export {
   objectSingleProperty,
   mergeObjectsToLeft,
   pipeEvents,
+  groupEventsHandler,
+  pipeUp,
 }

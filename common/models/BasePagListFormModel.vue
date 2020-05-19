@@ -17,13 +17,13 @@ export default {
     },
 
     sortBy: {
-      type: String,
-      default: '',
+      type: [String, Array],
+      default: () => []
     },
 
     sortDesc: {
-      type: Boolean,
-      default: false,
+      type: [Boolean, Array],
+      default: () => [],
     },
 
     groupBy: {
@@ -32,16 +32,6 @@ export default {
     },
 
     groupDesc: {
-      type: Boolean,
-      default: false,
-    },
-
-    multiSort: {
-      type: Boolean,
-      default: false,
-    },
-
-    mustSort: {
       type: Boolean,
       default: false,
     },
@@ -61,22 +51,24 @@ export default {
         mustSort: this.mustSort,
       },
 
+      search: '',
+
       totalItems: 25,
       loading: false,
     }
   },
 
   computed: {
-    formEvents () {
+    tableEvents () {
       return {
-        // 'update:options': this.onUpdateOptions,
+        'update:tableOptions': this.onUpdateTableOptions,
         'update:page': this.onUpdatePage,
         'update:items-per-page': this.onUpdateItemsPerPage,
         'update:sort-by': this.onUpdateSortBy,
+        'update:search': this.onUpdateSearch,
 
-        // 'delete-item': this.onDeleteItem,
-        // 'reload-item': this.onReloadItem,
-        // 'new-item': this.onNewItem,
+        'delete-item': this.onDeleteItem,
+        'delete-items': this.onDeleteItems,
       }
     },
 
@@ -99,7 +91,11 @@ export default {
 
   methods: {
     updateQueryVars (obj) {
-      this.tableOptions = Object.assing({}, this.tableOptions, obj)
+      this.tableOptions = Object.assign({}, this.tableOptions, obj)
+    },
+
+    onUpdateTableOptions (val) {
+      this.tableOptions = val
     },
 
     onUpdatePage (val) {
@@ -108,17 +104,45 @@ export default {
 
     onUpdateItemsPerPage (val) {
       this.tableOptions = Object.assign({}, this.tableOptions, {itemsPerPage: val})
-      console.log('onUpdateItemsPerPage %o', val)
+    },
+
+    onUpdateSearch (val) {
+      this.search = val
+      this.loadItemsForCurrentPage()
     },
 
     onUpdateSortBy (val) {
-      console.log('onUpdateSortBy %o', val)
+      this.tableOptions = Object.assign({}, this.tableOptions, {sortBy: val})
+    },
+
+    async onDeleteItem (id) {
+      try {
+        this.loading = true
+        this.clearError()
+        await this.deleteItem(id)
+        this.reloadPage()
+      } catch (error) {
+        this.loading = false
+        this.itemError (error.message)
+      }
+    },
+
+    async onDeleteItems (idArr) {
+      try {
+        this.loading = true
+        this.clearError()
+        await this.deleteItems(idArr)
+        this.reloadPage()
+      } catch (error) {
+        this.loading = false
+        this.itemError (error.message)
+      }
     },
 
     async loadItemsForCurrentPage (fetchPolicy) {
       try {
-
         this.loading = true
+        this.clearError()
         const { items, total } = await this.loadPage(this.pageQueryVariables(), fetchPolicy)
         if(total && Array.isArray(items) && !items.length) { // is a page out of range was specified, find the last page
           const lastPage = Math.ceil(total/this.tableOptions.itemsPerPage)
@@ -126,9 +150,11 @@ export default {
         }
         this.totalItems = total
         this.items = items
-        this.loading = false
-      }catch(error) {
+
+      } catch (error) {
         this.itemError (error.message)
+      } finally {
+        this.loading = false
       }
     },
 
@@ -137,8 +163,19 @@ export default {
       throw new Error("loadPage() should be overwritten in child component.")
     },
 
+    async deleteItem (id) {
+      console.log('deleteItem  %s', id )
+      throw new Error("deleteItem() should be overwritten in child component.")
+    },
+
+    async deleteItems (idArr) {
+      console.log('deleteItems  %o', idArr )
+      throw new Error("deleteItems() should be overwritten in child component.")
+    },
+
+
     reloadPage () {
-      this.loadPage(this.pageQueryVariables(), 'network-only')
+      this.loadItemsForCurrentPage('network-only')
     },
 
     itemError (msg) {
@@ -148,7 +185,8 @@ export default {
 
     // hook for page query options
     pageQueryVariables () {
-      return this.tableOptions
+      let { page, itemsPerPage, sortBy, sortDesc} = this.tableOptions
+      return { page, itemsPerPage, sortBy, sortDesc, search: this.search }
     },
 
     // hook for adding aditional slot params
@@ -161,7 +199,7 @@ export default {
         items: this.items,
         tableOptions: this.tableOptions,
         totalItems: this.totalItems,
-        formEvents: this.formEvents,
+        tableEvents: this.tableEvents,
         modelState: this.modelState,
       }
       const extraParams = this.extraSlotParams()

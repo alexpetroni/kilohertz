@@ -1,6 +1,5 @@
 <template>
-    <div>
-        <v-toolbar
+    <v-toolbar
         color="transparent"
         flat
          >
@@ -90,28 +89,19 @@
                 </v-list>
               </v-menu>
           </slot>
+
+          <ConfirmationDialog
+          v-model="confirmDialog"
+          v-bind="confirmOptions"
+          @confirm="confirmDelete"
+          @cancel="cancelDelete"
+          />
         </v-toolbar>
 
-      <slot name="error-display" v-bind="{error}">
-          <BaseError
-            :error="error"
-          />
-      </slot>
-
-      <ConfirmationDialog
-      :confirmDialog="showConfirmDialog"
-      :confirmationMsg="deleteConfirmationMsg"
-      @confirm="confirmDelete"
-      @cancel="cancelDelete"
-      >
-      </ConfirmationDialog>
-
-    </div>
 </template>
 
 <script>
 import ConfirmationDialog from '@common/components/ConfirmationDialog'
-import BaseError from '@common/components/BaseError'
 
 import {
   FormState,
@@ -124,7 +114,6 @@ export default {
 
   components: {
     ConfirmationDialog,
-    BaseError,
   },
 
   props: {
@@ -139,6 +128,11 @@ export default {
 
     error: {
       type: String,
+    },
+
+    loading: {
+      type: Boolean,
+      default: false,
     },
 
     backIcon: {
@@ -207,7 +201,7 @@ export default {
 
   data () {
     return {
-      showConfirmDialog: false,
+      confirmDialog: false,
     }
   },
 
@@ -254,6 +248,12 @@ export default {
         return e
       })
     },
+
+    confirmOptions () {
+      return {
+        message: this.deleteConfirmationMsg,
+      }
+    },
   },
 
   watch: {
@@ -270,7 +270,7 @@ export default {
     },
 
     onDelete () {
-      this.requireDeleteConfirmation ? this.showConfirmDialog = true : this.$emit('delete-item')
+      this.requireDeleteConfirmation ? this.confirmDialog = true : this.$emit('delete-item')
     },
 
     onReload () {
@@ -278,7 +278,7 @@ export default {
     },
 
     closeConfirmDeleteDialog () {
-      this.showConfirmDialog = false
+      this.confirmDialog = false
     },
 
     confirmDelete () {

@@ -80,6 +80,11 @@ export default new Router({
           component: () => import('@/views/Brands'),
         },
 
+        {
+          name: 'Brand',
+          path: 'brand-edit/:id?',
+          component: () => import('@/views/Brand'),
+        },
 
 
         // Pages

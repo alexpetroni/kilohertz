@@ -30,16 +30,17 @@ const searchBrands = async function (args = {}) {
 }
 
 const paginatedBrands = async function (args = {}) {
+  console.log('%o', args)
   // defaults
   const {
     page, itemsPerPage,
     search, searchFields = ['name', 'slug'], searchOptions = 'i',
-    orderBy, order,
+    sortBy, sortDesc,
   } = args
 
   let agg = [getMatchExpr(args)]
 
-  const itemsQ = Brand.aggregate([...agg, aggExpr.sort(orderBy, order), ...aggExpr.pagination(page, itemsPerPage), aggExpr.addId()])
+  const itemsQ = Brand.aggregate([...agg, aggExpr.sort(sortBy, sortDesc), ...aggExpr.pagination(page, itemsPerPage), aggExpr.addId()])
   const totalQ = Brand.aggregate([...agg, {"$count": "total"}])
 
   const [items, total] = await Promise.all([itemsQ, totalQ])

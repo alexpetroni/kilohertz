@@ -51,6 +51,10 @@ function guaranteeArr (arg, stringDelim = ',') {
   throw new Error("Array or String expected as first argument.")
 }
 
+function isEmptyArray (val) {
+  return Array.isArray(val) && !val.length
+}
+
 // check that the specified properties from 'propArr' are not empty in args if suplied (checks as strings)
 // if 'required': true, all properties are mandatory to be present
 // return array with non-empty properties names, throw an Error otherwise
@@ -163,6 +167,7 @@ module.exports = {
   parsePagTotalAggResult,
   idArrToObjectIdArr,
   guaranteeArr,
+  isEmptyArray,
   checkNonEmptyProperties,
   isFieldValueUnique,
   checkUniqueFieldValue,
@@ -170,4 +175,5 @@ module.exports = {
   findOnePartial,
   uniqueSlugByIncrement,
   slugifyObjProperties,
+
 }

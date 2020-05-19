@@ -1,13 +1,34 @@
 <template>
-  <BrandsEditor />
+  <BrandsListEditor
+    v-on="onEditorEvents"
+  />
 </template>
 
 <script>
-import BrandsEditor from '@/components/editors/BrandsEditor'
+import BrandsListEditor from '@/components/editors/BrandsListEditor'
 
 export default {
   components: {
-    BrandsEditor,
-  }
+    BrandsListEditor,
+  },
+
+  computed: {
+    onEditorEvents () {
+      return {
+        'new-item': this.onNewItem,
+        'edit-item': this.onEditItem,
+      }
+    },
+  },
+
+  methods: {
+    onNewItem () {
+      this.$router.push({path: 'brand-edit'})
+    },
+
+    onEditItem (id) {
+      this.$router.push({name: 'Brand', params: {id: id}})
+    },
+  },
 }
 </script>

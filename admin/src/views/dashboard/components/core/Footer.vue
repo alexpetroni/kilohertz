@@ -29,7 +29,7 @@
           md="auto"
         >
           <div class="body-1 font-weight-light pt-6 pt-md-0 text-center">
-            &copy; {{ (new Date()).getFullYear() }}, 
+            &copy; {{ (new Date()).getFullYear() }}
             by <a href="https://kilohertz.ch">Kilohertz</a>.
           </div>
         </v-col>
@@ -44,10 +44,6 @@
 
     data: () => ({
       links: [
-        {
-          href: '#',
-          text: 'Creative Tim',
-        },
         {
           href: '#',
           text: 'About Us',

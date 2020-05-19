@@ -1,94 +1,77 @@
 <template>
-  <div>
-    <v-card flat>
-      <v-card-actions>
-  <v-select
-  :disabled="disabled"
-  :items="actions"
-  :label="selectLabel"
-  dense
-  return-object
-  v-model="selected"
-  >
-  </v-select>
-<v-spacer> </v-spacer>
-  <v-btn
-  small
-  :disabled="disabled"
-  color="primary"
-  @click="applyBulkAction">
-    {{btnLabel}}
-  </v-btn>
-</v-card-actions>
-</v-card>
-
-<v-dialog
-  v-model="confirmDialog"
-  :width="dialogWidth"
->
-  <v-card>
-    <v-card-text>
-      <p class="title pt-5">
-        {{ confirmationMsg }}
-      </p>
-    </v-card-text>
-
-    <v-card-actions>
-      <v-spacer></v-spacer>
-      <v-btn
-        color="primary"
-        text
-        @click="onDialogCancel"
-      >
-        {{dialogNoBtn}}
-      </v-btn>
-
-      <v-btn
-        color="primary"
-        text
-        @click="onDialogConfirm"
-      >
-        {{dialogYesBtn}}
-      </v-btn>
-    </v-card-actions>
-  </v-card>
-</v-dialog>
-
-<v-dialog
- v-model="selectedActionDialog"
- :width="dialogWidth"
- >
- <v-card>
-      <v-card-text>
-      <p class="title pt-5">
-          Please select an action.
-        </p>
-      </v-card-text>
-
-      <v-card-actions>
-        <v-spacer></v-spacer>
-        <v-btn
-          color="primary"
-          text
-          @click="selectedActionDialog = false"
+  <v-container fluid>
+    <v-row no-gutters>
+      <v-col cols="12" sm="4" md="2">
+        <v-select
+        :disabled="disabled"
+        :items="actions"
+        :label="selectLabel"
+        return-object
+        v-model="selected"
         >
-          OK
-        </v-btn>
-      </v-card-actions>
-  </v-card>
-</v-dialog>
+        </v-select>
+    </v-col>
+    <v-col sm="4" md="2">
+      <v-btn
+      color="primary"
+      :disabled="disabled"
+      @click="applyBulk"
+      class="mt-3 ml-3"
+      >
+      {{ applyBtnText }}
+      </v-btn>
+    </v-col>
+    <v-col sm="4" md="8">
+    <ConfirmationDialog
+      v-model="confirmDialog"
+      @confirm="onConfirm"
+      @cancel="onCancel"
+      v-bind="confirmOptions"
+    />
 
-</div>
+    <v-dialog
+      v-model="alertDialog"
+      max-width="350"
+    >
+    <v-card>
+      <v-card-title>
+        {{ noBulkActionSelectedText }}
+        <v-spacer />
+
+        <v-icon
+          aria-label="Close"
+          @click="closeAlertDialog"
+        >
+          mdi-close
+        </v-icon>
+      </v-card-title>
+      <v-card-text class="text-center">
+          <v-btn
+            class="mt-6"
+            color="info"
+            default
+            @click="closeAlertDialog"
+          >
+            OK
+          </v-btn>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
+    </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
+import ConfirmationDialog from '@common/components/ConfirmationDialog'
+
 export default {
   props: {
     actions: {
       type: Array,
       default: function () {
         return [
-          {action: 'delete', text: 'Delete', confirmation: true, confirmationMsg: 'Delete selected items?'}
+          {text: 'Delete', action: 'delete-items', confirmation: true, message: 'Delete selected items?'}
         ]
       }
     },
@@ -98,82 +81,89 @@ export default {
       default: true,
     },
 
-    btnLabel: {
-      type: String,
-      default: 'Apply'
-    },
-
     selectLabel: {
       type: String,
       default: 'Bulk Actions'
     },
 
-    dialogYesBtn: {
+    applyBtnText: {
       type: String,
-      default: 'Yes'
+      default: "Apply"
     },
 
-    dialogNoBtn: {
+    yesBtnText: {
       type: String,
-      default: 'Cancel'
     },
 
-    dialogWidth: {
-      default: 350
-    }
+    noBtnText: {
+      type: String,
+    },
+
+    noBulkActionSelectedText: {
+      type: String,
+      default: "Please select a bulk action."
+    },
+  },
+
+  components: {
+    ConfirmationDialog,
   },
 
   data () {
     return {
       selected: null,
       confirmDialog: false,
-      selectedActionDialog: false,
+      alertDialog: false,
     }
   },
 
   computed: {
-    confirmationMsg () {
-      if(this.selected && this.selected.confirmationMsg){
-        return this.selected.confirmationMsg
-      }
-      return ''
-    }
+    confirmOptions () {
+      if(!this.selected) return {}
+      return Object.assign({}, {yesBtnText: this.yesBtnText, noBtnText: this.noBtnText}, this.selected)
+    },
   },
 
   methods: {
-    applyBulkAction () {
+    applyBulk () {
       if(!this.selected) {
-        this.selectedActionDialog = true
-        return
+        return this.alertDialog = true
       }
 
-      if(this.selected.confirmation && this.selected.confirmationMsg){
-        this.confirmDialog = true
-      }else{
-        this.fireSelectedAction()
+      if(this.selected.confirmation){
+        return this.confirmDialog = true
       }
-    },
-
-    fireSelectedAction () {
-      if(this.selected && this.selected.action){
-        this.$emit('bulkAction', this.selected.action)
-      }
-    },
-
-    onDialogConfirm () {
-      this.fireSelectedAction()
+      this.$emit(this.selected.action)
       this.resetState()
     },
 
-    onDialogCancel () {
+    onConfirm () {
+      if(this.selected && this.selected.action){
+        this.$emit(this.selected.action)
+      }
+      this.resetState()
+    },
+
+    onCancel () {
       this.resetState()
     },
 
     resetState () {
-      this.confirmDialog = false
       this.selected = null
+    },
+
+    closeAlertDialog () {
+      this.alertDialog = false
     }
   },
+
+  watch: {
+    disabled (val) {
+      if(val) {
+        this.resetState()
+      }
+    }
+  }
 
 
 }

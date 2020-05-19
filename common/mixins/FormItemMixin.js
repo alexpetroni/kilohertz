@@ -1,4 +1,4 @@
-// FormMixin
+// FormItemMixin - provide basic properties for an item editing form 
 import { jsonCopy, FormState } from '@common/utils'
 
 export default {

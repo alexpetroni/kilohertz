@@ -40,13 +40,12 @@ export default {
   },
 
   computed: {
-    formEvents () {
+    crudEvents () {
       return {
         'create-item': this.onCreateItem,
         'update-item': this.onUpdateItem,
         'delete-item': this.onDeleteItem,
         'reload-item': this.onReloadItem,
-        'new-item': this.onNewItem,
       }
     },
 
@@ -307,7 +306,7 @@ export default {
     slotParams () {
       const params = {
         item: this.item,
-        formEvents: this.formEvents,
+        crudEvents: this.crudEvents,
         modelState: this.modelState,
       }
       const extraParams = this.extraSlotParams()
