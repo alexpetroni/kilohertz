@@ -1,0 +1,3 @@
+mutation deleteVariableFeatureSet ($id: ID!) {
+  deleteVariableFeatureSet(id: $id)
+}

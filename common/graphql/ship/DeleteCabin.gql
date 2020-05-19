@@ -1,3 +1,0 @@
-mutation deleteCabin ($shipId: ID!, $id: ID!) {
-    deleteCabin(shipId: $shipId, id: $id)
- }

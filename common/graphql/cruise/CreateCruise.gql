@@ -1,6 +1,0 @@
-#import "./fragments/CruiseData.gql"
-mutation createCruise ($input: CruiseInput!) {
-    createCruise(input: $input){
-      ... CruiseData
-    }
- }

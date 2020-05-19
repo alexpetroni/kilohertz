@@ -6,34 +6,34 @@ const aggExpr = require('./aggregation')
 const mongoose = require('mongoose')
 const ObjectId = mongoose.Types.ObjectId
 
-const variableFeature = async function (id) {
+const variableFeatureSet = async function (id) {
   let agg = [aggExpr.matchById(id), aggExpr.addId(), addItemsIds()]
   let c = (await VariableFeature.aggregate(agg))[0]
   return (await VariableFeature.aggregate(agg))[0]
 }
 
-const variableFeatureBySlug = async function (slug) {
+const variableFeatureSetBySlug = async function (slug) {
   let agg = [{'$match': {'slug': slug}}, aggExpr.addId(), addItemsIds()]
   return (await VariableFeature.aggregate(agg))[0]
 }
 
-const variableFeatures = async function (idArr) {
+const variableFeatureSets = async function (idArr) {
   let agg = [aggExpr.matchByIdArr(idArr), aggExpr.addId(), addItemsIds()]
   return await VariableFeature.aggregate(agg)
 }
 
-const variableFeaturesBySlug = async function (slugArr) {
+const variableFeatureSetsBySlug = async function (slugArr) {
   let agg = [{'$match': {'slug': {'$in': slugArr}}}, aggExpr.addId(), addItemsIds()]
   return await VariableFeature.aggregate(agg)
 }
 
-const searchVariableFeatures = async function (args = {}, loadItems) {
+const searchVariableFeatureSets = async function (args = {}, loadItems) {
   const {limit} = args
   let agg = [getMatchExpr(args), aggExpr.limit(limit), aggExpr.addId(), addItemsIds()]
   return await VariableFeature.aggregate(agg)
 }
 
-const paginatedVariableFeatures = async function (args = {}) {
+const paginatedVariableFeatureSets = async function (args = {}) {
   // defaults
   const {
     page, itemsPerPage,
@@ -55,7 +55,7 @@ const paginatedVariableFeatures = async function (args = {}) {
 
 }
 
-const variableFeatureItem = async function (id) {
+const variableFeatureSetItem = async function (id) {
   const result = await VariableFeature.aggregate([
    {'$match': {'items._id': ObjectId(id)}},
    {"$unwind": "$items"},
@@ -67,7 +67,7 @@ const variableFeatureItem = async function (id) {
   return result[0]
 }
 
-const variableFeatureItems = async function (idArr) {
+const variableFeatureSetItems = async function (idArr) {
   let idObjArr = idArr.map(e => ObjectId(e))
   let agg = [
      {"$match": {"items._id": {"$in": idObjArr}}},
@@ -80,49 +80,49 @@ const variableFeatureItems = async function (idArr) {
    return await VariableFeature.aggregate(agg)
 }
 
-const createVariableFeature = async function (input) {
+const createVariableFeatureSet = async function (input) {
   // check required fields
   utils.checkNonEmptyProperties(['name'], input)
   // check unicity for provided fields
-  await utils.checkUniqueFieldValue(VariableFeature, 'name', input.name)
+  await utils.checkUniqueFieldValue(VariableFeatureSet, 'name', input.name)
   // ensure unique slug
   let slugSeed = input.slug ? input.slug : input.name
-  const uniquePartial = utils.findOnePartial(VariableFeature, {})
+  const uniquePartial = utils.findOnePartial(VariableFeatureSet, {})
   input.slug = await utils.uniqueSlugByIncrement(slugSeed, (val) => uniquePartial('slug', val))
 
   const result = await VariableFeature.create(input)
-  return await variableFeature(result._id)
+  return await variableFeatureSet(result._id)
 }
 
-const updateVariableFeature = async function (id, input) {
+const updateVariableFeatureSet = async function (id, input) {
   // check for non-empty & unique field values if provided
   const uniqueFieldsProvided = utils.checkNonEmptyProperties(['name', 'slug'], input, false)
   input = utils.slugifyObjProperties(input, 'slug')
   if(uniqueFieldsProvided.length){
-    await Promise.all(uniqueFieldsProvided.map(e => utils.checkUniqueFieldValue(VariableFeature, e, input[e], id)))
+    await Promise.all(uniqueFieldsProvided.map(e => utils.checkUniqueFieldValue(VariableFeatureSet, e, input[e], id)))
   }
   await VariableFeature.findByIdAndUpdate(id, input)
-  return await variableFeature(id)
+  return await variableFeatureSet(id)
 }
 
-const deleteVariableFeature = async function (id) {
-  let variableFeature = await VariableFeature.findById(id)
+const deleteVariableFeatureSet = async function (id) {
+  let variableFeatureSet = await VariableFeature.findById(id)
   await VariableFeature.findByIdAndRemove(id)
   return id
 }
 
-const deleteVariableFeatures = async function (idsArr) {
+const deleteVariableFeatureSets = async function (idsArr) {
   let attArr = await VariableFeature.find({ _id: {$in: idsArr }})
   await VariableFeature.deleteMany({ _id: {$in: idsArr }})
   return idsArr
 }
 
-const createVariableFeatureItem = async function (parentId, input) {
+const createVariableFeatureSetItem = async function (parentId, input) {
   // check required fields
   utils.checkNonEmptyProperties(['name'], input)
 
   let parent = await VariableFeature.findById(parentId)
-  if(!parent) { throw new Error(`No VariableFeature found for id ${parentId}`)}
+  if(!parent) { throw new Error(`No VariableFeatureSet found for id ${parentId}`)}
 
   // check unicity for provided fields
   let exists = parent.items ? parent.items.find(e => e.name == input.name) : false
@@ -132,24 +132,24 @@ const createVariableFeatureItem = async function (parentId, input) {
 
   // ensure unique slug
   let slugSeed = input.slug ? input.slug : input.name
-  const uniquePartial = utils.findOnePartial(VariableFeature, {_id: ObjectId(parentId)})
+  const uniquePartial = utils.findOnePartial(VariableFeatureSet, {_id: ObjectId(parentId)})
   input.slug = await utils.uniqueSlugByIncrement(slugSeed, (val) => uniquePartial('items.slug', val))
 
   const result = await VariableFeature.findByIdAndUpdate(parentId, {$push: {items: input}}, {new: true})
 
   if(!result || !result.items) return null
   let newItem = result.items[result.items.length - 1]
-  return await variableFeatureItem(newItem._id)
+  return await variableFeatureSetItem(newItem._id)
 }
 
 
-const updateVariableFeatureItem = async function (parentId, id, input) {
+const updateVariableFeatureSetItem = async function (parentId, id, input) {
   // check index fields if provided not empty
   utils.checkNonEmptyProperties(['name', 'slug'], input, false)
 
   // check parent exists
   let parent = await VariableFeature.findOne({_id: parentId, "items._id": id})
-  if(!parent) { throw new Error(`No VariableFeature item (id:${id}) found for parent (id:${parentId})`)}
+  if(!parent) { throw new Error(`No VariableFeatureSet item (id:${id}) found for parent (id:${parentId})`)}
 
   // check unicity for provided fields
   let exists = parent.items ? parent.items.find(e => e.name == input.name && e._id != id) : false
@@ -159,7 +159,7 @@ const updateVariableFeatureItem = async function (parentId, id, input) {
 
   // ensure unique slug
   if(input.slug){
-    const uniquePartial = utils.findOnePartial(VariableFeature, {_id: ObjectId(parentId)}, false)
+    const uniquePartial = utils.findOnePartial(VariableFeatureSet, {_id: ObjectId(parentId)}, false)
     input.slug = await utils.uniqueSlugByIncrement(input.slug, (val) => {
       let cond = {"$elemMatch": {_id: {"$ne": id}, slug: val }}
       return uniquePartial("items", cond)
@@ -175,15 +175,15 @@ const updateVariableFeatureItem = async function (parentId, id, input) {
 
   const result = await VariableFeature.findOneAndUpdate({_id: ObjectId(parentId), "items._id": ObjectId(id)}, { $set: updateFields }, {new: true})
 
-  return await variableFeatureItem(id)
+  return await variableFeatureSetItem(id)
 }
 
-const deleteVariableFeatureItem = async function (parentId, id) {
+const deleteVariableFeatureSetItem = async function (parentId, id) {
   await VariableFeature.findByIdAndUpdate(parentId, {"$pull": {"items": {_id: ObjectId(id)}}})
   return id
 }
 
-const deleteVariableFeatureItems = async function (parentId, idArr) {
+const deleteVariableFeatureSetItems = async function (parentId, idArr) {
   await VariableFeature.findByIdAndUpdate(parentId, {"$pull": {"items": {_id: {"$in": utils.idArrToObjectIdArr(idArr)}}}})
   return idArr
 }
@@ -212,24 +212,24 @@ function addItemsIds () {
 
 
 module.exports = {
-  variableFeature,
-  variableFeatureBySlug,
-  variableFeatures,
-  variableFeaturesBySlug,
+  variableFeatureSet,
+  variableFeatureSetBySlug,
+  variableFeatureSets,
+  variableFeatureSetsBySlug,
 
-  searchVariableFeatures,
-  paginatedVariableFeatures,
+  searchVariableFeatureSets,
+  paginatedVariableFeatureSets,
 
-  variableFeatureItem,
-  variableFeatureItems,
+  variableFeatureSetItem,
+  variableFeatureSetItems,
 
-  createVariableFeature,
-  updateVariableFeature,
-  deleteVariableFeature,
-  deleteVariableFeatures,
+  createVariableFeatureSet,
+  updateVariableFeatureSet,
+  deleteVariableFeatureSet,
+  deleteVariableFeatureSets,
 
-  createVariableFeatureItem,
-  updateVariableFeatureItem,
-  deleteVariableFeatureItem,
-  deleteVariableFeatureItems,
+  createVariableFeatureSetItem,
+  updateVariableFeatureSetItem,
+  deleteVariableFeatureSetItem,
+  deleteVariableFeatureSetItems,
 }

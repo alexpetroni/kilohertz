@@ -1,6 +1,0 @@
-#import "./fragments/ShipBasicData.gql"
-query searchShips ($args: JSON) {
-    searchShips(args: $args){
-      ... ShipBasicData
-    }
- }

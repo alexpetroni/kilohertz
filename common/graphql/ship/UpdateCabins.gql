@@ -1,6 +1,0 @@
-#import "./fragments/CabinData.gql"
-mutation updateCabins ($shipId: ID!, $inputArr: [CabinInput!]!) {
-    updateCabins(shipId: $shipId, inputArr: $inputArr){
-      ... CabinData
-    }
- }

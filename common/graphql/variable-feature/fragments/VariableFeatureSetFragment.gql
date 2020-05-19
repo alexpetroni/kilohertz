@@ -1,0 +1,15 @@
+fragment VariableFeatureSetData on VariableFeatureSet{
+  id
+  createdAt
+  updatedAt
+  name
+  slug
+  description
+  type
+  items {
+    name
+    slug
+    description
+    value
+  }
+}

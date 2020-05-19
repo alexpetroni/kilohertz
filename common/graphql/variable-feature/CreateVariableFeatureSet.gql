@@ -1,0 +1,6 @@
+#import './fragments/VariableFeatureSetFragment.gql'
+mutation createVariableFeatureSet ($input: VariableFeatureSetInput!) {
+  createVariableFeatureSet(input: $input){
+    ... VariableFeatureSetData
+  }
+}

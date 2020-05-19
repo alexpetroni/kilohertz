@@ -1,4 +1,0 @@
-#import "./fragments/CabinData.gql"
-mutation deleteCabins (shipId: ID!, idArr: [ID!]!) {
-    deleteCabins(shipId: $shipId, idArr: $idArr)
- }

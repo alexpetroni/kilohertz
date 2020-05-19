@@ -1,0 +1,9 @@
+#import './fragments/VariableFeatureSetFragment.gql'
+query paginatedVariableFeatureSets ($args: JSON) {
+  paginatedVariableFeatureSets(args: $args){
+    total
+    items{
+      ... VariableFeatureSetData
+    }
+  }
+}

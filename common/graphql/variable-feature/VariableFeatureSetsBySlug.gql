@@ -1,0 +1,6 @@
+#import './fragments/VariableFeatureSetFragment.gql'
+query variableFeatureSetsBySlug ($slugArr: [String!]!) {
+  variableFeatureSetsBySlug(slugArr: $slugArr){
+    ... VariableFeatureSetData
+  }
+}

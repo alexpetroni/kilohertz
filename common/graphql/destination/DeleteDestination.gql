@@ -1,3 +1,0 @@
-mutation deleteDestination ($id: ID!) {
-    deleteDestination(id: $id)
- }

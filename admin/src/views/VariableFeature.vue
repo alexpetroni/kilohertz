@@ -1,17 +1,17 @@
 <template>
-  <BrandEditor
+  <VariableFeatureSetEditor
     :id="id"
     v-on="onEditorEvents"
   />
 </template>
 
 <script>
-import BrandEditor from '@/components/editors/BrandEditor'
+import VariableFeatureSetEditor from '@/components/editors/VariableFeatureSetEditor'
 import { groupEventsHandler } from '@common/utils'
 
 export default {
   components: {
-    BrandEditor,
+    VariableFeatureSetEditor,
   },
 
   data: () => ({
@@ -37,11 +37,11 @@ export default {
 
   methods: {
     showList () {
-      this.$router.push({path: '/brands'})
+      this.$router.push({path: '/variable-features'})
     },
 
     onNewItem () {
-      this.$router.push({path: '/brand-edit'})
+      this.$router.push({path: '/variable-feature-edit'})
     },
   },
 }

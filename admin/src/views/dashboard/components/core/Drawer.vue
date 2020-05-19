@@ -101,6 +101,12 @@
         },
 
         {
+          icon: 'mdi-view-dashboard',
+          title: 'Variable Features',
+          to: '/variable-features',
+        },
+
+        {
           group: '/pages',
           icon: 'mdi-image',
           title: 'pages',

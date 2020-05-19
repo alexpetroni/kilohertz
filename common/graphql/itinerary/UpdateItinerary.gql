@@ -1,6 +1,0 @@
-#import "./fragments/ItineraryData.gql"
-mutation updateItinerary ($id: ID!, $input: ItineraryInput!) {
-    updateItinerary(id: $id, input: $input){
-      ... ItineraryData
-    }
- }

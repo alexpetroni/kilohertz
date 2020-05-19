@@ -1,6 +1,0 @@
-#import "./fragments/CabinData.gql"
-query cabins ($shipId: ID!) {
-    cabins(shipId: $shipId){
-      ... CabinData
-    }
- }

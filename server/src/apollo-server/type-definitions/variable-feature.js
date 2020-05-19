@@ -1,29 +1,21 @@
 const typeDef = `
 
   extend type Query {
-    variableFeature(id: ID!): VariableFeature
-    variableFeatureBySlug(slug: String!): VariableFeature
+    variableFeatureSet(id: ID!): VariableFeatureSet
+    variableFeatureSetBySlug(slug: String!): VariableFeatureSet
 
-    variableFeatures(idArr: [ID!]!): [VariableFeature!]!
-    variableFeaturesBySlug(slugArr: [String!]!): [VariableFeature!]!
+    variableFeatureSets(idArr: [ID!]!): [VariableFeatureSet!]!
+    variableFeatureSetsBySlug(slugArr: [String!]!): [VariableFeatureSet!]!
 
-    searchVariableFeatures(args: JSON, loadItems:Boolean!): [VariableFeature!]!
-    paginatedVariableFeatures(args: JSON): PaginatedVariableFeatures!
+    paginatedVariableFeatureSets(args: JSON): PaginatedVariableFeatureSets!
 
-    variableFeatureItem(id: ID!): VariableFeatureItem
-    variableFeatureItems(idArr: [ID!]!): [VariableFeatureItem!]!
   }
 
   extend type Mutation {
-    createVariableFeature(input: VariableFeatureInput!): VariableFeature
-    updateVariableFeature(id: ID!, input: VariableFeatureInput!): VariableFeature
-    deleteVariableFeature(id: ID!): ID
-    deleteVariableFeatures(idArr: [ID!]!): [ID!]!
-
-    createVariableFeatureItem(parentId: ID!, input:VariableFeatureItemInput!): VariableFeatureItem
-    updateVariableFeatureItem(parentId: ID!, id: ID!, input:VariableFeatureItemInput!): VariableFeatureItem
-    deleteVariableFeatureItem(parentId: ID!, id: ID!): ID
-    deleteVariableFeatureItems(parentId: ID!, idArr: [ID!]!): [ID!]!
+    createVariableFeatureSet(input: VariableFeatureSetInput!): VariableFeatureSet
+    updateVariableFeatureSet(id: ID!, input: VariableFeatureSetInput!): VariableFeatureSet
+    deleteVariableFeatureSet(id: ID!): ID
+    deleteVariableFeatureSets(idArr: [ID!]!): [ID!]!
   }
 
   enum VariableFeatureType {
@@ -32,7 +24,16 @@ const typeDef = `
     SVG
   }
 
+  #  ---- used by Product, is a subset of a VariableFeatureSet ---
   type VariableFeature {
+    name: String
+    slug: String
+    description: String
+    type: VariableFeatureType!
+    items: [VariableFeatureItem!]
+  }
+
+  type VariableFeatureSet {
     id: ID!
     createdAt: Date
     updatedAt: Date
@@ -43,7 +44,7 @@ const typeDef = `
     items: [VariableFeatureItem!]
   }
 
-  input VariableFeatureInput {
+  input VariableFeatureSetInput {
     name: String
     slug: String
     description: String
@@ -52,7 +53,6 @@ const typeDef = `
   }
 
   type VariableFeatureItem {
-    id: ID!
     name: String
     slug: String
     description: String
@@ -66,9 +66,9 @@ const typeDef = `
     value: String
   }
 
-  type PaginatedVariableFeatures{
+  type PaginatedVariableFeatureSets{
     total: Int
-    items: [VariableFeature!]!
+    items: [VariableFeatureSet!]!
   }
 `
 module.exports = typeDef

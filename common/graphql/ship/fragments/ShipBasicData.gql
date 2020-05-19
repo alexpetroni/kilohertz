@@ -1,9 +1,0 @@
-fragment ShipBasicData on Ship{
-  id
-  createdAt
-  updatedAt
-  name
-  slug
-  excerpt
-  image
-}

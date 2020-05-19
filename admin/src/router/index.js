@@ -77,7 +77,7 @@ export default new Router({
         {
           name: 'Brands',
           path: 'brands',
-          component: () => import('@/views/Brands'),
+          component: () => import('@/views/BrandsList'),
         },
 
         {
@@ -85,6 +85,19 @@ export default new Router({
           path: 'brand-edit/:id?',
           component: () => import('@/views/Brand'),
         },
+
+        {
+          name: 'Variable Features',
+          path: 'variable-features',
+          component: () => import('@/views/VariableFeaturesList'),
+        },
+
+        {
+          name: 'Variable Feature',
+          path: 'variable-feature-edit/:id?',
+          component: () => import('@/views/VariableFeature'),
+        },
+
 
 
         // Pages

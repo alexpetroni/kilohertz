@@ -1,3 +1,0 @@
-mutation deleteItinerary ($id: ID!) {
-    deleteItinerary(id: $id)
- }

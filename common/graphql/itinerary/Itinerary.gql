@@ -1,6 +1,0 @@
-#import "./fragments/ItineraryData.gql"
-query itinerary ($id: ID!) {
-    itinerary(id: $id){
-      ... ItineraryData
-    }
- }

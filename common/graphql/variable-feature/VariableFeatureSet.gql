@@ -1,0 +1,6 @@
+#import './fragments/VariableFeatureSetFragment.gql'
+query variableFeatureSet ($id: ID!) {
+  variableFeatureSet(id: $id){
+    ... VariableFeatureSetData
+  }
+}

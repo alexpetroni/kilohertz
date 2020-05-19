@@ -1,70 +1,42 @@
 const resolvers = {
   Query: {
-    variableFeature (_, { id }, context) {
-      return context.models.VariableFeature.variableFeature(id)
+    variableFeatureSet (_, { id }, context) {
+      return context.models.VariableFeature.variableFeatureSet(id)
     },
 
-    variableFeatureBySlug (_, { slug }, context) {
-      return context.models.VariableFeature.variableFeatureBySlug(slug)
+    variableFeatureSetBySlug (_, { slug }, context) {
+      return context.models.VariableFeature.variableFeatureSetBySlug(slug)
     },
 
-    variableFeatures (_, { idArr }, context) {
-      return context.models.VariableFeature.variableFeatures(idArr)
+    variableFeatureSets (_, { idArr }, context) {
+      return context.models.VariableFeature.variableFeatureSets(idArr)
     },
 
-    variableFeaturesBySlug (_, { slugArr }, context) {
-      return context.models.VariableFeature.variableFeaturesBySlug(slugArr)
+    variableFeatureSetsBySlug (_, { slugArr }, context) {
+      return context.models.VariableFeature.variableFeatureSetsBySlug(slugArr)
     },
 
-    searchVariableFeatures (_, { args, loadItems }, context) {
-      return context.models.VariableFeature.searchVariableFeatures(args, loadItems)
-    },
-
-    paginatedVariableFeatures (_, { args }, context) {
-      return context.models.VariableFeature.paginatedVariableFeatures(args)
-    },
-
-    variableFeatureItem (_, { id }, context) {
-      return context.models.VariableFeature.variableFeatureItem(id)
-    },
-
-    variableFeatureItems (_, { idArr }, context) {
-      return context.models.VariableFeature.variableFeatureItems(idArr)
+    paginatedVariableFeatureSets (_, { args }, context) {
+      return context.models.VariableFeature.paginatedVariableFeatureSets(args)
     },
 
   },
 
   Mutation: {
-    createVariableFeature(_, { input }, context){
-      return context.models.VariableFeature.createVariableFeature(input)
+    createVariableFeatureSet(_, { input }, context){
+      return context.models.VariableFeature.createVariableFeatureSet(input)
     },
 
-    updateVariableFeature(_, { id, input }, context){
-      return context.models.VariableFeature.updateVariableFeature(id, input)
+    updateVariableFeatureSet(_, { id, input }, context){
+      return context.models.VariableFeature.updateVariableFeatureSet(id, input)
     },
 
-    deleteVariableFeature(_, { id }, context){
-      return context.models.VariableFeature.deleteVariableFeature(id)
+    deleteVariableFeatureSet(_, { id }, context){
+      return context.models.VariableFeature.deleteVariableFeatureSet(id)
     },
 
-    deleteVariableFeatures(_, { idArr }, context){
-      return context.models.VariableFeature.deleteVariableFeatures(idArr)
-    },
-
-    createVariableFeatureItem(_, { parentId, input }, context){
-      return context.models.VariableFeature.createVariableFeatureItem(parentId, input)
-    },
-
-    updateVariableFeatureItem(_, { parentId, id, input }, context){
-      return context.models.VariableFeature.updateVariableFeatureItem(parentId, id, input)
-    },
-
-    deleteVariableFeatureItem(_, { parentId, id }, context){
-      return context.models.VariableFeature.deleteVariableFeatureItem(parentId, id)
-    },
-
-    deleteVariableFeatureItems(_, { parentId, idArr }, context){
-      return context.models.VariableFeature.deleteVariableFeatureItems(parentId, idArr)
+    deleteVariableFeatureSets(_, { idArr }, context){
+      return context.models.VariableFeature.deleteVariableFeatureSets(idArr)
     },
   }
 }

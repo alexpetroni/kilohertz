@@ -1,6 +1,0 @@
-#import "./fragments/ItineraryBasicData.gql"
-query searchItineraries ($args: JSON) {
-    searchItineraries(args: $args){
-      ... ItineraryBasicData
-    }
- }
