@@ -1,5 +1,5 @@
-// FormItemMixin - provide basic properties for an item editing form 
-import { jsonCopy, FormState } from '@common/utils'
+// FormItemMixin - provide basic properties for an item editing form
+import { jsonCopy, FormState, isNewForm, isEditForm } from '@common/utils'
 
 export default {
   props: {
@@ -48,7 +48,15 @@ export default {
         'new-item': this.newItem,
         'cancel': this.cancel,
       }
-    }
+    },
+
+    isNewForm () {
+      return isNewForm(this.formState)
+    },
+
+    isEditForm () {
+      return isEditForm(this.formState)
+    },
   },
 
   methods: {
@@ -57,12 +65,10 @@ export default {
     },
 
     updateItem () {
-      console.log('updateItem %o', this.editedItem)
       this.$emit('update-item', this.editedItem)
     },
 
     deleteItem () {
-      console.log('emit deleteItem')
       this.$emit('delete-item')
     },
 
@@ -76,6 +82,10 @@ export default {
 
     cancel () {
       this.$emit('cancel')
+    },
+
+    reset () {
+      this.editedItem = jsonCopy(this.item)
     },
   },
 

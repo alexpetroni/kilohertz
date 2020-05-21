@@ -21,7 +21,7 @@
       :server-items-length="totalItems"
       v-on="tableEvents"
       show-select
-      :loading="loading"
+      :loading_xx="loading"
     >
 
       <template v-slot:top>
@@ -53,6 +53,14 @@
         <v-spacer />
           <AddNewBtn @click="addNew"/>
         </v-toolbar>
+      </template>
+
+      <template v-slot:item.type="{item}">
+        {{ formatType(item.type) }}
+      </template>
+
+      <template v-slot:item.features="{item}">
+       {{ item.items.length }}
       </template>
 
       <template v-slot:item.createdAt="{item}">
@@ -94,7 +102,7 @@ import EditBtn from '@common/components/btn/EditBtn'
 import DeleteBtn from '@common/components/btn/DeleteBtn'
 import ConfirmationDialog from '@common/components/ConfirmationDialog'
 import BulkActionSelector from '@common/components/BulkActionSelector'
-import { parseDate } from '@common/utils'
+import { parseDate, vfTypeName } from '@common/utils'
 
 export default {
 
@@ -111,31 +119,46 @@ export default {
   data () {
     return {
       headers: [
-              {
-                text: 'Name',
-                value: 'name',
-              },
-              {
-                text: 'Created',
-                value: 'createdAt',
-              },
-              {
-                text: 'Last Update',
-                value: 'updatedAt',
-              },
-              {
-                align: 'right',
-                sortable: false,
-                text: 'Actions',
-                value: 'actions',
-              },
-            ],
+        {
+          text: 'Name',
+          value: 'name',
+        },
+
+        {
+          text: 'Type',
+          value: 'type',
+        },
+
+        {
+          text: 'Features',
+          value: 'features',
+        },
+
+        {
+          text: 'Created',
+          value: 'createdAt',
+        },
+        {
+          text: 'Last Update',
+          value: 'updatedAt',
+        },
+        {
+          align: 'right',
+          sortable: false,
+          text: 'Actions',
+          value: 'actions',
+        },
+      ],
     }
   },
 
   methods: {
     formatDate (date) {
       return parseDate(date)
+    },
+
+    formatType (type) {
+      return vfTypeName(type)
     },
   },
 }

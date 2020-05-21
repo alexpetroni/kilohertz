@@ -3,7 +3,7 @@
     busEventName="variableFeatureSet"
     :id="id"
     v-slot="{item, modelState, crudEvents}"
-    v-on="pipeUp('item-created', 'item-deleted')"
+    v-on="pipeUp('item-created', 'item-updated', 'item-deleted')"
     >
       <VariableFeatureSetForm
         :item="item"

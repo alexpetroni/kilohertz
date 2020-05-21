@@ -16,6 +16,7 @@
         </template>
 
         <v-progress-linear indeterminate v-if="loading"></v-progress-linear>
+        
         <v-alert v-if="error" type="error">{{ error }}</v-alert>
 
           <v-row justify="center">

@@ -55,39 +55,14 @@ const paginatedVariableFeatureSets = async function (args = {}) {
 
 }
 
-const variableFeatureSetItem = async function (id) {
-  const result = await VariableFeature.aggregate([
-   {'$match': {'items._id': ObjectId(id)}},
-   {"$unwind": "$items"},
-   {"$match": {"items._id": ObjectId(id)}},
-   {"$replaceRoot": {newRoot: "$items"}},
-   aggExpr.addId()
- ])
-
-  return result[0]
-}
-
-const variableFeatureSetItems = async function (idArr) {
-  let idObjArr = idArr.map(e => ObjectId(e))
-  let agg = [
-     {"$match": {"items._id": {"$in": idObjArr}}},
-     {"$unwind": "$items"},
-     {"$match": {"items._id": {"$in": idObjArr}}},
-     {"$replaceRoot": {newRoot: "$items"}},
-     aggExpr.addId()
-   ]
-
-   return await VariableFeature.aggregate(agg)
-}
-
 const createVariableFeatureSet = async function (input) {
   // check required fields
   utils.checkNonEmptyProperties(['name'], input)
   // check unicity for provided fields
-  await utils.checkUniqueFieldValue(VariableFeatureSet, 'name', input.name)
+  await utils.checkUniqueFieldValue(VariableFeature, 'name', input.name)
   // ensure unique slug
   let slugSeed = input.slug ? input.slug : input.name
-  const uniquePartial = utils.findOnePartial(VariableFeatureSet, {})
+  const uniquePartial = utils.findOnePartial(VariableFeature, {})
   input.slug = await utils.uniqueSlugByIncrement(slugSeed, (val) => uniquePartial('slug', val))
 
   const result = await VariableFeature.create(input)
@@ -99,7 +74,7 @@ const updateVariableFeatureSet = async function (id, input) {
   const uniqueFieldsProvided = utils.checkNonEmptyProperties(['name', 'slug'], input, false)
   input = utils.slugifyObjProperties(input, 'slug')
   if(uniqueFieldsProvided.length){
-    await Promise.all(uniqueFieldsProvided.map(e => utils.checkUniqueFieldValue(VariableFeatureSet, e, input[e], id)))
+    await Promise.all(uniqueFieldsProvided.map(e => utils.checkUniqueFieldValue(VariableFeature, e, input[e], id)))
   }
   await VariableFeature.findByIdAndUpdate(id, input)
   return await variableFeatureSet(id)
@@ -122,7 +97,7 @@ const createVariableFeatureSetItem = async function (parentId, input) {
   utils.checkNonEmptyProperties(['name'], input)
 
   let parent = await VariableFeature.findById(parentId)
-  if(!parent) { throw new Error(`No VariableFeatureSet found for id ${parentId}`)}
+  if(!parent) { throw new Error(`No VariableFeature found for id ${parentId}`)}
 
   // check unicity for provided fields
   let exists = parent.items ? parent.items.find(e => e.name == input.name) : false
@@ -132,7 +107,7 @@ const createVariableFeatureSetItem = async function (parentId, input) {
 
   // ensure unique slug
   let slugSeed = input.slug ? input.slug : input.name
-  const uniquePartial = utils.findOnePartial(VariableFeatureSet, {_id: ObjectId(parentId)})
+  const uniquePartial = utils.findOnePartial(VariableFeature, {_id: ObjectId(parentId)})
   input.slug = await utils.uniqueSlugByIncrement(slugSeed, (val) => uniquePartial('items.slug', val))
 
   const result = await VariableFeature.findByIdAndUpdate(parentId, {$push: {items: input}}, {new: true})
@@ -149,7 +124,7 @@ const updateVariableFeatureSetItem = async function (parentId, id, input) {
 
   // check parent exists
   let parent = await VariableFeature.findOne({_id: parentId, "items._id": id})
-  if(!parent) { throw new Error(`No VariableFeatureSet item (id:${id}) found for parent (id:${parentId})`)}
+  if(!parent) { throw new Error(`No VariableFeature item (id:${id}) found for parent (id:${parentId})`)}
 
   // check unicity for provided fields
   let exists = parent.items ? parent.items.find(e => e.name == input.name && e._id != id) : false
@@ -159,7 +134,7 @@ const updateVariableFeatureSetItem = async function (parentId, id, input) {
 
   // ensure unique slug
   if(input.slug){
-    const uniquePartial = utils.findOnePartial(VariableFeatureSet, {_id: ObjectId(parentId)}, false)
+    const uniquePartial = utils.findOnePartial(VariableFeature, {_id: ObjectId(parentId)}, false)
     input.slug = await utils.uniqueSlugByIncrement(input.slug, (val) => {
       let cond = {"$elemMatch": {_id: {"$ne": id}, slug: val }}
       return uniquePartial("items", cond)
@@ -217,19 +192,10 @@ module.exports = {
   variableFeatureSets,
   variableFeatureSetsBySlug,
 
-  searchVariableFeatureSets,
   paginatedVariableFeatureSets,
-
-  variableFeatureSetItem,
-  variableFeatureSetItems,
 
   createVariableFeatureSet,
   updateVariableFeatureSet,
   deleteVariableFeatureSet,
   deleteVariableFeatureSets,
-
-  createVariableFeatureSetItem,
-  updateVariableFeatureSetItem,
-  deleteVariableFeatureSetItem,
-  deleteVariableFeatureSetItems,
 }

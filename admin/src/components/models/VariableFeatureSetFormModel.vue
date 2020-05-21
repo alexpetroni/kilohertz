@@ -20,7 +20,9 @@ export default {
       return {
         name: '',
         slug: '',
-        logo: '',
+        type: '',
+        description: '',
+        items: []
       }
     },
 
@@ -33,9 +35,6 @@ export default {
     },
 
     async loadItem (key) {
-      await new Promise((res) => {
-        setTimeout(res, 3000)
-      })
       let { data: { variableFeatureSet } } = await this.$apollo.query({
         query: VariableFeatureSet,
         variables: key,

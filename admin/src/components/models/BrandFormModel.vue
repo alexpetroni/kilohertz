@@ -33,9 +33,6 @@ export default {
     },
 
     async loadItem (key) {
-      await new Promise((res) => {
-        setTimeout(res, 3000)
-      })
       let { data: { brand } } = await this.$apollo.query({
         query: Brand,
         variables: key,

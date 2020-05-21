@@ -21,7 +21,7 @@
       :server-items-length="totalItems"
       v-on="tableEvents"
       show-select
-      :loading="loading"
+      :loading_xx="loading"
     >
 
       <template v-slot:top>

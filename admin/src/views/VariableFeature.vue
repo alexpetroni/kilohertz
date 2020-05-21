@@ -20,9 +20,10 @@ export default {
 
   computed: {
     onEditorEvents () {
-      const showList = groupEventsHandler(['item-created', 'item-updated', 'item-deleted', 'cancel'], this.showList)
+      const showList = groupEventsHandler(['item-updated', 'item-deleted', 'cancel'], this.showList)
+      const showEditor = {'item-created': this.onItemCreated }
       const newItem = {'new-item': this.onNewItem }
-      return Object.assign({}, newItem, showList)
+      return Object.assign({}, newItem, showEditor, showList)
     },
   },
 
@@ -42,6 +43,10 @@ export default {
 
     onNewItem () {
       this.$router.push({path: '/variable-feature-edit'})
+    },
+
+    onItemCreated (item) {
+      this.$router.push({path: `/variable-feature-edit/${item.id}`})
     },
   },
 }

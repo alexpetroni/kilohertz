@@ -3,14 +3,10 @@ import moment from 'moment'
 
 const EventBus = new Vue()
 
+// ====================== FORM STATE ======================
 const FormState = {
   NEW: 'new',
   EDIT: 'edit',
-}
-
-const EVENTS = {
-  NEW_ITEM: 'new-item',
-
 }
 
 const isNewForm = (val) => {
@@ -20,6 +16,39 @@ const isNewForm = (val) => {
 const isEditForm = (val) => {
   return val == FormState.EDIT
 }
+
+// ====================== VARIABLE FEATURES TYPES ======================
+const VF_TYPES = {
+  TEXT: 'TEXT',
+  COLOR: 'COLOR_HEX',
+  SVG: 'SVG',
+}
+
+const VF_TYPE_NAMES = {
+  TEXT: 'Text',
+  COLOR_HEX: 'Color',
+  SVG: 'SVG',
+}
+
+const isVfTextType = function (type) {
+  return type == VF_TYPES.TEXT
+}
+
+const isVfColorType = function (type) {
+  return type == VF_TYPES.COLOR
+}
+
+const isVfSvgType = function (type) {
+  return type == VF_TYPES.SVG
+}
+
+const vfTypeName = function (type) {
+  return VF_TYPE_NAMES[type]
+}
+
+
+
+
 
 const jsonCopy = (val) => {
     return JSON.parse(JSON.stringify(val))
@@ -193,7 +222,11 @@ const pipeUp = function (comp, eventsArr) {
 export {
   EventBus,
   FormState,
-  EVENTS,
+  VF_TYPES,
+  isVfTextType,
+  isVfColorType,
+  isVfSvgType,
+  vfTypeName,
   isNewForm,
   isEditForm,
   jsonCopy,

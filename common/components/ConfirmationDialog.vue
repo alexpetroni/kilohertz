@@ -67,7 +67,7 @@ export default {
     },
 
     maxWidth: {
-      default: 350
+      default: 400
     },
   },
 

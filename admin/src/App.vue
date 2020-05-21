@@ -7,3 +7,9 @@
     name: 'App',
   }
 </script>
+
+<style>
+.handle {
+  cursor: grabbing;
+}
+</style>

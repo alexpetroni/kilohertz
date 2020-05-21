@@ -5,30 +5,47 @@
   >
   <v-card-actions>
     <v-spacer></v-spacer>
+
     <v-btn
-    v-if="isEditForm"
+    v-if="isNewForm"
+    @click="onCreate()"
+    :color="btnColor"
+    :disabled="disabled"
+    :text="textBtn"
+    :outlined="outlined"
+    >
+      {{ btnTextAdd }}
+    </v-btn>
+
+    <v-btn
+    v-else
     @click="onUpdate()"
     :color="btnColor"
     :disabled="disabled"
+    :text="textBtn"
+    :outlined="outlined"
     >
       {{ btnTextUpdate }}
     </v-btn>
 
     <v-btn
-    v-else
-    @click="onCreate()"
+    v-if="cancelBtn"
+    @click="onCancel()"
     :color="btnColor"
-    :disabled="disabled"
+    :text="textBtn"
+    :outlined="outlined"
     >
-      {{ btnTextAdd }}
+      {{ btnTextCancel }}
     </v-btn>
+
+
     <v-spacer></v-spacer>
   </v-card-actions>
   </v-card>
 </template>
 
 <script>
-import { FormState,  isEditForm } from '@common/utils'
+import { FormState,  isEditForm, isNewForm } from '@common/utils'
 
 export default {
   props: {
@@ -61,9 +78,33 @@ export default {
       type: String,
       default: "Update"
     },
-  },
+
+    btnTextCancel: {
+      type: String,
+      default: "Cancel"
+    },
+
+    cancelBtn: {
+      type: Boolean,
+      default: false
+    },
+
+    textBtn: {
+      type: Boolean,
+      default: false
+    },
+
+    outlined: {
+      type: Boolean,
+      default: false
+    },
+},
 
   computed: {
+    isNewForm () {
+      return isNewForm(this.formState)
+    },
+
     isEditForm () {
       return isEditForm(this.formState)
     },
@@ -77,6 +118,10 @@ export default {
     onUpdate () {
       this.$emit('update-item')
     },
+
+    onCancel () {
+      this.$emit('cancel')
+    }
   },
 
 
