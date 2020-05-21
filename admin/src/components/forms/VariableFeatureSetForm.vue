@@ -208,6 +208,11 @@ export default {
     },
 
     onAddItem (val) {
+      val.name = val.name.trim()
+      if(!val.name) return
+      if(this.editedItem.items.find(e => e.name.toLowerCase() == val.name.toLowerCase())) {
+        return alert("A feature with this name already exists.")
+      }
       this.editedItem.items.push(val)
       this.setNewVFItem()
     },
