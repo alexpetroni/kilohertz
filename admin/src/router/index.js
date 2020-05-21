@@ -98,6 +98,18 @@ export default new Router({
           component: () => import('@/views/VariableFeature'),
         },
 
+        {
+          name: 'Families',
+          path: 'families',
+          component: () => import('@/views/FamiliesList'),
+        },
+
+        {
+          name: 'Family',
+          path: 'family-edit/:id?',
+          component: () => import('@/views/Family'),
+        },
+
 
 
         // Pages

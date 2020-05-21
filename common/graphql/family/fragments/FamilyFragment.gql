@@ -1,0 +1,14 @@
+fragment FamilyData on Family{
+  id
+  createdAt
+  updatedAt
+  name
+  slug
+  products {
+    id
+    name
+    slug
+    sku
+    type
+  }
+}

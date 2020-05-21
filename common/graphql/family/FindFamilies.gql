@@ -1,0 +1,6 @@
+#import "./fragments/FamilyFragment.gql"
+query findFamilies ($args: JSON) {
+  findFamilies(args: $args){
+      ...FamilyData
+  }
+}

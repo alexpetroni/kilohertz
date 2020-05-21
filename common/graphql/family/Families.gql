@@ -1,0 +1,6 @@
+#import "./fragments/FamilyFragment.gql"
+query families ($idArr: [ID!]!) {
+  families(idArr: $idArr){
+      ...FamilyData
+  }
+}

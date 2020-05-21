@@ -1,0 +1,6 @@
+#import "./fragments/FamilyFragment.gql"
+mutation updateFamily ($id: ID!, $input: FamilyInput!) {
+  updateFamily(id: $id, input: $input){
+    ...FamilyData
+  }
+}

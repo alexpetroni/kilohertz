@@ -1,0 +1,9 @@
+#import './fragments/FamilyFragment.gql'
+query paginatedFamilies ($args: JSON) {
+  paginatedFamilies(args: $args){
+    total
+    items{
+      ... FamilyData
+    }
+  }
+}

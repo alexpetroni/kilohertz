@@ -107,6 +107,12 @@
         },
 
         {
+          icon: 'mdi-view-dashboard',
+          title: 'Families',
+          to: '/families',
+        },
+
+        {
           group: '/pages',
           icon: 'mdi-image',
           title: 'pages',
