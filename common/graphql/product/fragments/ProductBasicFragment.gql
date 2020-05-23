@@ -1,0 +1,21 @@
+fragment ProductBasicData on Product{
+  id
+  createdAt
+  updatedAt
+  name
+  slug
+  sku
+  type
+  published
+  displayOrder
+  excerpt
+  description
+  technicalInformation
+  image
+
+  previewFields {
+    title
+    content
+    image
+  }
+}

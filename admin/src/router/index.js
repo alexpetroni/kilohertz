@@ -122,6 +122,18 @@ export default new Router({
           component: () => import('@/views/Category'),
         },
 
+        {
+          name: 'Products',
+          path: 'products',
+          component: () => import('@/views/ProductsList'),
+        },
+
+        {
+          name: 'Product',
+          path: 'product-edit/:id?',
+          component: () => import('@/views/Product'),
+        },
+
 
 
         // Pages

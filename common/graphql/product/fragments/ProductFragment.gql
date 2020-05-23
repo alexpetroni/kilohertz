@@ -1,0 +1,23 @@
+#import './ProductBasicFragment.gql'
+#import './ProductPriceFragment.gql'
+#import './ProductDeliveryFragment.gql'
+#import './ProductVariableFeaturesFragment.gql'
+#import './ProductVariationItemFragment.gql'
+fragment ProductData on Product{
+  ... ProductBasicData
+
+  ... ProductPrice
+
+  ... ProductDeliveryData
+
+  ... on VariableProduct {
+
+    variableFeatures{
+      ... ProductVariableFeatureData
+    }
+
+    variations{
+      ... ProductVariationItemData
+    }
+  }
+}

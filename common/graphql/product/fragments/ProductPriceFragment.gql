@@ -1,0 +1,14 @@
+fragment ProductPrice on Product{
+      price
+      salePrice
+      regularPrice
+      vat
+      volumePrice
+      saleVolumePrice
+      regularVolumePrice
+      saleIsActive
+      saleStartDate
+      saleEndDate
+      saleType
+      stock
+}

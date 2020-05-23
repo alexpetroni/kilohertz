@@ -1,0 +1,10 @@
+fragment ProductPriceRawData on ProductPriceRaw{
+  price
+  salePrice
+  volumePrice
+  saleVolumePrice
+  vat
+  saleStartDate
+  saleEndDate
+  stock
+}

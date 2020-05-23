@@ -1,0 +1,6 @@
+#import './fragments/ProductFragment.gql'
+query product ($id: ID!, $args: JSON) {
+  product(id: $id, args: $args){
+    ... ProductData
+  }
+}

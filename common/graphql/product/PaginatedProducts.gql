@@ -1,0 +1,19 @@
+#import './fragments/ProductBasicFragment.gql'
+query paginatedProducts ($args: JSON) {
+    paginatedProducts(args: $args){
+      total
+      items {
+        ... ProductBasicData
+
+        ... on SimpleProduct {
+          id
+          displayOrder
+        }
+
+        ... on VariableProduct {
+          id
+          displayOrder
+        }
+      }
+    }
+ }

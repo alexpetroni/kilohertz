@@ -1,9 +1,35 @@
 const typeDef = `
 
   extend type Query {
-    product(id: ID!, raw:Boolean): Product
+    product(id: ID!, args: JSON): Product
+    productBy(field: String!, value: String!, args: JSON): Product
+    productBySku(sku: String!, args: JSON): Product
+    productBySlug(slug: String!, args: JSON): Product
 
+    products(idArr:[ID!]!, args: JSON): [Product!]!
+    productsBy(field:String!, valueArr: [String!]!, args: JSON): [Product!]!
+    productsBySku(skuArr: [String!]!, args: JSON): [Product!]!
+    productsBySlug(slugArr: [String!]!, args: JSON): [Product!]!
+
+    searchProducts(args: JSON): [Product!]!
     paginatedProducts(args: JSON): PaginatedProducts!
+
+
+    productTags(field: String!, value: String!): [Tag!]!
+    productCategories(field: String!, value: String!): [Category!]!
+    productBrand(field: String!, value: String!): Brand
+
+    productGallery(field: String!, value: String!): [String!]!
+
+    productFamily(field: String!, value: String!): Family
+
+    productVariableFeatures(id: ID!): [ProductVariableFeature!]!
+
+    productVariation(parentId: ID!, id: ID!): PVItem
+
+    cartProducts(idArr: [ID!]!, args: JSON): [Product!]!
+
+    productsExport: String!
   }
 
   extend type Mutation {

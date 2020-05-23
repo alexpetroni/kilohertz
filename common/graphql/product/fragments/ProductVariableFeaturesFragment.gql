@@ -1,0 +1,13 @@
+##import './../../variable-feature/fragments/VariableFeatureItemFragment.gql'
+fragment ProductVariableFeatureData on ProductVariableFeature{
+  type
+  name
+  slug
+  description
+  items {
+    name
+    slug
+    description
+    value
+  }
+}

@@ -1,0 +1,12 @@
+fragment ProductDeliveryData on Product{
+  sizeWidth
+  sizeHeight
+  sizeLength
+  sizeUnit
+
+  weightNet
+  weightGross
+  weightUnit
+
+  packaging
+}

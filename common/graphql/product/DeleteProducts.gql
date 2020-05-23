@@ -1,0 +1,3 @@
+mutation deleteProducts ($idArr: [ID!]!) {
+  deleteProducts(idArr: $idArr)
+}

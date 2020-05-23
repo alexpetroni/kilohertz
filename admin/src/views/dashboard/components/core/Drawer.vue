@@ -118,6 +118,13 @@
           to: '/categories',
         },
 
+
+        {
+          icon: 'mdi-view-dashboard',
+          title: 'Products',
+          to: '/products',
+        },
+
         {
           group: '/pages',
           icon: 'mdi-image',

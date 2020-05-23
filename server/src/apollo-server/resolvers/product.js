@@ -1,69 +1,69 @@
 const resolvers = {
   Query: {
-    product (_, { id, args }, context) {
-      return context.models.Product.product(id, args)
+    product (_, { id, raw = false }, context) {
+      return context.models.Product.product(id, raw)
     },
 
-    productBy (_, { field, value, args }, context) {
-      return context.models.Product.productBy(field, value, args)
-    },
-
-    productBySku (_, { sku, args }, context) {
-      return context.models.Product.productBySku(sku, args)
-    },
-
-    productBySlug (_, { slug, args }, context) {
-      return context.models.Product.productBySlug(slug, args)
-    },
-
-    products (_, { idArr, args }, context) {
-      return context.models.Product.products(idArr, args)
-    },
-
-    productsBy (_, { field, valueArr, args }, context) {
-      return context.models.Product.productsBy(field, valueArr, args)
-    },
-
-    productsBySku (_, { skuArr, args }, context) {
-      return context.models.Product.productsBySku(skuArr, args)
-    },
-
-    productsBySlug (_, { slugArr, args }, context) {
-      return context.models.Product.productsBySlug(slugArr, args)
-    },
-
-    searchProducts (_, { args }, context) {
-      return context.models.Product.searchProducts(args)
-    },
+    // productBy (_, { field, value, args }, context) {
+    //   return context.models.Product.productBy(field, value, args)
+    // },
+    //
+    // productBySku (_, { sku, args }, context) {
+    //   return context.models.Product.productBySku(sku, args)
+    // },
+    //
+    // productBySlug (_, { slug, args }, context) {
+    //   return context.models.Product.productBySlug(slug, args)
+    // },
+    //
+    // products (_, { idArr, args }, context) {
+    //   return context.models.Product.products(idArr, args)
+    // },
+    //
+    // productsBy (_, { field, valueArr, args }, context) {
+    //   return context.models.Product.productsBy(field, valueArr, args)
+    // },
+    //
+    // productsBySku (_, { skuArr, args }, context) {
+    //   return context.models.Product.productsBySku(skuArr, args)
+    // },
+    //
+    // productsBySlug (_, { slugArr, args }, context) {
+    //   return context.models.Product.productsBySlug(slugArr, args)
+    // },
+    //
+    // searchProducts (_, { args }, context) {
+    //   return context.models.Product.searchProducts(args)
+    // },
 
     paginatedProducts (_, { args }, context) {
       return context.models.Product.paginatedProducts(args)
     },
 
 
-    productTags (_, { field, value }, context) {
-      return context.models.Product.productTags(field, value)
-    },
-
-    productCategories (_, { field, value }, context) {
-      return context.models.Product.productCategories(field, value)
-    },
-
-    productBrand (_, { field, value }, context) {
-      return context.models.Product.productBrand(field, value)
-    },
+    // productTags (_, { field, value }, context) {
+    //   return context.models.Product.productTags(field, value)
+    // },
+    //
+    // productCategories (_, { field, value }, context) {
+    //   return context.models.Product.productCategories(field, value)
+    // },
+    //
+    // productBrand (_, { field, value }, context) {
+    //   return context.models.Product.productBrand(field, value)
+    // },
     //
     // productImage (_, { id }, context) {
     //   return context.models.Product.productImage(id)
     // },
     //
-    productGallery (_, { field, value }, context) {
-      return context.models.Product.productGallery(field, value)
-    },
-
-    productFamily (_, { field, value }, context) {
-      return context.models.Product.productFamily(field, value)
-    },
+    // productGallery (_, { field, value }, context) {
+    //   return context.models.Product.productGallery(field, value)
+    // },
+    //
+    // productFamily (_, { field, value }, context) {
+    //   return context.models.Product.productFamily(field, value)
+    // },
 
     // productDelivery (_, { id }, context) {
     //   return context.models.Product.productDelivery(id)
@@ -73,13 +73,13 @@ const resolvers = {
     //   return context.models.Product.productPriceRaw(id)
     // },
 
-    productVariation (_, { parentId, id }, context) {
-      return context.models.Product.productVariation(parentId, id)
-    },
-
-    productVariableFeatures (_, { id }, context) {
-      return context.models.Product.productVariableFeatures(id)
-    },
+    // productVariation (_, { parentId, id }, context) {
+    //   return context.models.Product.productVariation(parentId, id)
+    // },
+    //
+    // productVariableFeatures (_, { id }, context) {
+    //   return context.models.Product.productVariableFeatures(id)
+    // },
 
     // productVariableFeaturesLean (_, { id }, context) {
     //   return context.models.Product.productVariableFeaturesLean(id)
@@ -92,13 +92,13 @@ const resolvers = {
     // productVariationsItemAdmin (_, { sku, options }, context) {
     //   return context.models.Product.productVariationsItemAdmin(sku)
     // },
-    cartProducts (_, { idArr, args }, context) {
-      return context.models.Product.cartProducts(idArr, args)
-    },
-
-    productsExport (_, {}, context) {
-      return context.models.Product.productsExport()
-    }
+    // cartProducts (_, { idArr, args }, context) {
+    //   return context.models.Product.cartProducts(idArr, args)
+    // },
+    //
+    // productsExport (_, {}, context) {
+    //   return context.models.Product.productsExport()
+    // }
   },
 
   Mutation: {

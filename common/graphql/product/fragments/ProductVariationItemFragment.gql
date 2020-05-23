@@ -1,0 +1,36 @@
+fragment ProductVariationItemData on PVItem{
+  id
+  createdAt
+  updatedAt
+  sku
+  published
+  excerpt
+  description
+  technicalInformation
+  price
+  salePrice
+  regularPrice
+  volumePrice
+  saleVolumePrice
+  regularVolumePrice
+  saleIsActive
+  saleStartDate
+  saleEndDate
+  stock
+
+  sizeWidth
+  sizeHeight
+  sizeLength
+  sizeUnit
+
+  weightNet
+  weightGross
+  weightUnit
+
+  packaging
+
+  featuresConfig {
+    vfSlug
+    fiSlug
+  }
+}
