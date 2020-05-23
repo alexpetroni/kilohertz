@@ -18,36 +18,91 @@ const isEditForm = (val) => {
 }
 
 // ====================== VARIABLE FEATURES TYPES ======================
-const VF_TYPES = {
+const VF_TYPE = {
   TEXT: 'TEXT',
   COLOR: 'COLOR_HEX',
   SVG: 'SVG',
 }
 
-const VF_TYPE_NAMES = {
+const VF_TYPE_NAME = {
   TEXT: 'Text',
   COLOR_HEX: 'Color',
   SVG: 'SVG',
 }
 
 const isVfTextType = function (type) {
-  return type == VF_TYPES.TEXT
+  return type == VF_TYPE.TEXT
 }
 
 const isVfColorType = function (type) {
-  return type == VF_TYPES.COLOR
+  return type == VF_TYPE.COLOR
 }
 
 const isVfSvgType = function (type) {
-  return type == VF_TYPES.SVG
+  return type == VF_TYPE.SVG
 }
 
 const vfTypeName = function (type) {
-  return VF_TYPE_NAMES[type]
+  return VF_TYPE_NAME[type]
 }
 
 
+// ====================== PRODUCT TYPES ======================
+const PRODUCT_TYPE = {
+  SIMPLE: 'SIMPLE',
+  VARIABLE: 'VARIABLE',
+  VARIATION: 'VARIATION',
+}
 
+const PRODUCT_TYPE_NAME = {
+  SIMPLE: 'Simple',
+  VARIABLE: 'Variable',
+  VARIATION: 'Variation',
+}
+
+const isSimpleType = function (type) {
+  return type == PRODUCT_TYPE.SIMPLE
+}
+
+const isVariableType = function (type) {
+  return type == PRODUCT_TYPE.VARIABLE
+}
+
+const isVariationType = function (type) {
+  return type == PRODUCT_TYPE.VARIATION
+}
+
+const productTypeName = function (type) {
+  return PRODUCT_TYPE_NAME[type]
+}
+
+const productTypes = function () {
+  return Object.keys(PRODUCT_TYPE_NAME).map(e => ({text: PRODUCT_TYPE_NAME[e], value: e }))
+}
+
+// ====================== SALE TYPES ======================
+
+const SALE_TYPE = {
+  ACTION: 'ACTION',
+  STOCK_LIQUIDATION: 'STOCK_LIQUIDATION',
+}
+
+const SALE_TYPE_NAME = {
+  ACTION: 'Action',
+  STOCK_LIQUIDATION: 'Stock Liquidation',
+}
+
+const isActionSale = function (type) {
+  return type == SALE_TYPE.ACTION
+}
+
+const isLiquidationSale = function (type) {
+  return type == SALE_TYPE.STOCK_LIQUIDATION
+}
+
+const saleTypeName = function (type) {
+  return SALE_TYPE_NAME[type]
+}
 
 
 const jsonCopy = (val) => {
@@ -222,11 +277,25 @@ const pipeUp = function (comp, eventsArr) {
 export {
   EventBus,
   FormState,
-  VF_TYPES,
+
+  VF_TYPE,
   isVfTextType,
   isVfColorType,
   isVfSvgType,
   vfTypeName,
+
+  PRODUCT_TYPE,
+  isSimpleType,
+  isVariableType,
+  isVariationType,
+  productTypeName,
+  productTypes,
+
+  SALE_TYPE,
+  isActionSale,
+  isLiquidationSale,
+  saleTypeName,
+
   isNewForm,
   isEditForm,
   jsonCopy,

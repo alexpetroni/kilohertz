@@ -5,8 +5,8 @@
     v-slot="{item, modelState, crudEvents}"
     v-on="pipeUp('item-created', 'item-deleted')"
     >
-      <ProductForm
-        :item="item"
+      <ProductBasicForm
+        :item="productBasicData(item)"
         v-bind="modelState"
         v-on="Object.assign({}, crudEvents, pipeUp('new-item', 'cancel'))"
       />
@@ -15,15 +15,16 @@
 
 <script>
 import ProductFormModel from '@/components/models/ProductFormModel'
-import ProductForm from '@/components/forms/ProductForm'
+import ProductBasicForm from '@/components/forms/ProductBasicForm'
 import { pipeEvents } from '@common/utils'
+import { pick } from 'lodash-es'
 
 export default {
   name: 'ProductEditor',
 
   components: {
     ProductFormModel,
-    ProductForm,
+    ProductBasicForm,
   },
 
   props: {
@@ -32,7 +33,37 @@ export default {
     },
   },
 
+  computed: {
+
+  },
+
   methods: {
+    productBasicData (item) {
+      let fields = [
+        'type',
+        'name',
+        'slug',
+        'sku',
+        'published',
+        'excerpt',
+        'description',
+        'technicalInformation',
+        'displayOrder',
+
+        'sizeWidth',
+        'sizeHeight',
+        'sizeLength',
+        'sizeUnit',
+
+        'weightNet',
+        'weightGross',
+        'weightUnit',
+        'previewFields',
+      ]
+
+      return pick(item, fields)
+    },
+
     pipeUp (...events) {
       return pipeEvents(this, ...events)
     },

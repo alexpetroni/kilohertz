@@ -1,5 +1,5 @@
 <script>
-import { deleteObjFields } from '@common/utils'
+import { deleteObjFields, PRODUCT_TYPE } from '@common/utils'
 import BaseItemFormModel from '@common/models/BaseItemFormModel'
 
 import Product from '@common/graphql/product/Product.gql'
@@ -18,10 +18,76 @@ export default {
   methods: {
     getDefaultItem () {
       return {
+        type: PRODUCT_TYPE.SIMPLE,
         name: '',
         slug: '',
-        logo: '',
+        sku: '',
+
+        published: null,
+
+        displayOrder: 5,
+
+        excerpt: '',
+        description: '',
+
+        technicalInformation: '',
+
+        currency: '',
+
+        price: null,
+        volumePrice: '',
+
+        salePrice: null,
+        saleVolumePrice: '',
+
+        regularPrice: null,
+        regularVolumePrice: '',
+
+        discount: null,
+        vat: null,
+
+        saleIsActive: null,
+        saleType: null,
+
+        inStock: null,
+        stock: null,
+
+        saleStartDate: null,
+        saleEndDate: null,
+
+        brand: '',
+
+        image: '',
+
+        sizeWidth: null,
+        sizeHeight: null,
+        sizeLength: null,
+        sizeUnit: 'cm',
+
+        weightNet: null,
+        weightGross: null,
+        weightUnit: 'kg',
+
+        packageWidth: null,
+        packageHeight: null,
+        packageLength: null,
+        packageSizeUnit: '',
+
+        packageWeight: null,
+        packageWeightUnit: '',
+
+        packaging: '',
+
+        previewFields: this.getNewPreviewFields(),
       }
+    },
+
+    getNewPreviewFields () {
+      let arr = []
+      for(let i = 0; i < 3; i++){
+          arr.push({title: '', content: '', image: null})
+      }
+      return arr
     },
 
     async createItem (item, key) {
