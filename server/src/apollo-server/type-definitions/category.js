@@ -3,7 +3,7 @@ const typeDef = `
   extend type Query {
     category(id: ID!): Category
 
-    categories(idArr: [ID!]!): [Category!]!
+    categories(args: JSON): [Category!]!
     searchCategories(args: JSON): [Category!]!
     paginatedCategories(args: JSON): PaginatedCategories!
   }

@@ -1,0 +1,6 @@
+#import "./fragments/CategoryFragment.gql"
+mutation updateCategory ($id: ID!, $input: CategoryInput!) {
+  updateCategory(id: $id, input: $input){
+    ...CategoryData
+  }
+}

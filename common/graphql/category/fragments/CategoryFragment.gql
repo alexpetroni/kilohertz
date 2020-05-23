@@ -1,0 +1,12 @@
+fragment CategoryData on Category{
+  id
+  createdAt
+  updatedAt
+  name
+  slug
+  description
+  order
+  parent
+  ancestors
+  image
+}

@@ -1,0 +1,6 @@
+#import "./fragments/CategoryFragment.gql"
+query categoryById ($id: ID!) {
+  categoryById(id: $id){
+    ...CategoryData
+  }
+}

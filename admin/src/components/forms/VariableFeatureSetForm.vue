@@ -174,9 +174,6 @@ export default {
         {text: "SVG", value: "SVG"},
       ],
 
-      slugFieldDisabled: true,
-      editSlug: false,
-
       rules: {
         required: value => !!value || 'Required.',
         min: v => v.length >= 3 || 'Min 3 characters',
@@ -203,9 +200,6 @@ export default {
   },
 
   methods: {
-    toggleSlugField () {
-      this.slugFieldDisabled = !this.slugFieldDisabled
-    },
 
     onAddItem (val) {
       val.name = val.name.trim()

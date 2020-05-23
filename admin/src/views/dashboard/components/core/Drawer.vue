@@ -113,6 +113,12 @@
         },
 
         {
+          icon: 'mdi-view-dashboard',
+          title: 'Categories',
+          to: '/categories',
+        },
+
+        {
           group: '/pages',
           icon: 'mdi-image',
           title: 'pages',

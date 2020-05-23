@@ -110,6 +110,18 @@ export default new Router({
           component: () => import('@/views/Family'),
         },
 
+        {
+          name: 'Categories',
+          path: 'categories',
+          component: () => import('@/views/CategoriesTree'),
+        },
+
+        {
+          name: 'Category',
+          path: 'category-edit/:id?',
+          component: () => import('@/views/Category'),
+        },
+
 
 
         // Pages

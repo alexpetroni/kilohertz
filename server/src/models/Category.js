@@ -8,9 +8,9 @@ const category = async function (id) {
   return (await Category.aggregate(agg))[0]
 }
 
-const categories = async function (idArr) {
-  let agg = [aggExpr.matchByIdArr(idArr), aggExpr.addId()]
-  return await Category.aggregate(agg)
+const categories = async function (args) {
+  //let agg = [aggExpr.matchByIdArr(idArr), aggExpr.addId()]
+  return await Category.find({})
 }
 
 const searchCategories = async function (args = {}) {
@@ -47,11 +47,13 @@ const createCategory = async function (input) {
   // check required fields
   utils.checkNonEmptyProperties(['name'], input)
   // check unicity for provided fields
-  await utils.checkUniqueFieldValue(Category, 'name', input.name)
+//   await utils.checkUniqueFieldValue(Category, 'name', input.name)
   // ensure unique slug
   let slugSeed = input.slug ? input.slug : input.name
   input.slug = await utils.generateUniqueSlug(Category, 'slug', slugSeed)
-
+  if(!input.parent) {
+    delete input.parent
+  }
   const result = await Category.create(input)
   return await category(result._id)
 }

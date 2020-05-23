@@ -1,0 +1,9 @@
+#import "./fragments/CategoryFragment.gql"
+query paginatedCategories ($args: JSON) {
+    paginatedCategories(args: $args){
+      total
+      items {
+        ...CategoryData
+      }
+    }
+ }

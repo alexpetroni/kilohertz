@@ -4,8 +4,8 @@ const resolvers = {
       return context.models.Category.category(id)
     },
 
-    categories (_, { idArr }, context) {
-      return context.models.Category.categories(idArr)
+    categories (_, { args }, context) {
+      return context.models.Category.categories(args)
     },
 
     searchCategories (_, { args }, context) {

@@ -5,6 +5,7 @@
          >
            <slot
            name="left"
+           v-if="!hideLeftSlot"
            v-bind="{
              isNewForm,
              isEditForm,
@@ -28,6 +29,7 @@
 
             <slot
             name="right"
+            v-if="!hideRightSlot"
             v-bind="{
               isNewForm,
               isEditForm,
@@ -143,6 +145,16 @@ export default {
     backIconTitle: {
       type: String,
       default: 'Back to list'
+    },
+
+    hideLeftSlot: {
+      type: Boolean,
+      default: false,
+    },
+
+    hideRightSlot: {
+      type: Boolean,
+      default: false,
     },
 
     hideDeleteBtn: {

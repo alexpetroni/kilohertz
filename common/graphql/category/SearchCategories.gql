@@ -1,0 +1,6 @@
+#import "./fragments/CategoryFragment.gql"
+query searchCategories ($args: JSON) {
+  searchCategories(args: $args){
+    ...CategoryData
+  }
+}
