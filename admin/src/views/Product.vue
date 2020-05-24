@@ -20,9 +20,10 @@ export default {
 
   computed: {
     onEditorEvents () {
-      const showList = groupEventsHandler(['item-created', 'item-updated', 'item-deleted', 'cancel'], this.showList)
+      const showList = groupEventsHandler(['item-deleted', 'cancel'], this.showList)
       const newItem = {'new-item': this.onNewItem }
-      return Object.assign({}, newItem, showList)
+      const itemCreated = {'item-created': this.onItemCreated}
+      return Object.assign({}, newItem, itemCreated, showList)
     },
   },
 
@@ -42,6 +43,10 @@ export default {
 
     onNewItem () {
       this.$router.push({path: '/product-edit'})
+    },
+
+    onItemCreated (item) {
+      this.$router.push({path: `/product-edit/${item.id}`})
     },
   },
 }

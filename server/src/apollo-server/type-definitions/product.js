@@ -94,6 +94,14 @@ const typeDef = `
     weightGross: Float
     weightUnit: String
 
+    packageWidth: Float
+    packageHeight: Float
+    packageLength: Float
+    packageSizeUnit: String
+
+    packageWeight: Float
+    packageWeightUnit: String
+
     packaging: String
 
     previewFields: [ProductPreviewFields]
@@ -150,13 +158,13 @@ const typeDef = `
     weightGross: Float
     weightUnit: String
 
-    packageWidth: Float,
-    packageHeight: Float,
-    packageLength: Float,
-    packageSizeUnit: String,
+    packageWidth: Float
+    packageHeight: Float
+    packageLength: Float
+    packageSizeUnit: String
 
-    packageWeight: Float,
-    packageWeightUnit: String,
+    packageWeight: Float
+    packageWeightUnit: String
 
     packaging: String
 
@@ -219,6 +227,14 @@ const typeDef = `
     weightNet: Float
     weightGross: Float
     weightUnit: String
+
+    packageWidth: Float
+    packageHeight: Float
+    packageLength: Float
+    packageSizeUnit: String
+
+    packageWeight: Float
+    packageWeightUnit: String
 
     packaging: String
 
@@ -295,6 +311,14 @@ const typeDef = `
     weightGross: Float
     weightUnit: String
 
+    packageWidth: Float
+    packageHeight: Float
+    packageLength: Float
+    packageSizeUnit: String
+
+    packageWeight: Float
+    packageWeightUnit: String
+
     packaging: String
 
     previewFields: [ProductPreviewFields]
@@ -363,6 +387,14 @@ const typeDef = `
     weightGross: Float
     weightUnit: String
 
+    packageWidth: Float
+    packageHeight: Float
+    packageLength: Float
+    packageSizeUnit: String
+
+    packageWeight: Float
+    packageWeightUnit: String
+
     packaging: String
 
     previewFields: [ProductPreviewFields]
@@ -415,6 +447,14 @@ const typeDef = `
     weightGross: Float
     weightUnit: String
 
+    packageWidth: Float
+    packageHeight: Float
+    packageLength: Float
+    packageSizeUnit: String
+
+    packageWeight: Float
+    packageWeightUnit: String
+
     packaging: String
 
     featuresConfig: [FeatureConfig!]!
@@ -463,6 +503,14 @@ const typeDef = `
     weightNet: Float
     weightGross: Float
     weightUnit: String
+
+    packageWidth: Float
+    packageHeight: Float
+    packageLength: Float
+    packageSizeUnit: String
+
+    packageWeight: Float
+    packageWeightUnit: String
 
     packaging: String
 

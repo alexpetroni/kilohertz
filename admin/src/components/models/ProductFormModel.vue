@@ -1,5 +1,5 @@
 <script>
-import { deleteObjFields, PRODUCT_TYPE } from '@common/utils'
+import { deleteObjFields, PRODUCT_TYPE, SALE_TYPE } from '@common/utils'
 import BaseItemFormModel from '@common/models/BaseItemFormModel'
 
 import Product from '@common/graphql/product/Product.gql'
@@ -47,7 +47,7 @@ export default {
         vat: null,
 
         saleIsActive: null,
-        saleType: null,
+        saleType: SALE_TYPE.ACTION,
 
         inStock: null,
         stock: null,
@@ -99,14 +99,16 @@ export default {
     },
 
     async loadItem (key) {
+      const variables = Object.assign({}, key, {raw: true})
       let { data: { product } } = await this.$apollo.query({
         query: Product,
-        variables: key,
+        variables
       })
       return product
     },
 
     async updateItem (item, key) {
+      console.log('updateItem %o', item)
       let input = this.parseItemForInput(item)
       let { data: { updateProduct } } = await this.$apollo.mutate({
         mutation: UpdateProduct,
@@ -124,7 +126,7 @@ export default {
     },
 
     parseItemForInput (item) {
-      return deleteObjFields(item, ['__typename'])
+      return deleteObjFields(item, ['__typename', 'saleIsActive'])
     },
 
   },

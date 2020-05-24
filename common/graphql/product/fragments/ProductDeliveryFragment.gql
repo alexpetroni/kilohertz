@@ -8,5 +8,13 @@ fragment ProductDeliveryData on Product{
   weightGross
   weightUnit
 
+  packageWidth
+  packageHeight
+  packageLength
+  packageSizeUnit
+
+  packageWeight
+  packageWeightUnit
+
   packaging
 }

@@ -12,18 +12,15 @@ const aggExpr = require('./aggregation')
 const fse = require('fs-extra')
 const JSZip = require('jszip')
 
-const product = async function (id, args = {}) {
-  let { rawPrice, excludeVariations, variationAsProduct } = args
-  let agg = [aggExprProductMatch('id', id, excludeVariations)]
+const product = async function (id, raw) {
+  let agg = [aggExprProductMatch('id', id)]
 
-  if(!excludeVariations){
-    agg.push(... aggExprProductVariationCase('id', id, variationAsProduct))
-  }
+  agg.push(... aggExprProductVariationCase('id', id))
 
-  agg.push( ... prodAssamblerAgg(rawPrice))
+  agg.push( ... prodAssamblerAgg(raw))
 
   let res = (await Product.aggregate(agg))[0]
-
+  console.log('product id %s : %o', id, res)
   return (await Product.aggregate(agg))[0]
 }
 
