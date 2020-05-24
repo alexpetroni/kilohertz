@@ -5,7 +5,7 @@
   >
     <base-material-card
       max-width="650"
-     class="px-5 py-3 mx-auto">
+     class="mx-auto">
       <template v-slot:heading>
         <FormTopBar
           addNewTitle="Add New Variable Feature"
@@ -19,11 +19,13 @@
 
         <v-alert v-if="error" type="error">{{ error }}</v-alert>
 
-          <v-row justify="center">
+          <v-row>
             <v-col
-            cols="12"
             xs="12"
-            sm="6"
+            sm="8"
+            offset-sm="2"
+            md="6"
+            offset-md="3"
             >
               <v-select
               v-model="editedItem.type"
@@ -34,9 +36,11 @@
             </v-col>
 
             <v-col
-            cols="12"
             xs="12"
-            sm="6"
+            sm="8"
+            offset-sm="2"
+            md="6"
+            offset-md="3"
             >
               <v-text-field v-model="editedItem.name" label="Name"></v-text-field>
             </v-col>
@@ -58,7 +62,8 @@
                 :type="editedItem.type"
                 :item="editedVFItem"
                 :formState="VFItemState"
-                @create-item="onAddItem"
+                @create-item="onAddVFItem"
+                @update-item="onUpdateVFItem"
                 @cancel="setNewVFItem"
                 ref="vfEditor"
               />
@@ -201,13 +206,23 @@ export default {
 
   methods: {
 
-    onAddItem (val) {
+    onAddVFItem (val) {
       val.name = val.name.trim()
       if(!val.name) return
       if(this.editedItem.items.find(e => e.name.toLowerCase() == val.name.toLowerCase())) {
         return alert("A feature with this name already exists.")
       }
       this.editedItem.items.push(val)
+      this.setNewVFItem()
+    },
+
+    onUpdateVFItem (val) {
+      val.name = val.name.trim()
+      if(!val.name) return
+      if(this.editedItem.items.find((e, index) => e.name.toLowerCase() == val.name.toLowerCase() && index != this.editedVFItemIndex)) {
+        return alert("A feature with this name already exists.")
+      }
+      this.editedItem.items.splice(this.editedVFItemIndex, 1, val)
       this.setNewVFItem()
     },
 

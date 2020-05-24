@@ -33,7 +33,7 @@
             ></v-text-field>
           </v-col>
 
-          <v-col sm="12" md="2" offset-md="2">
+          <v-col sm="12" md="2">
             <v-text-field
             label="Stock"
             name="stock"
@@ -41,6 +41,9 @@
             v-model.number="editedItem.stock"
 
             ></v-text-field>
+          </v-col>
+
+          <v-col sm="12" md="2">
           </v-col>
 
             <v-col sm="12" md="2">
