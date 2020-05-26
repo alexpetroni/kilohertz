@@ -2,7 +2,7 @@
   <ProductFormModel
     busEventName="product"
     :id="id"
-    v-slot="{item, modelState, crudEvents}"
+    v-slot="{item, modelState, crudEvents, updateVariableFeatures}"
     v-on="pipeUp('item-created', 'item-updated', 'item-deleted')"
     >
 
@@ -32,7 +32,7 @@
             color="elevation-1"
           >
             <v-tab
-                v-for="t in tabs"
+                v-for="t in productTabs(item)"
                 :href="`#${t.slug}`"
                 :key="t.slug"
                 :disabled="disableTab(t.slug, modelState.formState)"
@@ -61,13 +61,16 @@
             </v-tab-item>
 
 
+            <v-tab-item
+            value="tab-variable-features"
+            >
+              <ProductVariableFeaturesForm
+                :item="productVariableFeaturesData(item)"
+                v-bind="modelState"
+                @update-item="updateVariableFeatures"
+              />
+            </v-tab-item>
 
-          <!-- <v-tab-item v-for="t in tabs"
-          :key="t.slug"
-          :value="t.slug"
-          >
-          {{ t.slug }}
-          </v-tab-item> -->
 
         </v-tabs>
 
@@ -82,9 +85,10 @@ import ProductFormModel from '@/components/models/ProductFormModel'
 import FormTopBar from '@common/components/FormTopBar'
 import ProductBasicForm from '@/components/forms/ProductBasicForm'
 import ProductPriceDeliveryForm from '@/components/forms/ProductPriceDeliveryForm'
+import ProductVariableFeaturesForm from '@/components/forms/ProductVariableFeaturesForm'
 
 
-import { pipeEvents, isNewForm, parseDate } from '@common/utils'
+import { pipeEvents, isNewForm, parseDate, isVariableType} from '@common/utils'
 import { pick } from 'lodash-es'
 
 export default {
@@ -95,7 +99,7 @@ export default {
     FormTopBar,
     ProductBasicForm,
     ProductPriceDeliveryForm,
-
+    ProductVariableFeaturesForm,
   },
 
   props: {
@@ -107,50 +111,6 @@ export default {
   data () {
     return {
       tabsModel: 'tab-basic-data',
-
-      tabs: [
-          {
-            title: 'Basic Data',
-            slug: 'tab-basic-data',
-            component: 'ProductBasicForm'
-          },
-
-          {
-            title: 'Price&Delivery',
-            slug: 'tab-price-delivery',
-            component: 'ProductPriceDeliveryEditor'
-          },
-
-          {
-            title: 'Classification',
-            slug: 'tab-classification',
-            component: 'ProductClassificationEditor'
-          },
-
-          {
-            title: 'Media',
-            slug: 'tab-media',
-            component: 'ProductMediaEditor'
-          },
-
-          {
-            title: 'Linked Products',
-            slug: 'tab-linked-products',
-            component: 'LinkedProductsContainer'
-          },
-
-          {
-            title: 'Variable Features',
-            slug: 'tab-variable-features',
-            component: 'ProductVariableFeaturesEditor'
-          },
-
-          {
-            title: 'Variations',
-            slug: 'tab-variations',
-            component: 'ProductVariationsTableEditor'
-          },
-        ],
     }
   },
 
@@ -186,7 +146,6 @@ export default {
     },
 
     productPriceDeliveryData (item) {
-      console.log('productPriceDeliveryData item %o', item)
       const fields = [
         'price',
         'salePrice',
@@ -216,8 +175,17 @@ export default {
       if(data.saleEndDate){
         data.saleEndDate = parseDate(data.saleEndDate)
       }
-      console.log('productPriceDeliveryData -- parsed -- data %o', data)
       return data
+    },
+
+    productVariableFeaturesData (item) {
+      let vf = []
+      if(item.variableFeatures && item.variableFeatures.length) {
+        vf = item.variableFeatures.map(e => {
+          return {slug: e.slug, items: e.items.map(f => f.slug)}
+        })
+      }
+      return vf
     },
 
     pipeUp (...events) {
@@ -227,7 +195,64 @@ export default {
     disableTab (slug, state) {
       return isNewForm(state) && slug != 'tab-basic-data'
     },
+
+    productTabs (item) {
+      let tabs = [
+          {
+            title: 'Basic Data',
+            slug: 'tab-basic-data',
+            component: 'ProductBasicForm'
+          },
+
+          {
+            title: 'Price&Delivery',
+            slug: 'tab-price-delivery',
+            component: 'ProductPriceDeliveryEditor'
+          },
+
+          {
+            title: 'Classification',
+            slug: 'tab-classification',
+            component: 'ProductClassificationEditor'
+          },
+
+          {
+            title: 'Media',
+            slug: 'tab-media',
+            component: 'ProductMediaEditor'
+          },
+
+          {
+            title: 'Linked Products',
+            slug: 'tab-linked-products',
+            component: 'LinkedProductsContainer'
+          },
+        ]
+      if(item && isVariableType(item.type)){
+        tabs.push(
+          {
+            title: 'Variable Features',
+            slug: 'tab-variable-features',
+            component: 'ProductVariableFeaturesEditor'
+          },
+
+          {
+            title: 'Variations',
+            slug: 'tab-variations',
+            component: 'ProductVariationsTableEditor'
+          },
+        )
+      }
+
+      return tabs
+    },
   },
+
+  watch: {
+    id: function () {
+      this.tabsModel = 'tab-basic-data'
+    }
+  }
 
 }
 </script>

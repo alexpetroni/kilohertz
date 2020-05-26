@@ -42,7 +42,7 @@ const schemaDefinition = Object.assign({}, productBase, {
   variableFeatures: {
     type: [ {
       //   _id: false,
-        feature: String, // VariableFeature slug
+        slug: String, // VariableFeature slug
         items: [{type: String}] // subselection of slugs from the referenced VariableFeature
       } ],
     index: true,

@@ -9,6 +9,7 @@ const typeDef = `
 
     paginatedVariableFeatureSets(args: JSON): PaginatedVariableFeatureSets!
 
+    variableFeatureSetsList: [VariableFeatureSet!]!
   }
 
   extend type Mutation {
@@ -24,8 +25,8 @@ const typeDef = `
     SVG
   }
 
-  #  ---- used by Product, is a subset of a VariableFeatureSet ---
-  type VariableFeature {
+  #  ---- used byVariableFeatureSet && ProductVariableFeature (a subset of a VariableFeatureSet) ---
+  interface VariableFeature {
     name: String
     slug: String
     description: String
@@ -33,7 +34,7 @@ const typeDef = `
     items: [VariableFeatureItem!]
   }
 
-  type VariableFeatureSet {
+  type VariableFeatureSet implements VariableFeature{
     id: ID!
     createdAt: Date
     updatedAt: Date

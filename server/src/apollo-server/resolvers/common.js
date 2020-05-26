@@ -24,6 +24,15 @@ const resolvers = {
       return null
     }
   },
+
+  VariableFeature: {
+    __resolveType(obj, context, info){
+      if(obj.id){
+        return 'VariableFeatureSet'
+      }
+      return 'ProductVariableFeature'
+    }
+  },
 }
 
 module.exports = resolvers

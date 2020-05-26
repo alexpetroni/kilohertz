@@ -1,4 +1,3 @@
-##import './../../variable-feature/fragments/VariableFeatureItemFragment.gql'
 fragment ProductVariableFeatureData on ProductVariableFeature{
   type
   name

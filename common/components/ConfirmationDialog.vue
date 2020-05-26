@@ -5,10 +5,7 @@
   >
     <v-card>
       <v-card-title>
-        {{ message }}
-
         <v-spacer />
-
         <v-icon
           aria-label="Close"
           @click="onClose"
@@ -17,7 +14,12 @@
         </v-icon>
       </v-card-title>
 
-      <v-card-text class="pb-6 pt-12 text-center">
+      <v-card-text class="pb-6 pt-6 text-center">
+        {{ message }}
+      </v-card-text>
+
+      <v-card-actions>
+        <v-spacer />
         <v-btn
           class="mr-3"
           text
@@ -33,7 +35,8 @@
         >
           {{ yesBtnText }}
         </v-btn>
-      </v-card-text>
+        <v-spacer />
+      </v-card-actions>
     </v-card>
   </v-dialog>
 </template>

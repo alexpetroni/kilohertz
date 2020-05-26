@@ -69,48 +69,84 @@
 
          <v-col xs="12" sm="6" md="2">
            <v-menu
+             ref="menuSaleStartDate"
              v-model="menuSaleStartDate"
              :close-on-content-click="false"
-             :nudge-right="40"
+             :return-value.sync="date"
              transition="scale-transition"
-             offset-y
              min-width="290px"
+             offset-y
            >
              <template v-slot:activator="{ on }">
                <v-text-field
                  v-model="editedItem.saleStartDate"
                  label="Sale Start Date"
-                 prepend-icon="mdi-calendar"
-                 clearable
+                 color="secondary"
+                 prepend-icon="mdi-calendar-outline"
                  readonly
                  v-on="on"
-               ></v-text-field>
+               />
              </template>
-             <v-date-picker v-model="editedItem.saleStartDate" @input="menuSaleStartDate = false"></v-date-picker>
+
+             <v-date-picker
+               v-model="editedItem.saleStartDate"
+               color="secondary"
+               landscape
+               scrollable
+               @input="menuSaleStartDate = false"
+             >
+               <v-spacer />
+
+               <v-btn
+                 color="secondary"
+                 large
+                 @click="menuSaleStartDate = false"
+               >
+                 Cancel
+               </v-btn>
+             </v-date-picker>
            </v-menu>
          </v-col>
 
          <v-col xs="12" sm="6" md="2">
            <v-menu
+             ref="menuSaleEndDate"
              v-model="menuSaleEndDate"
              :close-on-content-click="false"
-             :nudge-right="40"
+             :return-value.sync="date"
              transition="scale-transition"
-             offset-y
              min-width="290px"
+             offset-y
            >
              <template v-slot:activator="{ on }">
                <v-text-field
-                 :disabled="isLiquidationSale"
+                :disabled="isLiquidationSale"
                  v-model="editedItem.saleEndDate"
-                 label="Sale End Date"
-                 prepend-icon="mdi-calendar"
-                 clearable
+                 :label="labelSaleEndDate"
+                 color="secondary"
+                 prepend-icon="mdi-calendar-outline"
                  readonly
                  v-on="on"
-               ></v-text-field>
+               />
              </template>
-             <v-date-picker v-model="editedItem.saleEndDate" @input="menuSaleEndDate = false"></v-date-picker>
+
+             <v-date-picker
+               v-model="editedItem.saleEndDate"
+               color="secondary"
+               landscape
+               scrollable
+               @input="menuSaleEndDate = false"
+             >
+               <v-spacer />
+
+               <v-btn
+                 color="secondary"
+                 large
+                 @click="menuSaleEndDate = false"
+               >
+                 Cancel
+               </v-btn>
+             </v-date-picker>
            </v-menu>
          </v-col>
 
@@ -240,6 +276,11 @@ export default {
     isLiquidationSale () {
       return isLiquidationSale(this.editedItem.saleType)
     },
+
+    labelSaleEndDate () {
+      return  this.isLiquidationSale ? 'Up out of stock': 'Sale End Date'
+    }
+
   },
 
   watch: {

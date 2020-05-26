@@ -30,22 +30,6 @@
               <v-btn class="mt-6" small tile outlined color="success" v-on="on">
                <v-icon left>mdi-eyedropper-variant</v-icon> Select Color
              </v-btn>
-              <!-- <v-btn
-                color="grey darken-3"
-                dark
-                icon
-                small
-                outlined
-                class="mt-4"
-                v-on="on"
-              >
-                <v-icon
-                large
-                :color="editedItem.value"
-                >
-                mdi-checkbox-blank-circle
-                </v-icon>
-              </v-btn> -->
             </template>
 
             <v-card>
@@ -82,11 +66,6 @@
         >
 
         </template>
-        <!-- <v-text-field
-        v-model="editedItem.name"
-        label="Name"
-        > -->
-
 
         <v-col
         cols="12"
@@ -116,29 +95,11 @@ import FormSubmitButtons from '@common/components/FormSubmitButtons'
 
 
 export default {
-  name: '',
-
   components: {
     FormSubmitButtons,
   },
 
-  directives: {
-
-  },
-
-  filters: {
-
-  },
-
-  extends: {
-
-  },
-
   mixins: [ FormItemMixin ],
-
-  model: {
-
-  },
 
   props: {
     type: {
@@ -174,10 +135,6 @@ export default {
     hasName () {
       return this.editedItem.name && this.editedItem.name.trim()
     },
-
-  },
-
-  watch: {
 
   },
 

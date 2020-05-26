@@ -1,0 +1,6 @@
+#import './fragments/ProductVariableFeaturesFragment.gql'
+mutation updateProductVariableFeatures ($id: ID!, $inputArr: [ProductVariableFeatureInput!]!) {
+  updateProductVariableFeatures(id: $id, inputArr: $inputArr){
+    ... ProductVariableFeatureData
+  }
+}

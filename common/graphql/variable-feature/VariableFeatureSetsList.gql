@@ -1,0 +1,6 @@
+#import './fragments/VariableFeatureSetFragment.gql'
+query variableFeatureSetsList {
+  variableFeatureSetsList {
+    ... VariableFeatureSetData
+  }
+}

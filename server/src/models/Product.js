@@ -20,7 +20,11 @@ const product = async function (id, raw) {
   agg.push( ... prodAssamblerAgg(raw))
 
   let res = (await Product.aggregate(agg))[0]
-  console.log('product id %s : %o', id, res)
+
+  // console.log('product id %s : %o', id, res)
+  let d = new Date()
+  let dStr = d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds()
+  // console.log('--- %s ---', dStr)
   return (await Product.aggregate(agg))[0]
 }
 
@@ -291,7 +295,11 @@ const updateProduct = async function (id, input) {
 
   let nePro = await Product.findById(id)
 
-  return product(id, { rawPrice: true })
+  if(input.variableFeatures) {
+    console.log('we have variableFeatures')
+  }
+
+  return product(id, true)
 }
 
 const deleteProduct = async function (id) {
@@ -356,7 +364,15 @@ const updateProductVariation = async function (parentId, id, input) {
 
   await Product.findOneAndUpdate({_id: ObjectId(parentId), "variations._id": id}, {"$set": updateFields} )
 
+  await enforceVariationsSync(id)
+
   return await productVariation(parentId, id)
+}
+
+async function enforceVariationsSync (productId) {
+  return new Promise((resolve, reject) => {
+    resolve("a")
+  })
 }
 
 // remove existing elements that are not present in itemsArr, update existing one and insert new ones
@@ -638,12 +654,11 @@ function aggExprSalePrice () {
 
 
 // ------------- private aggregation expression product VariableFeatures & Variations -------------
-
-function aggExprProductVariableFeatures () {
+function aggExprProductVariableFeatures__original () {
   return [
     { "$lookup" : {
       "from": "variablefeatures",
-      "localField": "variableFeatures.feature",
+      "localField": "variableFeatures.slug",
       "foreignField": "slug",
       "as": "tmpVariableFeatures"
     }},
@@ -669,7 +684,7 @@ function aggExprProductVariableFeatures () {
                               cond: {
                                 "$let": {
                                   vars: {
-                                    "selected": { $arrayElemAt: [ "$variableFeatures", { "$indexOfArray": [ "$variableFeatures.feature", "$$vf.slug" ] } ] }
+                                    "selected": { $arrayElemAt: [ "$variableFeatures", { "$indexOfArray": [ "$variableFeatures.slug", "$$vf.slug" ] } ] }
                                   },
                                   in: {$in: ["$$q.slug", "$$selected.items"]}
                                 }
@@ -685,6 +700,70 @@ function aggExprProductVariableFeatures () {
         }
       }
     },
+  ]
+}
+
+
+function aggExprProductVariableFeatures () {
+  return [
+    { "$lookup" : {
+      "from": "variablefeatures",
+      "localField": "variableFeatures.slug",
+      "foreignField": "slug",
+      "as": "vfSet"
+    }},
+    // array lookup in mongo mess the order of elements
+    // select the VF with correspondent  elements in "prodVfUnordered"
+    {
+      "$addFields": {
+        "prodVfUnordered": {
+          $cond: {
+            if: {$in: ["$type", ["VARIABLE", "VARIATION"]]},
+            then: {"$map": {
+                        input: "$vfSet",
+                        as: "vf",
+                        in: {
+                          "id": "$$vf._id",
+                          "type": "$$vf.type",
+                          "name": "$$vf.name",
+                          "slug": "$$vf.slug",
+                          "description": "$$vf.description",
+                          "items": {
+                            "$filter": {
+                              input: "$$vf.items",
+                              as: "q",
+                              cond: {
+                                "$let": {
+                                  vars: {
+                                    "selected": { $arrayElemAt: [ "$variableFeatures", { "$indexOfArray": [ "$variableFeatures.slug", "$$vf.slug" ] } ] }
+                                  },
+                                  in: {$in: ["$$q.slug", "$$selected.items"]}
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+            else: "$$REMOVE"
+          }
+
+        }
+      }
+    },
+    // reorder the VariableFeatures as they are specified in product
+    {
+      "$addFields": {
+        "variableFeatures": {
+          $map: {
+            input: "$variableFeatures",
+            as: "vf",
+            in: { $arrayElemAt: [ "$prodVfUnordered", { "$indexOfArray": [ "$prodVfUnordered.slug", "$$vf.slug" ] } ] }
+          }
+        },
+      }
+    },
+
   ]
 }
 

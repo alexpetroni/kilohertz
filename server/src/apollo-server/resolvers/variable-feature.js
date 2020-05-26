@@ -20,6 +20,10 @@ const resolvers = {
       return context.models.VariableFeature.paginatedVariableFeatureSets(args)
     },
 
+    variableFeatureSetsList (_, { }, context) {
+      return context.models.VariableFeature.variableFeatureSetsList()
+    },
+
   },
 
   Mutation: {

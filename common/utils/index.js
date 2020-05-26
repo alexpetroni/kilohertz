@@ -80,6 +80,18 @@ const productTypes = function () {
   return Object.keys(PRODUCT_TYPE_NAME).map(e => ({text: PRODUCT_TYPE_NAME[e], value: e }))
 }
 
+const isSimpleProduct = function (product) {
+  return product.type == PRODUCT_TYPE.SIMPLE
+}
+
+const isVariableProduct = function (product) {
+  return product.type == PRODUCT_TYPE.VARIABLE
+}
+
+const isProductVariation = function (product) {
+  return product.type == PRODUCT_TYPE.VARIATION
+}
+
 // ====================== SALE TYPES ======================
 
 const SALE_TYPE = {
@@ -290,6 +302,9 @@ export {
   isVariationType,
   productTypeName,
   productTypes,
+  isSimpleProduct,
+  isVariableProduct,
+  isProductVariation,
 
   SALE_TYPE,
   isActionSale,

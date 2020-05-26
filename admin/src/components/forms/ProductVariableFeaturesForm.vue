@@ -1,248 +1,130 @@
 <template>
       <v-card flat>
+
         <v-container
         fluid
         grid-list-xl
         >
           <v-row>
-          <v-col cols="12" md="8">
-            <base-subheading>
-              Product Type, Name, SKU
-            </base-subheading>
-          </v-col>
-
-          <v-col cols="12"  md="3">
-            <v-switch
-            :label="publishedLabel"
-            v-model="editedItem.published"
-            ></v-switch>
-          </v-col>
-
-          <v-col cols="12" md="1">
-            <v-text-field
-            label="Display order"
-            v-model.number="editedItem.displayOrder"
-            ></v-text-field>
-          </v-col>
-
-        </v-row>
-
-
-        <v-row
-        align-center
-        wrap
-        >
-        <v-col cols="12" md="3">
-          <v-select
-          v-model="editedItem.type"
-          :items="productTypes"
-          label="Product type"
-          :disabled="isEditForm"
-          ></v-select>
-        </v-col>
-
-        <v-col cols="12" md="3">
-          <v-text-field
-          label="Name"
-          name="fullname"
-          placeholder=""
-          v-model="editedItem.name"
-          data-vv-name="fullname"
-          required
-          ></v-text-field>
-        </v-col>
-        <v-col cols="12" md="3">
-          <v-text-field
-          label="SKU"
-          name="sku"
-          placeholder=""
-          v-model="editedItem.sku"
-          data-vv-name="sku"
-          required
-          ></v-text-field>
-        </v-col>
-        <v-col cols="12" md="3">
-          <v-text-field
-          v-if="isEditForm"
-          label="Slug"
-          name="slug"
-          placeholder=""
-          v-model="editedItem.slug"
-          data-vv-name="slug"
-          required
-          ></v-text-field>
-        </v-col>
-
-        <v-col sm="12">
-        <v-textarea
-        label="Excerpt"
-        outlined
-        v-model="editedItem.excerpt"
-        ></v-textarea>
-      </v-col>
 
       <v-col sm="12">
-        <quillEditor
-        v-model="editedItem.description"
-        :options="editorOption"
-        ></quillEditor>
+        <VariableFeatureSelect
+        @item-selected="onAddVariableFeature"
+        />
       </v-col>
 
-      <v-col sm="12">
-        <v-textarea
-        outlined
-        label="Technical Information"
-        hint="Place text separated by | character"
-        v-model="editedItem.technicalInformation"
-        ></v-textarea>
+      <v-col cols="12" sm="12">
+        <draggable v-model="editedItem" handle=".handle" @change="onReorder">
+
+        <VariableFeatureItemsSelector
+        v-for="vf in editedItem"
+        :key="vf.slug"
+        v-model="vf.items"
+        :vfSlug="vf.slug"
+        @delete="removeVFSet"
+        :isReordable="isReordable"
+        />
+        </draggable>
       </v-col>
 
-      <v-col cols="12">
-        <base-subheading>
-          Dimensions & Weight
-        </base-subheading>
-      </v-col>
-
-      <v-col xs="4" md="2">
-        <v-text-field
-        label="Length (cm)"
-        name="length"
-        placeholder=""
-        v-model.number="editedItem.sizeLength"
-
-        ></v-text-field>
-      </v-col>
-
-      <v-col xs="4" md="2">
-        <v-text-field
-        label="Width (cm)"
-        name="salePrice"
-        placeholder=""
-        v-model.number="editedItem.sizeWidth"
-
-        ></v-text-field>
-      </v-col>
-      <v-col xs="4" md="2">
-        <v-text-field
-        label="Height (cm)"
-
-        placeholder=""
-        v-model.number="editedItem.sizeHeight"
-
-        required
-        ></v-text-field>
-      </v-col>
-
-      <v-col xs="4" md="2">
-        <v-text-field
-        label="Weight net (kg)"
-
-        placeholder=""
-        v-model.number="editedItem.weightNet"
-
-        required
-        ></v-text-field>
-      </v-col>
-
-      <v-col xs="4" md="2">
-        <v-text-field
-        label="Weight gross (kg)"
-        placeholder=""
-        v-model.number="editedItem.weightGross"
-        required
-        ></v-text-field>
-      </v-col>
-
-      <v-col sm="12">
-        <base-subheading>
-          Preview labels
-        </base-subheading>
-      </v-col>
-
-      <template v-for="i in 3">
-
-        <v-col xs="12" sm="4" :key="i">
-          <v-card class="mt-0">
-
-          <v-text-field
-          v-model="editedItem.previewFields[i-1]['title']"
-          xs6
-          :key="i + 'tit'"
-          label="Title"
-          ></v-text-field>
-
-          <v-text-field
-          v-model="editedItem.previewFields[i-1]['content']"
-          :key="i + 'cont'"
-          label="Content"
-          ></v-text-field>
-
-          <!-- <SingleImageEditor
-          v-model="editedItem.previewFields[i-1]['image']"
-          >
-          </SingleImageEditor> -->
-
-          </v-card>
-        </v-col>
-      </template>
-
-      <v-col class="text-center">
+      <v-col cols="12" class="text-center">
         <FormSubmitButtons
-        :disabled="submitDisabled"
         :formState="formState"
         @update-item="updateItem"
         @create-item="createItem"
+        :disabled="submitDisabled"
         />
       </v-col>
       </v-row>
 
     </v-container>
+
+    <ConfirmationDialog
+    v-model="dialog"
+    :message="dialogMessage"
+    @confirm="onDeleteConfirmed"
+    @cancel="onDeleteCancel"
+    />
   </v-card>
 </template>
 
 <script>
+import draggable from 'vuedraggable'
 import FormItemMixin from '@common/mixins/FormItemMixin'
 import FormSubmitButtons from '@common/components/FormSubmitButtons'
-// import { productTypes } from '@common/utils'
-
-import 'quill/dist/quill.core.css'
-import 'quill/dist/quill.snow.css'
-import 'quill/dist/quill.bubble.css'
-
-import { quillEditor } from 'vue-quill-editor'
+import VariableFeatureSelect from '@/components/forms/mini/VariableFeatureSelect'
+import VariableFeatureItemsSelector from '@/components/forms/mini/VariableFeatureItemsSelector'
+import ConfirmationDialog from '@common/components/ConfirmationDialog'
 
 export default {
   mixins: [ FormItemMixin ],
 
   components: {
+    draggable,
     FormSubmitButtons,
-    quillEditor,
+    VariableFeatureSelect,
+    VariableFeatureItemsSelector,
+    ConfirmationDialog,
   },
 
   data () {
     return {
-      editorOption: {},
+      dialog: false,
+      dialogMessage: '',
+      vfSlugToDelete: null,
     }
   },
 
   computed: {
+    isReordable () {
+      return this.editedItem.length > 1
+    },
+
     submitDisabled () {
-      return !this.editedItem.name.trim()
+      return !this.editedItem.every(e => e.items.length > 0)
     },
+  },
 
-    publishedLabel () {
-      return  'Published: ' + this.editedItem.published
-    },
-
-    productTypes () {
-      if(this.isEditForm && this.editedItem.type == 'VARIATION'){
-        return [{text: "Variation", value: "VARIATION"}]
+  methods: {
+    onAddVariableFeature (val) {
+      if(this.editedItem.find(e => e.slug == val.slug)){
+          alert(`${val.name} already exists in list.`)
+          return
       }
-      return [
-          {text: "Simple", value: "SIMPLE"},
-          {text: "Variable", value: "VARIABLE"},
-        ]
+      let vfConfig = { slug: val.slug, items: val.items.map(e => e.slug) }
+      this.editedItem.push(vfConfig)
     },
+
+    removeVFSet (vfSet) {
+      this.vfSlugToDelete = vfSet.slug
+      this.dialogMessage = `Do you want to remove on this product the "${vfSet.name}" variable feature ?`
+      this.dialog = true
+    },
+
+    onDeleteConfirmed () {
+      const index = this.editedItem.findIndex(e => e.slug == this.vfSlugToDelete)
+      if(index == -1) return
+      this.editedItem.splice(index, 1)
+      this.clearDialog()
+    },
+
+    onDeleteCancel () {
+      this.clearDialog()
+    },
+
+    clearDialog () {
+      this.vfSlugToDelete = null
+      this.dialogMessage = ''
+    },
+
+    onReorder () {
+      this.$emit('reorder-list', this.editedItem)
+    },
+
+    // updateItem () {
+    //   this.$emit('update-item', {variableFeatures: this.editedItem })
+    //     console.log("UPDATE editedItem %o", this.editedItem)
+    // },
   },
 }
 </script>

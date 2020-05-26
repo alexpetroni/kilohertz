@@ -2,6 +2,7 @@ const { VariableFeature } = require('./../mongo/models')
 
 const utils = require('./utils')
 const aggExpr = require('./aggregation')
+const slug = require('slug')
 
 const mongoose = require('mongoose')
 const ObjectId = mongoose.Types.ObjectId
@@ -55,6 +56,10 @@ const paginatedVariableFeatureSets = async function (args = {}) {
 
 }
 
+const variableFeatureSetsList = async function () {
+   return VariableFeature.find({})
+}
+
 const createVariableFeatureSet = async function (input) {
   // check required fields
   utils.checkNonEmptyProperties(['name'], input)
@@ -75,6 +80,13 @@ const updateVariableFeatureSet = async function (id, input) {
   input = utils.slugifyObjProperties(input, 'slug')
   if(uniqueFieldsProvided.length){
     await Promise.all(uniqueFieldsProvided.map(e => utils.checkUniqueFieldValue(VariableFeature, e, input[e], id)))
+  }
+  if(input.items) {
+    input.items.forEach(e => {
+      if(!e.slug || !e.slug.trim()){
+        e.slug = slug(e.name, {lower: true})
+      }
+    })
   }
   await VariableFeature.findByIdAndUpdate(id, input)
   return await variableFeatureSet(id)
@@ -193,6 +205,7 @@ module.exports = {
   variableFeatureSetsBySlug,
 
   paginatedVariableFeatureSets,
+  variableFeatureSetsList,
 
   createVariableFeatureSet,
   updateVariableFeatureSet,

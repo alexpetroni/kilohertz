@@ -65,6 +65,7 @@ export default {
     },
 
     updateItem () {
+      console.log('updateItem  %o', this.editedItem)
       this.$emit('update-item', this.editedItem)
     },
 

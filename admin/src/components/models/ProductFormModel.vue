@@ -7,6 +7,8 @@ import CreateProduct from '@common/graphql/product/CreateProduct.gql'
 import UpdateProduct from '@common/graphql/product/UpdateProduct.gql'
 import DeleteProduct from '@common/graphql/product/DeleteProduct.gql'
 
+import UpdateProductVariableFeatures from '@common/graphql/product/UpdateProductVariableFeatures.gql'
+
 export default {
   extends: BaseItemFormModel,
 
@@ -79,6 +81,10 @@ export default {
         packaging: '',
 
         previewFields: this.getNewPreviewFields(),
+
+        variableFeatures: [],
+
+        variations: [],
       }
     },
 
@@ -98,17 +104,17 @@ export default {
       return createProduct
     },
 
-    async loadItem (key) {
+    async loadItem (key, fetchPolicy = 'network-only') {
       const variables = Object.assign({}, key, {raw: true})
       let { data: { product } } = await this.$apollo.query({
         query: Product,
-        variables
+        variables,
+        fetchPolicy,
       })
       return product
     },
 
     async updateItem (item, key) {
-      console.log('updateItem %o', item)
       let input = this.parseItemForInput(item)
       let { data: { updateProduct } } = await this.$apollo.mutate({
         mutation: UpdateProduct,
@@ -123,6 +129,38 @@ export default {
         variables: key,
       })
       return deleteProduct
+    },
+
+    async updateProductVariableFeatures (inputArr, key) {
+      console.log('updateProductVariableFeatures inputArr %o key %o', inputArr, key)
+      let { data: { updateProductVariableFeatures } } = await this.$apollo.mutate({
+        mutation: UpdateProductVariableFeatures,
+        variables: {...key, inputArr },
+      })
+      console.log('updateProductVariableFeatures %o', updateProductVariableFeatures)
+      return updateProductVariableFeatures
+    },
+
+    async onUpdateVariableFeatures (val) {
+      this.clearError()
+      this.loading = true
+      try{
+        const result = await this.updateProductVariableFeatures(val, this.itemFullKey())
+
+        this.notifiy('item-updated', this.parseItemUpdatedNotify(result))
+
+        this.refreshItem()
+
+      }catch(error){
+        // console.log('error %o', error)
+        this.itemError(error.message)
+      }finally{
+        this.loading = false
+      }
+    },
+
+    extraSlotParams () {
+      return { updateVariableFeatures: this.onUpdateVariableFeatures }
     },
 
     parseItemForInput (item) {

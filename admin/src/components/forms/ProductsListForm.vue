@@ -55,6 +55,14 @@
         </v-toolbar>
       </template>
 
+      <template v-slot:item.type="{item}">
+        {{ productType(item) }}
+      </template>
+
+      <template v-slot:item.price="{item}">
+        {{ productPrice(item) }}
+      </template>
+
       <template v-slot:item.createdAt="{item}">
         {{ formatDate(item.createdAt) }}
       </template>
@@ -94,7 +102,7 @@ import EditBtn from '@common/components/btn/EditBtn'
 import DeleteBtn from '@common/components/btn/DeleteBtn'
 import ConfirmationDialog from '@common/components/ConfirmationDialog'
 import BulkActionSelector from '@common/components/BulkActionSelector'
-import { parseDate } from '@common/utils'
+import { parseDate, isSimpleProduct } from '@common/utils'
 
 export default {
 
@@ -114,6 +122,15 @@ export default {
               {
                 text: 'Name',
                 value: 'name',
+              },
+              {
+                text: 'Type',
+                value: 'type',
+              },
+
+              {
+                text: 'Price',
+                value: 'price',
               },
               {
                 text: 'Created',
@@ -136,6 +153,14 @@ export default {
   methods: {
     formatDate (date) {
       return parseDate(date)
+    },
+
+    productType (item) {
+      return isSimpleProduct(item) ? 'S' : 'V'
+    },
+
+    productPrice (item) {
+      return item.price
     },
   },
 }

@@ -527,8 +527,8 @@ const typeDef = `
     fiSlug: String
   }
 
-  type ProductVariableFeature {
-    type: String
+  type ProductVariableFeature implements  VariableFeature {
+    type: VariableFeatureType!
     name: String
     slug: String
     description: String
@@ -536,8 +536,8 @@ const typeDef = `
   }
 
   input ProductVariableFeatureInput {
-    feature: String!
-    items: [String!]
+    slug: String! #VariableFeatureSlug
+    items: [String!] #VariableFeatureItemSlug
   }
 
   type ProductAttachments {
