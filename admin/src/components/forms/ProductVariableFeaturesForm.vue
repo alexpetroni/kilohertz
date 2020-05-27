@@ -88,7 +88,7 @@ export default {
   methods: {
     onAddVariableFeature (val) {
       if(this.editedItem.find(e => e.slug == val.slug)){
-          alert(`${val.name} already exists in list.`)
+          alert(`${val.name} already exists in the list.`)
           return
       }
       let vfConfig = { slug: val.slug, items: val.items.map(e => e.slug) }
@@ -97,7 +97,7 @@ export default {
 
     removeVFSet (vfSet) {
       this.vfSlugToDelete = vfSet.slug
-      this.dialogMessage = `Do you want to remove on this product the "${vfSet.name}" variable feature ?`
+      this.dialogMessage = `Do you want to remove from this product the "${vfSet.name}" variable feature ?`
       this.dialog = true
     },
 

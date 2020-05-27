@@ -5,7 +5,7 @@
   <v-select
   :items="items"
   v-model="selected"
-   label="Variable Features"
+   label="Select a Variable Feature"
    item-text="name"
    item-value="slug"
    clearable
