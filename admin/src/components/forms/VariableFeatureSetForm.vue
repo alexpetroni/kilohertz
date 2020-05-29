@@ -214,6 +214,7 @@ export default {
       }
       this.editedItem.items.push(val)
       this.setNewVFItem()
+      this.updateItem()
     },
 
     onUpdateVFItem (val) {
@@ -224,6 +225,7 @@ export default {
       }
       this.editedItem.items.splice(this.editedVFItemIndex, 1, val)
       this.setNewVFItem()
+      this.updateItem()
     },
 
     getDefaultVFItem () {

@@ -8,6 +8,7 @@ import UpdateProduct from '@common/graphql/product/UpdateProduct.gql'
 import DeleteProduct from '@common/graphql/product/DeleteProduct.gql'
 
 import UpdateProductVariableFeatures from '@common/graphql/product/UpdateProductVariableFeatures.gql'
+import UpdateProductVariations from '@common/graphql/product/UpdateProductVariations.gql'
 
 export default {
   extends: BaseItemFormModel,
@@ -132,13 +133,20 @@ export default {
     },
 
     async updateProductVariableFeatures (inputArr, key) {
-      console.log('updateProductVariableFeatures inputArr %o key %o', inputArr, key)
       let { data: { updateProductVariableFeatures } } = await this.$apollo.mutate({
         mutation: UpdateProductVariableFeatures,
         variables: {...key, inputArr },
       })
-      console.log('updateProductVariableFeatures %o', updateProductVariableFeatures)
       return updateProductVariableFeatures
+    },
+
+    async updateProductVariations (inputArr, parentId) {
+      console.log('inputArr %o key %o', inputArr, parentId)
+      let { data: { updateProductVariations } } = await this.$apollo.mutate({
+        mutation: UpdateProductVariations,
+        variables: {parentId, inputArr },
+      })
+      return updateProductVariations
     },
 
     async onUpdateVariableFeatures (val) {
@@ -159,8 +167,30 @@ export default {
       }
     },
 
+    async onUpdateVariations (val) {
+      this.clearError()
+      this.loading = true
+      try{
+        console.log('Model -> onUpdateVariations %o', val)
+        const result = await this.updateProductVariations(val, this.id)
+
+        this.notifiy('item-updated', this.parseItemUpdatedNotify(result))
+
+        this.refreshItem()
+
+      }catch(error){
+        // console.log('error %o', error)
+        this.itemError(error.message)
+      }finally{
+        this.loading = false
+      }
+    },
+
     extraSlotParams () {
-      return { updateVariableFeatures: this.onUpdateVariableFeatures }
+      return {
+        updateVariableFeatures: this.onUpdateVariableFeatures,
+        updateVariations: this.onUpdateVariations,
+       }
     },
 
     parseItemForInput (item) {

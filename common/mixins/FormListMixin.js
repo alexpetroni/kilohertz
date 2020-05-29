@@ -1,7 +1,6 @@
-// FormPagListMixin - provide basic properties for a SERVER SIDE paginated list editing form
+// FormListMixin - provide basic properties for a list editing form
 
-import { throttle } from 'lodash-es'
-import { pipeEvents } from '@common/utils'
+import { pipeEvents, jsonCopy, FormState, isNewForm, isEditForm } from '@common/utils'
 
 export default {
   props: {
@@ -10,24 +9,9 @@ export default {
       default: () => []
     },
 
-    tableOptions: {
-      type: Object,
-      default: () => {}
-    },
-
-    totalItems: {
-      type: Number,
-      default: 0,
-    },
-
-    tableEvents: {
-      type: Object,
-      default: () => {}
-    },
-
-    search: {
+    formState: {
       type: String,
-      default: '',
+      default: FormState.NEW
     },
 
     loading: {
@@ -58,47 +42,68 @@ export default {
 
   data () {
     return {
+      editedItem: this.parseProvidedItems(this.items),
+
       selected: [],
 
       dialog: false,
       deletePayload: null,
       dialogMsg: '',
+      options: {},
+      search: '',
     }
   },
 
   computed: {
+    modelState () {
+      return {
+        formState: this.formState,
+        error: this.error,
+        loading: this.loading,
+      }
+    },
+
     hasItems () {
-      return this.items && this.items.length
+      return this.editedItem && this.editedItem.length
     },
 
     itemsSelected () {
       return this.selected && this.selected.length
     },
 
-    options: {
-      get: function () {
-        return this.tableOptions
-      },
-
-      set: function (val) {
-        this.$emit('update:tableOptions', val)
-      }
+    isNewForm () {
+      return isNewForm(this.formState)
     },
 
-    searchTerm: {
-      get: function () {
-        return this.search
-      },
-
-      set: throttle(function (val) {
-        this.$emit('update:search', val)
-      }, process.env.VUE_APP_SEARCH_THROTTLE)
-    }
+    isEditForm () {
+      return isEditForm(this.formState)
+    },
   },
 
   methods: {
-    addNew () {
+
+    createItem () {
+      this.$emit('create-item', this.editedItem)
+    },
+
+    updateItem () {
+      this.$emit('update-item', this.editedItem)
+    },
+
+    reloadItem () {
+      this.$emit('reload-item')
+    },
+
+    newItem () {
       this.$emit('new-item')
+    },
+
+    cancel () {
+      this.$emit('cancel')
+    },
+
+    reset () {
+      this.editedItem = jsonCopy(this.item)
     },
 
     editItem (val) {
@@ -135,5 +140,9 @@ export default {
     pipeUp (...events) {
       return pipeEvents(this, ...events)
     },
+
+    parseProvidedItems (items) {
+      return jsonCopy(items)
+    }
   },
 }

@@ -20,7 +20,7 @@ export default {
 
   computed: {
     onEditorEvents () {
-      const showList = groupEventsHandler(['item-updated', 'item-deleted', 'cancel'], this.showList)
+      const showList = groupEventsHandler(['item-deleted', 'cancel'], this.showList)
       const showEditor = {'item-created': this.onItemCreated }
       const newItem = {'new-item': this.onNewItem }
       return Object.assign({}, newItem, showEditor, showList)

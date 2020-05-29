@@ -1,11 +1,12 @@
 <template>
   <v-btn
     :title="title"
-    color="success"
+    :color="color"
     class="ml-1"
     fab
     icon
     x-small
+    :disabled="disabled"
     @click="$emit('click')"
   >
     <v-icon
@@ -22,6 +23,17 @@
       title: {
         type: String,
         default: "Edit"
+      },
+
+      disabled: {
+        type: Boolean,
+        default: false,
+      }
+    },
+
+    computed: {
+      color () {
+        return this.disabled ? "grey" : "success"
       }
     }
   }

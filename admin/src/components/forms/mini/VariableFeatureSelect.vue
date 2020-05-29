@@ -41,6 +41,7 @@ export default {
   apollo: {
     items: {
       query: VariableFeatureSetsList,
+      fetchPolicy: 'network-only',
       update: (data) => data.variableFeatureSetsList
     }
   },

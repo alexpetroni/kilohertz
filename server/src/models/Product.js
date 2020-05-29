@@ -12,6 +12,13 @@ const aggExpr = require('./aggregation')
 const fse = require('fs-extra')
 const JSZip = require('jszip')
 
+const newItemIdPrefix = '__new__'
+const isNewItemRegExp = new RegExp(newItemIdPrefix)
+
+function isNewItemId (id) {
+  return isNewItemRegExp.test(id)
+}
+
 const product = async function (id, raw) {
   let agg = [aggExprProductMatch('id', id)]
 
@@ -375,32 +382,44 @@ async function enforceVariationsSync (productId) {
   })
 }
 
-// remove existing elements that are not present in itemsArr, update existing one and insert new ones
+// remove existing elements that are not present in itemsArr, update existing one and add new ones (that have an id in form '__new__bla-bla')
 async function updateProductVariations (parentId, inputArr) {
+  // split existing variations from the existing ones
+  let freshVariations = []
+  let recordedVariations = []
 
+  inputArr.forEach(item => {
+    if(isNewItemId(item.id)){
+      delete item.id
+      freshVariations.push(item)
+    }else{
+      recordedVariations.push(item)
+    }
+  })
 
-  // remove existing elements that are not present in itemsArr
-  // const ids = itemsArr.filter(e => e.id && e.id != -1).map(e => e.id)
-  // await Product.findByIdAndUpdate(id, {$pull: {variations: {_id: {$nin: ids}}}})
-  // const promArr = itemsArr.map(item => {
-  //   if(item.id && item.id != -1){
-  //     const updateFields = {}
-  //     Object.keys(item).map(e => {
-  //       if(e != 'id'){
-  //         updateFields['variations.$.' + e] = item[e]
-  //       }
-  //     })
-  //     // console.log('update item %s %o', item.id, updateFields)
-  //     return Product.findOneAndUpdate({_id: ObjectId(id), "variations._id": item.id}, {"$set": updateFields} )
-  //   }else{
-  //     return Product.findByIdAndUpdate(id, {variations: itemsArr})
-  //   }
-  // })
-  // await Promise.all(promArr)
-  // let qq = await productVariationsItems(id)
-  // console.log('qq', qq)
+  // remove existing elements that are not present in inputArr
+  const recordedIds = recordedVariations.map(e => e.id)
+  await Product.findByIdAndUpdate(parentId, {$pull: {variations: {_id: { $nin: recordedIds }}}})
 
-  let c = await Product.findByIdAndUpdate(parentId, { $set: {variations: inputArr}}, {new: true})
+  // for already recorded variations
+  if(recordedVariations.length){
+      // update the already recoreded variations
+      const updatePromiseArr = recordedVariations.map(item => {
+        let updateFields = {}
+        Object.keys(item).map(e => {
+          if(e != 'id'){
+            updateFields['variations.$.' + e] = item[e]
+          }
+          return Product.findOneAndUpdate({_id: ObjectId(parentId), "variations._id": item.id }, {"$set": updateFields}, {upsert: true} )
+        })
+      })
+    await Promise.all(updatePromiseArr)
+  }
+
+  if(freshVariations.length){
+    let freshPromiseArr = freshVariations.map(item => Product.findOneAndUpdate({_id: ObjectId(parentId)}, {$push: {variations:item}}))
+    await Promise.all(freshPromiseArr)
+  }
 
   return await productVariationsItems(parentId, true)
 }

@@ -285,6 +285,11 @@ const pipeUp = function (comp, eventsArr) {
   {})
 }
 
+const variableFeatureItemFromConfig = function (vf, featureConfig) {
+  if(!featureConfig || !vf || !Array.isArray(vf.items) || vf.slug != featureConfig.vfSlug) return
+  return vf.items.find(e => e.slug == featureConfig.fiSlug)
+}
+
 
 export {
   EventBus,
@@ -328,4 +333,6 @@ export {
   pipeEvents,
   groupEventsHandler,
   pipeUp,
+
+  variableFeatureItemFromConfig,
 }

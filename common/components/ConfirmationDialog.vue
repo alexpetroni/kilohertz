@@ -14,8 +14,7 @@
         </v-icon>
       </v-card-title>
 
-      <v-card-text class="pb-6 pt-6 text-center">
-        {{ message }}
+      <v-card-text class="pb-6 pt-6 text-center" v-html="message">
       </v-card-text>
 
       <v-card-actions>

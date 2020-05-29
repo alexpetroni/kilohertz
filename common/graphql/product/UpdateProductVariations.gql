@@ -1,0 +1,6 @@
+#import './fragments/PVItemFragment.gql'
+mutation updateProductVariations ($parentId: ID!, $inputArr: [PVItemInput!]!) {
+  updateProductVariations(parentId: $parentId, inputArr: $inputArr){
+    ... PVItemData
+  }
+}

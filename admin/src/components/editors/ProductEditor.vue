@@ -2,7 +2,7 @@
   <ProductFormModel
     busEventName="product"
     :id="id"
-    v-slot="{item, modelState, crudEvents, updateVariableFeatures}"
+    v-slot="{item, modelState, crudEvents, updateVariableFeatures, updateVariations }"
     v-on="pipeUp('item-created', 'item-updated', 'item-deleted')"
     >
 
@@ -60,7 +60,7 @@
               />
             </v-tab-item>
 
-
+            <template v-if="isVariableProduct(item)">
             <v-tab-item
             value="tab-variable-features"
             >
@@ -70,6 +70,20 @@
                 @update-item="updateVariableFeatures"
               />
             </v-tab-item>
+
+            <v-tab-item
+            value="tab-variations"
+            >
+              <ProductVariationsListForm
+                :item="productVariationsData(item)"
+                :parent="item"
+                v-bind="modelState"
+                @update-item="updateVariations"
+                singleDeleteMsg="Do you want to delete this item? <br /><span style='font-size: .75em;'>(you need to 'Update' to save the changes)</span>"
+                multiDeleteMsg="Do you want to delete this items? <br /><span style='font-size: .75em;'>(you need to 'Update' to save the changes)</span>"
+              />
+            </v-tab-item>
+          </template>
 
 
         </v-tabs>
@@ -86,9 +100,9 @@ import FormTopBar from '@common/components/FormTopBar'
 import ProductBasicForm from '@/components/forms/ProductBasicForm'
 import ProductPriceDeliveryForm from '@/components/forms/ProductPriceDeliveryForm'
 import ProductVariableFeaturesForm from '@/components/forms/ProductVariableFeaturesForm'
+import ProductVariationsListForm from '@/components/forms/ProductVariationsListForm'
 
-
-import { pipeEvents, isNewForm, parseDate, isVariableType} from '@common/utils'
+import { pipeEvents, isNewForm, parseDate, isVariableProduct} from '@common/utils'
 import { pick } from 'lodash-es'
 
 export default {
@@ -100,6 +114,7 @@ export default {
     ProductBasicForm,
     ProductPriceDeliveryForm,
     ProductVariableFeaturesForm,
+    ProductVariationsListForm,
   },
 
   props: {
@@ -188,6 +203,10 @@ export default {
       return vf
     },
 
+    productVariationsData (item) {
+      return item.variations
+    },
+
     pipeUp (...events) {
       return pipeEvents(this, ...events)
     },
@@ -201,50 +220,47 @@ export default {
           {
             title: 'Basic Data',
             slug: 'tab-basic-data',
-            component: 'ProductBasicForm'
           },
 
           {
             title: 'Price&Delivery',
             slug: 'tab-price-delivery',
-            component: 'ProductPriceDeliveryEditor'
           },
 
           {
             title: 'Classification',
             slug: 'tab-classification',
-            component: 'ProductClassificationEditor'
           },
 
           {
             title: 'Media',
             slug: 'tab-media',
-            component: 'ProductMediaEditor'
           },
 
           {
             title: 'Linked Products',
             slug: 'tab-linked-products',
-            component: 'LinkedProductsContainer'
           },
         ]
-      if(item && isVariableType(item.type)){
+      if(item && isVariableProduct(item)){
         tabs.push(
           {
             title: 'Variable Features',
             slug: 'tab-variable-features',
-            component: 'ProductVariableFeaturesEditor'
           },
 
           {
             title: 'Variations',
             slug: 'tab-variations',
-            component: 'ProductVariationsTableEditor'
           },
         )
       }
 
       return tabs
+    },
+
+    isVariableProduct (prod) {
+      return isVariableProduct(prod)
     },
   },
 
