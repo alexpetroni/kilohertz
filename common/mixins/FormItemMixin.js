@@ -65,7 +65,6 @@ export default {
     },
 
     updateItem () {
-      console.log('updateItem  %o', this.editedItem)
       this.$emit('update-item', this.editedItem)
     },
 
@@ -92,7 +91,7 @@ export default {
 
   watch: {
     item: function (val) {
-        this.editedItem = jsonCopy(val)
+      this.editedItem = jsonCopy(val)
     },
   }
 }

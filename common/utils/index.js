@@ -116,6 +116,15 @@ const saleTypeName = function (type) {
   return SALE_TYPE_NAME[type]
 }
 
+// ====================== NEW PRODUCT VARIATION UTILITIES ======================
+
+const newItemIdPrefix = '__new__'
+const isNewItemRegExp = new RegExp(newItemIdPrefix)
+
+function isGeneratedVariationId (itemId) {
+  return isNewItemRegExp.test(itemId)
+}
+
 
 const jsonCopy = (val) => {
     return JSON.parse(JSON.stringify(val))
@@ -255,7 +264,6 @@ const pipeEvents = function (comp, ...args) {
 
 const parentEmitter = function (comp, event) {
   return function (val) {
-    // console.log('emit from parent val %s', val)
     comp.$emit(event, val)
   }
 }
@@ -335,4 +343,7 @@ export {
   pipeUp,
 
   variableFeatureItemFromConfig,
+
+  newItemIdPrefix,
+  isGeneratedVariationId,
 }

@@ -8,7 +8,7 @@
       tag="section"
     >
     <v-row>
-      <v-col cols="12" md="8">
+      <v-col cols="12">
         <base-subheading>
           Variations List
         </base-subheading>
@@ -22,7 +22,6 @@
       :multiSort="false"
       :options.sync="options"
       show-select
-      :loading="loading"
       :search="search"
     >
 
@@ -147,17 +146,14 @@ import DeleteBtn from '@common/components/btn/DeleteBtn'
 import ConfirmationDialog from '@common/components/ConfirmationDialog'
 import BulkActionSelector from '@common/components/BulkActionSelector'
 import FormSubmitButtons from '@common/components/FormSubmitButtons'
-import { parseDate, jsonCopy } from '@common/utils'
-
-const newItemIdPrefix = '__new__'
-const testIsNewItem = new RegExp(newItemIdPrefix)
+import { parseDate, jsonCopy, isGeneratedVariationId, newItemIdPrefix } from '@common/utils'
 
 export default {
   props: {
     parent: {
       type: Object,
       required: true,
-    }
+    },
   },
 
   mixins: [ FormListMixin ],
@@ -171,11 +167,11 @@ export default {
     FormSubmitButtons,
   },
 
-  data () {
+  data: function () {
     return {
       bulkActions: [{text: 'Delete', action: 'delete-items', confirmation: true, message: this.multiDeleteMsg}],
       max25chars: v => v.length <= 25 || 'Input too long!',
-      priceRule: v => parseFloat(v) == v || 'Number please!'
+      priceRule: v => !v || parseFloat(v) == v || 'Number please!'
     }
   },
 
@@ -226,13 +222,16 @@ export default {
 
     // return product.variableFeatures Array values maped as an Object with variableFeatures slug as properties
     productVFasObj () {
-      if(!this.parent || !Array.isArray(this.parent.variableFeatures)) return {}
+    //  if(!this.parent || !Array.isArray(this.parent.variableFeatures)) return {}
+      return this.parent.variations
+      // return this.parent.variableFeatures.reduce((acc, e) => {
+      //   console.log(e.slug + '....')
+      //   acc[e.slug] = e
+      //   return acc
+      // }, {})
+    },
 
-      return this.parent.variableFeatures.reduce((acc, e) => {
-        acc[e.slug] = e
-        return acc
-      }, {})
-    }
+
   },
 
   methods: {
@@ -246,27 +245,27 @@ export default {
 
     generateAllPossibleProductVariations () {
       const allVfConfig = this.generateAllFeaturesConfig(this.parent.variableFeatures)
+      // console.log('allVfConfig %o', allVfConfig)
       this.editedItem = this.unionWithExistentVariations(allVfConfig, this.editedItem)
+      // console.log('this.editedItem  %o',this.editedItem )
     },
 
-    // generate all possible featuresConfig (forms [{vfSlug: '', fiSlug:''}, ...]) from the provided variable features
     generateAllFeaturesConfig (vf) {
       if(!vf) throw new Error('Array expected')
       const spreadedArr = vf.map(e => {
-        return e.items.map(f => ({vfSlug: e.slug, fiSlug: f.slug}))
+        return { vfSlug: e.slug, fiSlugArr: e.items.map(f => f.slug) }
       })
-
-      spreadedArr.reverse()
 
       return spreadedArr.reduce(function (acc, e) {
         let zip = []
-        e.forEach(cf => {
-          acc.forEach(a => {
-            zip.push([cf, ...a])
+        acc.forEach(item => {
+          e.fiSlugArr.forEach(slug => {
+            // let combItem = Object.assign({}, item, {[e.vfSlug]:slug})
+            zip.push(Object.assign({}, item, {[e.vfSlug]:slug}))
           })
         })
         return zip
-      }, [[]])
+      }, [{}])
     },
 
     unionWithExistentVariations (vfConfigArr, existentVariationsArr = []) {
@@ -306,21 +305,23 @@ export default {
     },
 
     featuresConfigAsSortedString (featuresConfig) {
-      return featuresConfig.map(e => `${e.vfSlug}:${e.fiSlug}`).sort().join(',')
+      return Object.keys(featuresConfig).map(e => `${e}:${featuresConfig[e]}`).sort().join(',')
     },
 
     // add for each variation properties 'vf__vfSlug': vf.Name for proper display in table
     add__VfItemKey (item) {
-      item.featuresConfig.map(fc => {
-        item['vf__' + fc.vfSlug] = this.featureItemName(fc.vfSlug, fc.fiSlug)
+      Object.keys(item.featuresConfig).map(fc => {
+        item['vf__' + fc] = this.featureItemName(fc, item.featuresConfig[fc])
       })
       return item
     },
 
     featureItemName (vfSlug, fiSlug) {
-      if(!this.productVFasObj[vfSlug]) return
-      const fi = this.productVFasObj[vfSlug].items.find(e => e.slug == fiSlug)
-      return fi && fi.name
+      if(!this.parent || !this.parent.variableFeatures) return ''
+      const vf = this.parent.variableFeatures.find(e => e.slug == vfSlug)
+      if(!vf) return ''
+      const item = vf.items.find(e => e.slug == fiSlug)
+      return item ? item.name : ''
     },
 
     parseProvidedItems (items) {
@@ -341,7 +342,7 @@ export default {
     },
     // disable edit for new created items that are not yet stored in DB
     disableItemEdit (item) {
-      return testIsNewItem.test(item.id)
+      return isGeneratedVariationId(item.id)
     },
 
    //  save () {
@@ -381,6 +382,6 @@ export default {
   created () {
     this.$on('delete-item', this.deleteChoosenItem)
     this.$on('delete-items', this.deleteSelectedItems)
-  }
+  },
 }
 </script>

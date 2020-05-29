@@ -40,7 +40,7 @@ export default {
     },
   },
 
-  data () {
+  data: function () {
     return {
       editedItem: this.parseProvidedItems(this.items),
 
@@ -81,7 +81,6 @@ export default {
   },
 
   methods: {
-
     createItem () {
       this.$emit('create-item', this.editedItem)
     },
@@ -144,5 +143,11 @@ export default {
     parseProvidedItems (items) {
       return jsonCopy(items)
     }
+  },
+
+  watch: {
+    items: function (val) {
+      this.editedItem = this.parseProvidedItems(val)
+    },
   },
 }

@@ -5,13 +5,20 @@
         fluid
         grid-list-xl
         >
-          <v-row>
 
-      <v-col sm="12">
-        <VariableFeatureSelect
-        @item-selected="onAddVariableFeature"
-        />
-      </v-col>
+        <v-row>
+          <v-col cols="12">
+            <base-subheading>
+              Variable Features of the Product
+            </base-subheading>
+          </v-col>
+
+          <v-col sm="12">
+            <VariableFeatureSelect
+            class="mt-n8"
+            @item-selected="onAddVariableFeature"
+            />
+          </v-col>
 
       <v-col cols="12" sm="12">
         <draggable v-model="editedItem" handle=".handle" @change="onReorder">

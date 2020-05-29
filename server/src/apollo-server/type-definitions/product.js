@@ -329,7 +329,7 @@ const typeDef = `
   type ProductVariation implements Product {
 
     variableFeatures: [ProductVariableFeature!]! #it will be sent only with the feature for the variation
-    featuresConfig: [FeatureConfig]! # it is provided for consistency, ex. using existing methods in front-end
+    featuresConfig: JSON # it is provided for consistency, ex. using existing methods in front-end
     parentSku: String
 
     # --- Interface Product  ---
@@ -457,7 +457,8 @@ const typeDef = `
 
     packaging: String
 
-    featuresConfig: [FeatureConfig!]!
+    #featuresConfig: [FeatureConfig!]!
+    featuresConfig: JSON
   }
 
   input PVItemInput {
@@ -514,7 +515,8 @@ const typeDef = `
 
     packaging: String
 
-    featuresConfig: [FeatureConfigInput!]
+    #featuresConfig: [FeatureConfigInput!]
+    featuresConfig: JSON
   }
 
   type FeatureConfig {

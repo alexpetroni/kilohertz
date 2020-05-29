@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container class="pa-0">
     <v-row justify="center">
       <v-col sm="8" md="3">
   <v-select

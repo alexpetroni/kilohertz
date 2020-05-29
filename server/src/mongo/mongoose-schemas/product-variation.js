@@ -21,11 +21,8 @@ const schemaDefinition = Object.assign({}, productBase, {
   },
 
   featuresConfig:{
-    type: [{
-          _id: false,
-          vfSlug: String, // slug of the VariableFeature
-          fiSlug: String, // slug of the VariableFeatureItem
-        }],
+    type: Map,
+    of: String,
     index: true,
   }
 })

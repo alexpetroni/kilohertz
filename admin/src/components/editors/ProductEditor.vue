@@ -21,7 +21,9 @@
           />
           </template>
 
-          <v-progress-linear indeterminate v-if="modelState.loading"></v-progress-linear>
+          <div style="height: 5px;">
+          <v-progress-linear v-show="modelState.loading"  indeterminate></v-progress-linear>
+          </div>
 
           <v-alert v-if="modelState.error" type="error">{{ modelState.error }}</v-alert>
 
@@ -75,7 +77,7 @@
             value="tab-variations"
             >
               <ProductVariationsListForm
-                :item="productVariationsData(item)"
+                :items="productVariationsData(item)"
                 :parent="item"
                 v-bind="modelState"
                 @update-item="updateVariations"
@@ -200,6 +202,7 @@ export default {
           return {slug: e.slug, items: e.items.map(f => f.slug)}
         })
       }
+
       return vf
     },
 

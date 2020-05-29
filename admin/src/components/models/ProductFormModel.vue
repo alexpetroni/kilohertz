@@ -112,6 +112,7 @@ export default {
         variables,
         fetchPolicy,
       })
+      console.log('loadItem .... %o ', product)
       return product
     },
 

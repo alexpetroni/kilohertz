@@ -29,8 +29,5 @@ fragment ProductVariationItemData on PVItem{
 
   packaging
 
-  featuresConfig {
-    vfSlug
-    fiSlug
-  }
+  featuresConfig 
 }

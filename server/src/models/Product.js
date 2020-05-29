@@ -28,10 +28,9 @@ const product = async function (id, raw) {
 
   let res = (await Product.aggregate(agg))[0]
 
-  // console.log('product id %s : %o', id, res)
   let d = new Date()
   let dStr = d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds()
-  // console.log('--- %s ---', dStr)
+
   return (await Product.aggregate(agg))[0]
 }
 
@@ -44,8 +43,7 @@ const productBy = async function (field, value, args = {}) {
   }
 
   agg.push( ... prodAssamblerAgg(rawPrice))
-  // let cc = (await Product.aggregate(agg))[0]
-  // console.log('cc %o', cc)
+
   return (await Product.aggregate(agg))[0]
 }
 
@@ -233,7 +231,6 @@ const productsExport = async function () {
   let prodArr = []
   for (let i = 0; i < idArr.length; i++){
     let prod = await Product.findById(idArr[i]).populate('categories', 'name').populate('tags', 'name').populate('brand', 'name').lean()
-    // console.log('prod %o', prod)
     let variations = null
 
     if(prod.type == 'VARIABLE'){
@@ -254,8 +251,6 @@ const productsExport = async function () {
       })
     }
   }
-
-//   console.log('prodArr %o', prodArr)
 
   let prettyPrint = JSON.stringify(prodArr, null, 4)
   let fileName = 'products-export'
@@ -301,10 +296,6 @@ const updateProduct = async function (id, input) {
   let r = await Product.findByIdAndUpdate(id, input)
 
   let nePro = await Product.findById(id)
-
-  if(input.variableFeatures) {
-    console.log('we have variableFeatures')
-  }
 
   return product(id, true)
 }
@@ -410,8 +401,9 @@ async function updateProductVariations (parentId, inputArr) {
           if(e != 'id'){
             updateFields['variations.$.' + e] = item[e]
           }
-          return Product.findOneAndUpdate({_id: ObjectId(parentId), "variations._id": item.id }, {"$set": updateFields}, {upsert: true} )
         })
+
+        return Product.findOneAndUpdate({_id: ObjectId(parentId), "variations._id": ObjectId(item.id) }, {"$set": updateFields}, {upsert: true} )
       })
     await Promise.all(updatePromiseArr)
   }
@@ -459,7 +451,6 @@ function aggExprProductMatch (field, value, excludeVariations) {
 }
 
 function aggExprProductsMatch (field, valArr, excludeVariations) {
-  // console.log('aggExprProductsMatch valArr %o', valArr)
   let cond = field == 'id' ? {"$in": valArr.map(e => ObjectId(e))} : {"$in": valArr}
 
   let matchFilter = field == 'id' ? {_id: cond} : {[field]: cond}
@@ -468,7 +459,6 @@ function aggExprProductsMatch (field, valArr, excludeVariations) {
     let variationFilter = field == 'id' ? {"variations._id": cond} : {["variations." +field]: cond}
     matchFilter = {$or: [matchFilter, variationFilter]}
   }
-  // console.log('matchFilter %o', matchFilter)
   return { "$match": matchFilter }
 }
 
@@ -525,23 +515,21 @@ async function removeIncompatibleVariations (id) {
   const prodVariations = await productVariationsItems(id)
   let prodVariableFeatureArr = await productVariableFeatures(id)
 
-  prodVariableFeatureArr = prodVariableFeatureArr.map(e => {
-    let feature = e.slug
-    let items = e.items.map(item => item.slug)
-    return {feature, items}
-  })
-
   const prodVariableFeatureObj = prodVariableFeatureArr.reduce((acc, e) => {
-    acc[e.feature] = e.items
+    acc[e.slug] = e.items.map(f => f.slug)
     return acc
   }, {})
+  const keyNumbers = Object.keys(prodVariableFeatureObj).length
+
   const prodFeatures = Object.keys(prodVariableFeatureObj)
   const prodVariationsToDelete = prodVariations.filter(e => {
-    return e.featuresConfig.length != prodFeatures.length || e.featuresConfig.some(f => !prodVariableFeatureObj[f.vfSlug] || prodVariableFeatureObj[f.vfSlug].indexOf(f.fiSlug) == -1 )
-  }).map(e => e.sku)
+      let fc = e.featuresConfig
+      let fcKeys = Object.keys(fc)
+      return fcKeys.length != keyNumbers || fcKeys.some(e => !prodVariableFeatureObj[e]) || fcKeys.some(e => prodVariableFeatureObj[e].indexOf(fc[e]) == -1)
+    }).map(e => ObjectId(e.id))
 
   if(prodVariationsToDelete.length){
-    await Product.findByIdAndUpdate(id, {$pull: {variations: {sku: {$in: prodVariationsToDelete}}}})
+    await Product.findByIdAndUpdate(id, {$pull: {variations: {_id: {$in: prodVariationsToDelete}}}})
   }
 
   return prodVariationsToDelete
@@ -550,6 +538,7 @@ async function removeIncompatibleVariations (id) {
 async function productVariationsItems (id, raw) {
   const aggExpr = aggExprVariationItems(id, raw)
   try{
+    let res = await Product.aggregate(aggExpr)
     return await Product.aggregate(aggExpr)
   }catch(err){
     throw err
@@ -878,8 +867,6 @@ function aggExprProductVariationsItems (rawPrice) {
 
 // change the 'type' field and add 'parentId' field if it is a ProductVariation
 function aggExprProductVariationCase (field, value, raw) {
-  // console.log('aggExprProductVariationCase field %s value %s', field, value)
-  //if(field != 'sku') return []
 
   let fieldCondition = field == 'id' ? ["$_id", ObjectId(value) ] : ["$"+field, value ]
   let variationCondition = field == 'id' ? [ObjectId(value), "$$variations._id"] : [value, "$$variations."+field]
