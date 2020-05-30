@@ -1,0 +1,6 @@
+#import "./fragments/AttachmentFragment.gql"
+mutation createAttachment ($input: AttachmentInput!) {
+  createAttachment(input: $input){
+    ... AttachmentData
+  }
+}

@@ -126,6 +126,12 @@
         },
 
         {
+          icon: 'mdi-view-dashboard',
+          title: 'Media',
+          to: '/attachments',
+        },
+
+        {
           group: '/pages',
           icon: 'mdi-image',
           title: 'pages',

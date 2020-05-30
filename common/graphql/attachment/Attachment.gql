@@ -1,0 +1,6 @@
+#import "./fragments/AttachmentFragment.gql"
+query attachment ($id: ID!) {
+  attachment(id: $id){
+    ... AttachmentData
+  }
+}

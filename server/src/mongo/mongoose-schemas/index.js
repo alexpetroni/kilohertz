@@ -1,5 +1,5 @@
 module.exports = {
-  attachment: require('./attachment'),
+  // attachment: require('./attachment'),
   brand: require('./brand'),
   category: require('./category'),
   categoryMeta: require('./category-meta'),

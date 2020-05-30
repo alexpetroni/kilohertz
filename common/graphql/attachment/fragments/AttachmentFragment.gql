@@ -1,0 +1,11 @@
+fragment AttachmentData on Attachment {
+  fileId
+  type
+  name
+  filePath
+  tags
+  isPrivateFile
+  url
+  thumbnail
+  fileType
+}

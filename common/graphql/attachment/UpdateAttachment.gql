@@ -1,0 +1,6 @@
+#import "./fragments/AttachmentFragment.gql"
+mutation updateAttachment ($id: ID!, $input: AttachmentInput!) {
+  updateAttachment(id: $id, input: $input){
+    ... AttachmentData
+  }
+}

@@ -1,5 +1,6 @@
 const Common = require('./common')
 
+const Attachment = require('./attachment')
 const Brand = require('./brand')
 const Category = require('./category')
 const CategoryMeta = require('./category-meta')
@@ -32,7 +33,8 @@ const typeDefs = [
   Query,
   Mutation,
   Common,
-
+  
+  Attachment,
   Brand,
   Category,
   CategoryMeta,

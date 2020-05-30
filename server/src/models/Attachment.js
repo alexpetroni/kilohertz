@@ -1,4 +1,4 @@
-const cloudinary = require('cloudinary')
+const imagekit = require('./../image-kit')
 
 const attachment = async function (id, args = {}) {
   let result = await cloudinary.v2.api.resource(id)
@@ -16,29 +16,54 @@ const searchAttachments = async function (args = {}) {
     return await Attachment.aggregate(agg)
 }
 
+// const paginatedAttachments = async function (args = {}) {
+//   // defaults
+//   const {
+//     page,
+//     itemsPerPage,
+//     search,
+//     searchFields = 'filename',
+//     searchOptions = 'i',
+//     orderBy,
+//     order,
+//     nextCursor,
+//   } = args
+//
+//
+//   let searchExpr = parseSearchTerm(search)
+// //console.log('searchExpr %o', searchExpr)
+//     let result = await cloudinary.v2.search
+//     .expression(searchExpr)
+//     .max_results(itemsPerPage)
+//     .next_cursor(nextCursor)
+//     .execute()
+//
+//     return {items: result.resources, nextCursor: result.next_cursor, total: result.total_count }
+// }
+
 const paginatedAttachments = async function (args = {}) {
-  // defaults
-  const {
-    page,
-    itemsPerPage,
-    search,
-    searchFields = 'filename',
-    searchOptions = 'i',
-    orderBy,
-    order,
-    nextCursor,
-  } = args
+    const {
+      page,
+      itemsPerPage,
+      search,
+      searchFields = 'filename',
+      searchOptions = 'i',
+      orderBy,
+      order,
+      nextCursor,
+    } = args
 
+    let options = {
+      skip : 0,
+      limit : 1000,
+    }
 
-  let searchExpr = parseSearchTerm(search)
-//console.log('searchExpr %o', searchExpr)
-    let result = await cloudinary.v2.search
-    .expression(searchExpr)
-    .max_results(itemsPerPage)
-    .next_cursor(nextCursor)
-    .execute()
+    if(search) {
+      options.name = search
+    }
 
-    return {items: result.resources, nextCursor: result.next_cursor, total: result.total_count }
+    let imgArr = await imagekit.listFiles(options)
+    return { total: imgArr.length, items: imgArr}
 }
 
 const createAttachment = async function (input) {

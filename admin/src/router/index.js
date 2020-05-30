@@ -134,6 +134,18 @@ export default new Router({
           component: () => import('@/views/Product'),
         },
 
+        {
+          name: 'Attachments',
+          path: 'attachments',
+          component: () => import('@/views/AttachmentsList'),
+        },
+
+        {
+          name: 'Media',
+          path: 'media-edit/:id?',
+          component: () => import('@/views/AttachmentsList'),
+        },
+
 
 
         // Pages

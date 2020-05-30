@@ -1,0 +1,9 @@
+#import "./fragments/AttachmentFragment.gql"
+query paginatedAttachments ($args: JSON) {
+    paginatedAttachments(args: $args){
+      total
+      items {
+        ... AttachmentData
+      }
+    }
+ }
