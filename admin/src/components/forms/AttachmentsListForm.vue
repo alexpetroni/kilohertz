@@ -20,6 +20,7 @@
       :options.sync="options"
       v-on="tableEvents"
       show-select
+      item-key="fileId"
       :loading_xx="loading"
     >
 
@@ -50,7 +51,11 @@
           </template>
         </v-text-field>
         <v-spacer />
-          <AddNewBtn @click="addNew"/>
+        <ImgKitUpload
+        v-if="showUpload"
+        @item-uploaded="$emit('reload')"
+        />
+          <AddNewBtn @click="onShowUpload"/>
         </v-toolbar>
       </template>
 
@@ -62,9 +67,13 @@
         {{ formatDate(item.updatedAt) }}
       </template>
 
+      <template v-slot:item.thumbnail="{item}">
+        <ImgKit :src="item.thumbnail" />
+      </template>
+
       <template v-slot:item.actions="{item}">
-        <EditBtn @click="editItem(item.id)"/>
-        <DeleteBtn @click="deleteItem(item.id)"/>
+        <EditBtn @click="editItem(item.fileId)"/>
+        <DeleteBtn @click="deleteItem(item.fileId)"/>
       </template>
 
     </v-data-table>
@@ -93,6 +102,9 @@ import EditBtn from '@common/components/btn/EditBtn'
 import DeleteBtn from '@common/components/btn/DeleteBtn'
 import ConfirmationDialog from '@common/components/ConfirmationDialog'
 import BulkActionSelector from '@common/components/BulkActionSelector'
+import ImgKit from '@common/components/img/ImgKit'
+import ImgKitUpload from '@common/components/img/ImgKitUpload'
+
 import { parseDate } from '@common/utils'
 
 export default {
@@ -105,6 +117,8 @@ export default {
     DeleteBtn,
     ConfirmationDialog,
     BulkActionSelector,
+    ImgKit,
+    ImgKitUpload,
   },
 
   data () {
@@ -114,6 +128,12 @@ export default {
                 text: 'Name',
                 value: 'name',
               },
+
+              {
+                text: 'Thumbnail',
+                value: 'thumbnail',
+              },
+
               {
                 align: 'right',
                 sortable: false,
@@ -121,6 +141,8 @@ export default {
                 value: 'actions',
               },
             ],
+
+      showUpload: false,
     }
   },
 
@@ -128,6 +150,16 @@ export default {
     formatDate (date) {
       return parseDate(date)
     },
+
+    onDeleteItems () {
+      if(this.selected) {
+        this.$emit('delete-items', this.selected.map(e => e.fileId))
+      }
+    },
+
+    onShowUpload () {
+      this.showUpload = !this.showUpload
+    }
   },
 }
 </script>

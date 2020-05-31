@@ -25,6 +25,10 @@
 //   res.send(res.uploadedFiles)
 // }
 
+const imagekit = require('./../image-kit')
+
+
+
 function wireRoutes (app) {
   // app.post('/upload',
   //   // upload.array('attachments'),
@@ -34,9 +38,14 @@ function wireRoutes (app) {
   //   uploadResponse
   // )
   //
-  // app.get('/test', function(req, res){
-  //   res.send("Hello test")
-  // })
+  app.get('/imagekitauth', function(req, res){
+    const auth = imagekit.getAuthenticationParameters()
+    res.send(auth)
+  })
+
+  app.get('/test', function(req, res){
+    res.send("Hello test")
+  })
 
   return app
 }

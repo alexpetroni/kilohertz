@@ -69,6 +69,8 @@ export default {
 
         'delete-item': this.onDeleteItem,
         'delete-items': this.onDeleteItems,
+
+        'reload': this.reloadPage,
       }
     },
 
@@ -131,7 +133,8 @@ export default {
       try {
         this.loading = true
         this.clearError()
-        await this.deleteItems(idArr)
+        let re = await this.deleteItems(idArr)
+        console.log('re %o', re)
         this.reloadPage()
       } catch (error) {
         this.loading = false
@@ -159,8 +162,7 @@ export default {
     },
 
     async loadPage (queryVars, fetchPolicy) {
-      console.log('queryVars %o fetchPolicy %s', queryVars, fetchPolicy )
-      throw new Error("loadPage() should be overwritten in child component.")
+      throw new Error("loadPage() should be overwritten in child component.",queryVars, fetchPolicy)
     },
 
     async deleteItem (id) {
@@ -175,6 +177,7 @@ export default {
 
 
     reloadPage () {
+      console.log('reload page !!!')
       this.loadItemsForCurrentPage('network-only')
     },
 

@@ -75,18 +75,13 @@ const updateAttachment = async function (id, input) {
 }
 
 const deleteAttachment = async function (id) {
-  let result = await cloudinary.v2.uploader.destroy(id)
+  await imagekit.deleteFile(id)
   return id
 }
 
-const deleteAttachments = async function (idsArr) {
-  let attArr = await Attachment.find({ _id: {$in: idsArr }})
-
-  deleteCloudinaryFiles(attArr.map(e => e.filename))
-
-  await Attachment.deleteMany({ _id: {$in: idsArr }})
-
-  return idsArr
+const deleteAttachments = async function (idArr) {
+  let attArr = await imagekit.bulkDeleteFiles(idArr)
+  return idArr
 }
 
 // -----------------------------------------------------------
