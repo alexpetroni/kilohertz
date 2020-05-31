@@ -62,6 +62,18 @@
               />
             </v-tab-item>
 
+
+            <v-tab-item
+            value="tab-media"
+            >
+              <ProductMediaForm
+                :item="productMediaData(item)"
+                v-bind="modelState"
+                v-on="Object.assign({}, crudEvents)"
+              />
+            </v-tab-item>
+
+
             <template v-if="isVariableProduct(item)">
             <v-tab-item
             value="tab-variable-features"
@@ -101,6 +113,7 @@ import ProductFormModel from '@/components/models/ProductFormModel'
 import FormTopBar from '@common/components/FormTopBar'
 import ProductBasicForm from '@/components/forms/ProductBasicForm'
 import ProductPriceDeliveryForm from '@/components/forms/ProductPriceDeliveryForm'
+import ProductMediaForm from '@/components/forms/ProductMediaForm'
 import ProductVariableFeaturesForm from '@/components/forms/ProductVariableFeaturesForm'
 import ProductVariationsListForm from '@/components/forms/ProductVariationsListForm'
 
@@ -115,6 +128,7 @@ export default {
     FormTopBar,
     ProductBasicForm,
     ProductPriceDeliveryForm,
+    ProductMediaForm,
     ProductVariableFeaturesForm,
     ProductVariationsListForm,
   },
@@ -204,6 +218,12 @@ export default {
       }
 
       return vf
+    },
+
+    productMediaData (item) {
+      return {
+        image: item.image,
+      }
     },
 
     productVariationsData (item) {
