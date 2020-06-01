@@ -223,6 +223,7 @@ export default {
     productMediaData (item) {
       return {
         image: item.image,
+        gallery: item.gallery || [], 
       }
     },
 

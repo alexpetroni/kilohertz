@@ -11,7 +11,7 @@
     >
     <v-btn absolute fab small top right icon @click="onCancel" class="pt-12"><v-icon small>mdi-close</v-icon></v-btn>
     <v-alert v-if="error" type="error">{{ error }}</v-alert>
-
+    
     <v-data-iterator
       v-model="selected"
       :items="items"
@@ -88,7 +88,7 @@
               <template v-slot:actions>
                 <v-spacer />
 
-                <v-checkbox :multiple="multiple" dense v-model="selectedImages" :value="item.name"/>
+                <v-checkbox :multiple="multiple" dense v-model="selectedImages" :value="item.filePath"/>
               </template>
           </base-material-card>
             </v-col>
