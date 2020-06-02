@@ -123,6 +123,12 @@ export default new Router({
         },
 
         {
+          name: 'Category Meta',
+          path: 'category-meta-edit/:id?',
+          component: () => import('@/views/CategoryMeta'),
+        },
+
+        {
           name: 'Products',
           path: 'products',
           component: () => import('@/views/ProductsList'),

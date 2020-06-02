@@ -1,0 +1,12 @@
+query getPaginatedCategoriesMeta ($args: JSON) {
+    getPaginatedCategoriesMeta(args: $args){
+      total
+      items {
+        id
+        createdAt
+        updatedAt
+        name
+        slug
+      }
+    }
+ }

@@ -22,7 +22,8 @@ export default {
     onEditorEvents () {
       const showList = groupEventsHandler(['item-created', 'item-updated', 'item-deleted', 'cancel'], this.showList)
       const newItem = {'new-item': this.onNewItem }
-      return Object.assign({}, newItem, showList)
+      const editCategoryMeta = {'edit-category-meta': this.onEditCategoryMeta }
+      return Object.assign({}, newItem, showList, editCategoryMeta)
     },
   },
 
@@ -42,6 +43,10 @@ export default {
 
     onNewItem () {
       this.$router.push({path: '/category-edit'})
+    },
+
+    onEditCategoryMeta () {
+      this.$router.push({path: `/category-meta-edit/${this.id}`})
     },
   },
 }

@@ -1,5 +1,6 @@
 <template>
 <div>
+  <div v-if="title" class="body-1 mb-2" v-html="title"></div>
       <!-- ======================== MULTIPLE ======================== -->
         <template v-if="hasMultiContent">
           <template v-for="img in item">
@@ -69,11 +70,12 @@
          </template>
 
          <template v-else>
+           <div class="img-container">
            <v-img
            :src="require('@/assets/noimage.png')"
-           max-width="150"
-           class="no-img mb-2"
+           class="no-img"
            />
+         </div>
          </template>
 
 
@@ -117,7 +119,11 @@ export default {
     },
 
     selectMultipleImagesBtnText: {
-        type: String,
+      type: String,
+    },
+
+    title: {
+      type: String,
     },
   },
 

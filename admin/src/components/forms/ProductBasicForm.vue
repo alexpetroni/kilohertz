@@ -155,34 +155,13 @@
 
       <v-col sm="12">
         <base-subheading>
-          Preview labels
+          Preview Labels
         </base-subheading>
       </v-col>
 
-      <template v-for="i in 3">
-
-        <v-col xs="12" sm="4" :key="i">
-          <v-card class="mt-0">
-
-          <v-text-field
-          v-model="editedItem.previewFields[i-1]['title']"
-          xs6
-          :key="i + 'tit'"
-          label="Title"
-          ></v-text-field>
-
-          <v-text-field
-          v-model="editedItem.previewFields[i-1]['content']"
-          :key="i + 'cont'"
-          label="Content"
-          ></v-text-field>
-
-          <!-- <SingleImageEditor
-          v-model="editedItem.previewFields[i-1]['image']"
-          >
-          </SingleImageEditor> -->
-
-          </v-card>
+      <template v-for="(item, i) in editedItem.previewFields">
+        <v-col sm="12" md="4" :key="i">
+          <ProductPreviewFieldForm :item="item"/>
         </v-col>
       </template>
 
@@ -202,6 +181,7 @@
 
 <script>
 import FormItemMixin from '@common/mixins/FormItemMixin'
+import ProductPreviewFieldForm from '@/components/forms/mini/ProductPreviewFieldForm'
 import FormSubmitButtons from '@common/components/FormSubmitButtons'
 // import { productTypes } from '@common/utils'
 
@@ -215,6 +195,7 @@ export default {
   mixins: [ FormItemMixin ],
 
   components: {
+    ProductPreviewFieldForm,
     FormSubmitButtons,
     quillEditor,
   },

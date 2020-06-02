@@ -1,29 +1,29 @@
 <template>
-  <CategoryFormModel
-    busEventName="category"
+  <CategoryMetaFormModel
+    busEventName="category-meta"
     :id="id"
     v-slot="{item, modelState, crudEvents}"
     v-on="pipeUp('item-created', 'item-deleted')"
     >
-      <CategoryForm
+      <CategoryMetaForm
         :item="item"
         v-bind="modelState"
-        v-on="Object.assign({}, crudEvents, pipeUp('new-item', 'cancel', 'edit-category-meta'))"
+        v-on="Object.assign({}, crudEvents, pipeUp('new-item', 'cancel'))"
       />
-  </CategoryFormModel>
+  </CategoryMetaFormModel>
 </template>
 
 <script>
-import CategoryFormModel from '@/components/models/CategoryFormModel'
-import CategoryForm from '@/components/forms/CategoryForm'
+import CategoryMetaFormModel from '@/components/models/CategoryMetaFormModel'
+import CategoryMetaForm from '@/components/forms/CategoryMetaForm'
 import { pipeEvents } from '@common/utils'
 
 export default {
-  name: 'CategoryEditor',
+  name: 'CategoryMetaEditor',
 
   components: {
-    CategoryFormModel,
-    CategoryForm,
+    CategoryMetaFormModel,
+    CategoryMetaForm,
   },
 
   props: {

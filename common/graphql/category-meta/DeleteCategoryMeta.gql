@@ -1,0 +1,3 @@
+mutation deleteCategoryMeta ($id: ID!) {
+  deleteCategoryMeta(id: $id)
+}

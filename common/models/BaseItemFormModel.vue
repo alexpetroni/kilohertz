@@ -273,7 +273,6 @@ export default {
 
     // --------------- Result parsers ---------------
     parseCreateResult (result) {
-      console.log('parseCreateResult')
       return this.parseItemToMirrorDefaultModel(result)
     },
 

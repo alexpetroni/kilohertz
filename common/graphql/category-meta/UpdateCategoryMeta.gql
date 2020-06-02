@@ -1,0 +1,6 @@
+#import "./fragments/CategoryMetaFragment.gql"
+mutation updateCategoryMeta ($id: ID!, $input: CategoryMetaInput!) {
+  updateCategoryMeta(id: $id, input: $input){
+    ...CategoryMetaData
+  }
+}

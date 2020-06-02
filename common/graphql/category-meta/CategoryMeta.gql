@@ -1,0 +1,8 @@
+#import "./fragments/CategoryMetaFragment.gql"
+
+# id is the parent Category id, not the CategoryMeta
+query categoryMeta ($id: ID!) {
+  categoryMeta(id: $id){
+    ...CategoryMetaData
+  }
+}

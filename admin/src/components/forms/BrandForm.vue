@@ -16,7 +16,7 @@
         </template>
 
         <v-progress-linear indeterminate v-if="loading"></v-progress-linear>
-        
+
         <v-alert v-if="error" type="error">{{ error }}</v-alert>
 
           <v-row justify="center">
@@ -30,6 +30,15 @@
             cols="12"
             >
               <v-text-field v-model="editedItem.slug" label="Slug"></v-text-field>
+            </v-col>
+
+            <v-col
+            cols="12"
+            >
+              <AttachmentForm
+              v-model="editedItem.logo"
+              title="Logo"
+              />
             </v-col>
 
             <v-col
@@ -50,6 +59,7 @@
 <script>
 import FormItemMixin from '@common/mixins/FormItemMixin'
 import FormTopBar from '@common/components/FormTopBar'
+import AttachmentForm from '@/components/forms/mini/AttachmentForm'
 import FormSubmitButtons from '@common/components/FormSubmitButtons'
 
 export default {
@@ -57,6 +67,7 @@ export default {
 
   components: {
     FormTopBar,
+    AttachmentForm,
     FormSubmitButtons,
   },
 

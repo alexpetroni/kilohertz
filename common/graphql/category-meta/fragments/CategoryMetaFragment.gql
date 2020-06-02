@@ -1,0 +1,20 @@
+fragment CategoryMetaData on CategoryMeta{
+  category {
+    id
+    name
+  }
+
+  previewFields{
+    title
+    content
+    image
+  }
+
+  title
+  description
+
+  highlights {
+    title
+    content
+  }
+}
