@@ -12,12 +12,12 @@
         <AttachmentForm v-model="editedItem.image" />
       </v-col>
 
-      <v-col cols="12" class="pt-12">
+      <!-- <v-col cols="12" class="pt-12">
         <base-subheading>
           Gallery
         </base-subheading>
         <AttachmentForm v-model="editedItem.gallery" multiple />
-      </v-col>
+      </v-col> -->
     </v-row>
 
 
@@ -48,17 +48,17 @@ export default {
     AttachmentForm,
   },
 
-  computed: {
-    image: {
-      get () {
-        return this.item.image
-      },
-
-      set (val) {
-        this.$set(this.item, 'image', val)
-      }
-    }
-  },
+  // computed: {
+  //   image: {
+  //     get () {
+  //       return this.item.image
+  //     },
+  //
+  //     set (val) {
+  //       this.$set(this.item, 'image', val)
+  //     }
+  //   }
+  // },
 
   methods: {
   },

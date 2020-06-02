@@ -1,0 +1,8 @@
+fragment ProductAttachmentsSetData on ProductAttachmentsSet{
+  id
+  createdAt
+  updatedAt
+  name
+  product
+  attachments
+}

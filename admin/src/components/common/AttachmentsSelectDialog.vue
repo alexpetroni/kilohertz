@@ -33,12 +33,12 @@ export default {
 
     selectSingleImageBtnText: {
       type: String,
-      default: "Browse Image"
+      default: "Browse File"
     },
 
     selectMultipleImagesBtnText: {
       type: String,
-      default: "Browse Images"
+      default: "Browse Files"
     },
   },
 

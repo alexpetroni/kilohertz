@@ -80,6 +80,8 @@
 
       <div>
         <AttachmentsSelectDialog
+        :selectSingleImageBtnText="selectSingleImageBtnText"
+        :selectMultipleImagesBtnText="selectMultipleImagesBtnText"
         :multiple="multiple"
         @change="onFileSelect"
         />
@@ -108,6 +110,14 @@ export default {
 
     item: {
       type: [String, Array],
+    },
+
+    selectSingleImageBtnText: {
+      type: String,
+    },
+
+    selectMultipleImagesBtnText: {
+        type: String,
     },
   },
 

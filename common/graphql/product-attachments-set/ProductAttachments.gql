@@ -1,0 +1,6 @@
+#import './fragments/ProductAttachmentsSetFragment.gql'
+query productAttachments ($productSku: ID!, $sets: [String!]) {
+  productAttachments(productSku: $productSku, sets: $sets){
+    ... ProductAttachmentsData
+  }
+}

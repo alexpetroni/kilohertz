@@ -1,0 +1,25 @@
+query productAttachments ($productSku: ID!, $name: String!, args: JSON) {
+  paginatedProductAttachments(productSku: $productSku, name: $name, args: $args){
+    id
+    createdAt
+    updatedAt
+    name
+    product
+    attachments{
+      id
+      name
+      path
+      type
+      mimetype
+      title
+      description
+
+      sizes {
+      name
+      size
+      width
+      height
+      }
+    }
+  }
+}

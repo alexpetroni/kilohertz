@@ -1,0 +1,6 @@
+#import './fragments/ProductAttachmentsSetFragment.gql'
+mutation updateProductAttachmentsSet ($input: ProductAttachmentsSetInput!) {
+  updateProductAttachmentsSet(input: $input){
+    ... ProductAttachmentsSetData
+  }
+}

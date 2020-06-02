@@ -66,11 +66,36 @@
             <v-tab-item
             value="tab-media"
             >
-              <ProductMediaForm
-                :item="productMediaData(item)"
-                v-bind="modelState"
-                v-on="Object.assign({}, crudEvents)"
-              />
+            <!-- ================ MEDIA TABS ================= -->
+                <v-tabs vertical v-model="mediaTabsModel">
+                  <v-tab href="#media-tab-image"> Main Image</v-tab>
+
+                  <v-tab v-for="t in mediaTabs"
+                  :key="t.name"
+                  :href="`#media-tab-${t.name}`"
+                  >
+                    {{ t.title}}
+                  </v-tab>
+
+                  <v-tab-item value="media-tab-image">
+                    <ProductMediaForm
+                      :item="productMediaData(item)"
+                      v-bind="modelState"
+                      v-on="Object.assign({}, crudEvents)"
+                    />
+                  </v-tab-item>
+
+                  <v-tab-item
+                     v-for="t in mediaTabs"
+                     :key="t.name"
+                     :value="`media-tab-${t.name}`"
+                   >
+                   <ProductAttachmentsSetEditor
+                   :productId="id"
+                   :setName="t.name"
+                   />
+                  </v-tab-item>
+                </v-tabs>
             </v-tab-item>
 
 
@@ -116,6 +141,7 @@ import ProductPriceDeliveryForm from '@/components/forms/ProductPriceDeliveryFor
 import ProductMediaForm from '@/components/forms/ProductMediaForm'
 import ProductVariableFeaturesForm from '@/components/forms/ProductVariableFeaturesForm'
 import ProductVariationsListForm from '@/components/forms/ProductVariationsListForm'
+import ProductAttachmentsSetEditor from '@/components/editors/ProductAttachmentsSetEditor'
 
 import { pipeEvents, isNewForm, parseDate, isVariableProduct} from '@common/utils'
 import { pick } from 'lodash-es'
@@ -131,6 +157,7 @@ export default {
     ProductMediaForm,
     ProductVariableFeaturesForm,
     ProductVariationsListForm,
+    ProductAttachmentsSetEditor,
   },
 
   props: {
@@ -142,6 +169,15 @@ export default {
   data () {
     return {
       tabsModel: 'tab-basic-data',
+      mediaTabsModel: '#media-tab-image',
+
+      mediaTabs: [
+              {title: 'Gallery', component: 'ProductAttachmentsSetEditor', name: 'gallery'},
+              {title: 'Videos', component: 'ProductAttachmentsSetEditor', name: 'videos'},
+              {title: 'Flyers', component: 'ProductAttachmentsSetEditor', name: 'flyers'},
+              {title: 'Manuals', component: 'ProductAttachmentsSetEditor', name: 'manuals'},
+              {title: 'Layouts', component: 'ProductAttachmentsSetEditor', name: 'layouts'}
+            ],
     }
   },
 
@@ -223,7 +259,6 @@ export default {
     productMediaData (item) {
       return {
         image: item.image,
-        gallery: item.gallery || [], 
       }
     },
 
