@@ -55,6 +55,13 @@
         </v-toolbar>
       </template>
 
+      <template v-slot:item.image="{item}">
+        <ImgKit
+        :path="item.image"
+        :transformation="[{w:90, h: 90}]"
+         />
+      </template>
+
       <template v-slot:item.type="{item}">
         {{ productType(item) }}
       </template>
@@ -102,6 +109,7 @@ import EditBtn from '@common/components/btn/EditBtn'
 import DeleteBtn from '@common/components/btn/DeleteBtn'
 import ConfirmationDialog from '@common/components/ConfirmationDialog'
 import BulkActionSelector from '@common/components/BulkActionSelector'
+import ImgKit from '@common/components/img/ImgKit'
 import { parseDate, isSimpleProduct } from '@common/utils'
 
 export default {
@@ -114,38 +122,43 @@ export default {
     DeleteBtn,
     ConfirmationDialog,
     BulkActionSelector,
+    ImgKit,
   },
 
   data () {
     return {
       headers: [
-              {
-                text: 'Name',
-                value: 'name',
-              },
-              {
-                text: 'Type',
-                value: 'type',
-              },
+        {
+          text: 'Image',
+          value: 'image',
+        },
+        {
+          text: 'Name',
+          value: 'name',
+        },
+        {
+          text: 'Type',
+          value: 'type',
+        },
 
-              {
-                text: 'Price',
-                value: 'price',
-              },
-              {
-                text: 'Created',
-                value: 'createdAt',
-              },
-              {
-                text: 'Last Update',
-                value: 'updatedAt',
-              },
-              {
-                align: 'right',
-                sortable: false,
-                text: 'Actions',
-                value: 'actions',
-              },
+        {
+          text: 'Price',
+          value: 'price',
+        },
+        {
+          text: 'Created',
+          value: 'createdAt',
+        },
+        {
+          text: 'Last Update',
+          value: 'updatedAt',
+        },
+        {
+          align: 'right',
+          sortable: false,
+          text: 'Actions',
+          value: 'actions',
+        },
             ],
     }
   },
@@ -160,6 +173,7 @@ export default {
     },
 
     productPrice (item) {
+      console.log('price item %o', item)
       return item.price
     },
   },

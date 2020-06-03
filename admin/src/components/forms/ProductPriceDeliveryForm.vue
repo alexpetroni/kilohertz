@@ -72,7 +72,6 @@
              ref="menuSaleStartDate"
              v-model="menuSaleStartDate"
              :close-on-content-click="false"
-             :return-value.sync="date"
              transition="scale-transition"
              min-width="290px"
              offset-y
@@ -97,13 +96,13 @@
              >
                <v-spacer />
 
-               <v-btn
+               <!-- <v-btn
                  color="secondary"
                  large
                  @click="menuSaleStartDate = false"
                >
                  Cancel
-               </v-btn>
+               </v-btn> -->
              </v-date-picker>
            </v-menu>
          </v-col>
@@ -113,7 +112,6 @@
              ref="menuSaleEndDate"
              v-model="menuSaleEndDate"
              :close-on-content-click="false"
-             :return-value.sync="date"
              transition="scale-transition"
              min-width="290px"
              offset-y
@@ -137,7 +135,7 @@
                scrollable
                @input="menuSaleEndDate = false"
              >
-               <v-spacer />
+               <!-- <v-spacer />
 
                <v-btn
                  color="secondary"
@@ -145,7 +143,7 @@
                  @click="menuSaleEndDate = false"
                >
                  Cancel
-               </v-btn>
+               </v-btn> -->
              </v-date-picker>
            </v-menu>
          </v-col>

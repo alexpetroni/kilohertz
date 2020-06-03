@@ -13,6 +13,9 @@ fragment ProductBasicData on Product{
   technicalInformation
   image
 
+  price
+  regularPrice
+
   previewFields {
     title
     content
