@@ -10,11 +10,6 @@ import DeleteFamily from '@common/graphql/family/DeleteFamily.gql'
 export default {
   extends: BaseItemFormModel,
 
-  data () {
-    return {
-    }
-  },
-
   methods: {
     getDefaultItem () {
       return {

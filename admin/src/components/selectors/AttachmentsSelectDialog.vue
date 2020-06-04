@@ -7,7 +7,7 @@
        <v-btn color="primary" dark v-on="on">{{ selectBtnText }}</v-btn>
      </template>
 
-      <AttachmentsSelectList
+      <AttachmentsSelectListForm
       :items="items"
       :multiple="multiple"
       v-bind="modelState"
@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import AttachmentsSelectList from '@/components/common/AttachmentsSelectList'
+import AttachmentsSelectListForm from '@/components/forms/mini/AttachmentsSelectListForm'
 import AttachmentsListFormModel from '@/components/models/AttachmentsListFormModel'
 import { pipeEvents, jsonCopy } from '@common/utils'
 
@@ -44,7 +44,7 @@ export default {
 
   components: {
     AttachmentsListFormModel,
-    AttachmentsSelectList,
+    AttachmentsSelectListForm,
   },
 
   data () {
@@ -69,9 +69,6 @@ export default {
     },
 
     onItemsSelected (val) {
-      let copy = jsonCopy(val)
-      console.log('onItemsSelected copy %o', copy)
-      console.log('onItemsSelected val %o', val)
       this.$emit('change', val)
       this.closeDialog()
     },

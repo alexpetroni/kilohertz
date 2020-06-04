@@ -4,6 +4,8 @@ const typeDef = `
     product(id: ID!, raw:Boolean): Product
 
     paginatedProducts(args: JSON): PaginatedProducts!
+
+    productCategories(field: String!, value: String!): [Category!]!
   }
 
   extend type Mutation {

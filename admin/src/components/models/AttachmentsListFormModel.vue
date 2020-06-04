@@ -7,11 +7,6 @@ import DeleteAttachments from '@common/graphql/attachment/DeleteAttachments.gql'
 export default {
   extends: BasePagListFormModel,
 
-  data () {
-    return {
-    }
-  },
-
   methods: {
     async loadPage (queryVars, fetchPolicy = 'network-only') {
       try{

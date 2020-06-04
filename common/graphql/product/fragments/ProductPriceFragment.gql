@@ -1,4 +1,4 @@
-fragment ProductPrice on Product{
+fragment ProductPriceData on Product{
       price
       salePrice
       regularPrice

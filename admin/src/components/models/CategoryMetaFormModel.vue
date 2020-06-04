@@ -10,11 +10,6 @@ import DeleteCategoryMeta from '@common/graphql/category-meta/DeleteCategoryMeta
 export default {
   extends: BaseItemFormModel,
 
-  data () {
-    return {
-    }
-  },
-
   methods: {
     getDefaultItem () {
       return {
@@ -55,7 +50,6 @@ export default {
 
     async updateItem (item, key) {
       let input = this.parseItemForInput(item)
-      console.log('input %o key %o', input, key)
       let { data: { updateCategoryMeta } } = await this.$apollo.mutate({
         mutation: UpdateCategoryMeta,
         variables: {...key, input },

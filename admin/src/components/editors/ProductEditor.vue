@@ -62,6 +62,12 @@
               />
             </v-tab-item>
 
+            <v-tab-item
+            value="tab-classification"
+            >
+              <ProductClassificationForm :id="id" />
+            </v-tab-item>
+
 
             <v-tab-item
             value="tab-media"
@@ -138,6 +144,7 @@ import ProductFormModel from '@/components/models/ProductFormModel'
 import FormTopBar from '@common/components/FormTopBar'
 import ProductBasicForm from '@/components/forms/ProductBasicForm'
 import ProductPriceDeliveryForm from '@/components/forms/ProductPriceDeliveryForm'
+import ProductClassificationForm from '@/components/forms/ProductClassificationForm'
 import ProductMediaForm from '@/components/forms/ProductMediaForm'
 import ProductVariableFeaturesForm from '@/components/forms/ProductVariableFeaturesForm'
 import ProductVariationsListForm from '@/components/forms/ProductVariationsListForm'
@@ -154,6 +161,7 @@ export default {
     FormTopBar,
     ProductBasicForm,
     ProductPriceDeliveryForm,
+    ProductClassificationForm,
     ProductMediaForm,
     ProductVariableFeaturesForm,
     ProductVariationsListForm,
@@ -198,6 +206,8 @@ export default {
         'technicalInformation',
         'displayOrder',
 
+        'brand',
+
         'sizeWidth',
         'sizeHeight',
         'sizeLength',
@@ -209,7 +219,11 @@ export default {
         'previewFields',
       ]
 
-      return pick(item, fields)
+      let data = pick(item, fields)
+      if(data.brand){
+        data.brand = data.brand.id
+      }
+      return data
     },
 
     productPriceDeliveryData (item) {
@@ -254,6 +268,14 @@ export default {
       }
 
       return vf
+    },
+
+    productClassificationData (item) {
+      const { brand } = item
+      const brandId = brand && brand.id
+      return {
+        brand: brandId,
+      }
     },
 
     productMediaData (item) {

@@ -101,7 +101,7 @@
 <script>
 import ImgKit from '@common/components/img/ImgKit'
 import ConfirmationDialog from '@common/components/ConfirmationDialog'
-import AttachmentsSelectDialog from '@/components/common/AttachmentsSelectDialog'
+import AttachmentsSelectDialog from '@/components/selectors/AttachmentsSelectDialog'
 
 
 export default {

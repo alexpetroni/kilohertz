@@ -41,7 +41,7 @@
           ></v-select>
         </v-col>
 
-        <v-col cols="12" md="3">
+        <v-col cols="12" md="6">
           <v-text-field
           label="Name"
           name="fullname"
@@ -61,7 +61,14 @@
           required
           ></v-text-field>
         </v-col>
+
         <v-col cols="12" md="3">
+          <BrandSelect
+          v-model="editedItem.brand"
+          />
+        </v-col>
+
+        <v-col cols="12" md="6">
           <v-text-field
           v-if="isEditForm"
           label="Slug"
@@ -83,8 +90,9 @@
 
       <v-col sm="12">
         <quillEditor
+        class="editor mt-n4 mb-12"
         v-model="editedItem.description"
-        :options="editorOption"
+        :options="quillOptions"
         ></quillEditor>
       </v-col>
 
@@ -182,12 +190,13 @@
 <script>
 import FormItemMixin from '@common/mixins/FormItemMixin'
 import ProductPreviewFieldForm from '@/components/forms/mini/ProductPreviewFieldForm'
+import BrandSelect from '@/components/selectors/BrandSelect'
 import FormSubmitButtons from '@common/components/FormSubmitButtons'
 // import { productTypes } from '@common/utils'
 
 import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.snow.css'
-import 'quill/dist/quill.bubble.css'
+// import 'quill/dist/quill.bubble.css'
 
 import { quillEditor } from 'vue-quill-editor'
 
@@ -196,19 +205,22 @@ export default {
 
   components: {
     ProductPreviewFieldForm,
+    BrandSelect,
     FormSubmitButtons,
     quillEditor,
   },
 
   data () {
     return {
-      editorOption: {},
+      quillOptions: {
+
+      },
     }
   },
 
   computed: {
     submitDisabled () {
-      return !this.editedItem.name.trim()
+      return !this.editedItem.name.trim() || !this.editedItem.sku.trim()
     },
 
     publishedLabel () {
@@ -227,3 +239,25 @@ export default {
   },
 }
 </script>
+
+<style lang="scss" scoped>
+    .editor {
+      height: 15rem;
+    }
+    // .output {
+    //   width: 100%;
+    //   height: 20rem;
+    //   margin: 0;
+    //   border: 1px solid #ccc;
+    //   overflow-y: auto;
+    //   resize: vertical;
+    //   &.code {
+    //     padding: 1rem;
+    //     height: 16rem;
+    //   }
+    //   &.ql-snow {
+    //     border-top: none;
+    //     height: 24rem;
+    //   }
+    // }
+</style>

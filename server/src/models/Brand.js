@@ -18,6 +18,11 @@ const brands = async function (idArr) {
   return await Brand.aggregate(agg)
 }
 
+const allBrands = async function () {
+  let agg = [aggExpr.addId()]
+  return await Brand.aggregate(agg)
+}
+
 const brandsBySlug = async function (slugArr) {
   let agg = [{'$match': {'slug': {'$in': slugArr}}}, aggExpr.addId()]
   return await Brand.aggregate(agg)
@@ -127,6 +132,7 @@ module.exports = {
   brand,
   brandBySlug,
   brands,
+  allBrands,
   brandsBySlug,
   searchBrands,
   paginatedBrands,

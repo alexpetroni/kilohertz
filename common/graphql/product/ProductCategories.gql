@@ -1,0 +1,6 @@
+#import './../category/fragments/CategoryFragment.gql'
+query productCategories ($field: String!, $value: String!) {
+  productCategories(field: $field, value: $value){
+    ... CategoryData
+  }
+}

@@ -1,0 +1,6 @@
+#import './../../brand/fragments/BrandFragment.gql'
+fragment ProductBrandData on Product{
+      brand {
+        ... BrandData
+      }
+}

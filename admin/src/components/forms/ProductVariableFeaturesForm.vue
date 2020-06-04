@@ -59,8 +59,8 @@
 import draggable from 'vuedraggable'
 import FormItemMixin from '@common/mixins/FormItemMixin'
 import FormSubmitButtons from '@common/components/FormSubmitButtons'
-import VariableFeatureSelect from '@/components/forms/mini/VariableFeatureSelect'
-import VariableFeatureItemsSelector from '@/components/forms/mini/VariableFeatureItemsSelector'
+import VariableFeatureSelect from '@/components/selectors/VariableFeatureSelect'
+import VariableFeatureItemsSelector from '@/components/selectors/VariableFeatureItemsSelector'
 import ConfirmationDialog from '@common/components/ConfirmationDialog'
 
 export default {
@@ -127,11 +127,6 @@ export default {
     onReorder () {
       this.$emit('reorder-list', this.editedItem)
     },
-
-    // updateItem () {
-    //   this.$emit('update-item', {variableFeatures: this.editedItem })
-    //     console.log("UPDATE editedItem %o", this.editedItem)
-    // },
   },
 }
 </script>

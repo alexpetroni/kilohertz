@@ -6,12 +6,7 @@ import DeleteBrands from '@common/graphql/brand/DeleteBrands.gql'
 
 export default {
   extends: BasePagListFormModel,
-
-  data () {
-    return {
-    }
-  },
-
+  
   methods: {
     async loadPage (queryVars, fetchPolicy = 'network-only') {
       try{

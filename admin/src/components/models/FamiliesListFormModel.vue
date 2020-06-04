@@ -7,11 +7,6 @@ import DeleteFamilies from '@common/graphql/family/DeleteFamilies.gql'
 export default {
   extends: BasePagListFormModel,
 
-  data () {
-    return {
-    }
-  },
-
   methods: {
     async loadPage (queryVars, fetchPolicy = 'network-only') {
       try{

@@ -10,11 +10,6 @@ import DeleteCategory from '@common/graphql/category/DeleteCategory.gql'
 export default {
   extends: BaseItemFormModel,
 
-  data () {
-    return {
-    }
-  },
-
   methods: {
     getDefaultItem () {
       return {

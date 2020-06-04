@@ -19,7 +19,6 @@ export default {
       query: VariableFeatureSetBySlug,
       variables () { return {slug: this.slug} },
       update: (data) => {
-        console.log('data %o', data)
         return data.variableFeatureSetBySlug
       },
       skip () { return !this.slug }

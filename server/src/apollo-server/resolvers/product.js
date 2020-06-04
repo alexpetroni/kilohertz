@@ -45,9 +45,9 @@ const resolvers = {
     //   return context.models.Product.productTags(field, value)
     // },
     //
-    // productCategories (_, { field, value }, context) {
-    //   return context.models.Product.productCategories(field, value)
-    // },
+    productCategories (_, { field, value }, context) {
+      return context.models.Product.productCategories(field, value)
+    },
     //
     // productBrand (_, { field, value }, context) {
     //   return context.models.Product.productBrand(field, value)

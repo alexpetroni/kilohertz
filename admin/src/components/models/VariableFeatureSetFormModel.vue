@@ -10,11 +10,6 @@ import DeleteVariableFeatureSet from '@common/graphql/variable-feature/DeleteVar
 export default {
   extends: BaseItemFormModel,
 
-  data () {
-    return {
-    }
-  },
-
   methods: {
     getDefaultItem () {
       return {

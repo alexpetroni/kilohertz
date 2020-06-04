@@ -12,6 +12,10 @@ const resolvers = {
       return context.models.Brand.brands(idArr)
     },
 
+    allBrands (_, {}, context) {
+      return context.models.Brand.allBrands()
+    },
+
     brandsBySlug (_, { slugArr }, context) {
       return context.models.Brand.brandsBySlug(slugArr)
     },

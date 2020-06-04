@@ -31,6 +31,7 @@ const product = async function (id, raw) {
   let d = new Date()
   let dStr = d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds()
 
+  console.log('res product %o', res)
   return (await Product.aggregate(agg))[0]
 }
 
@@ -435,6 +436,7 @@ function prodAssamblerAgg (rawPrice) {
     ... aggExprSale(rawPrice),
     ... aggExprProductVariableFeatures(),
     ... aggExprProductVariationsItems(rawPrice),
+    ... aggExprBrand(),
     // ... productImageAgg()
   ]
 }
@@ -492,6 +494,25 @@ function productImageAgg () {
 
         { "$addFields": {
           "image": {"$arrayElemAt": ["$image", 0]}
+        }}
+  ]
+}
+
+function aggExprBrand () {
+  return [
+    { "$lookup": {
+              from: "brands",
+              let: { brandId: "$brand" },
+              pipeline: [
+                {"$match": { $expr: { $eq: ['$_id', "$$brandId"]} }},
+                {"$addFields": { id: "$_id"}},
+                { "$project": { _id: 0, createdAt: 0, updatedAt:0 }},
+              ],
+              as: "brand"
+        }},
+
+        { "$addFields": {
+          "brand": {"$arrayElemAt": ["$brand", 0]}
         }}
   ]
 }

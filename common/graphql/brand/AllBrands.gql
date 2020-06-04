@@ -1,0 +1,6 @@
+#import "./fragments/BrandFragment.gql"
+query allBrands {
+  allBrands{
+    ... BrandData
+  }
+}

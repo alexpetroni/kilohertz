@@ -10,11 +10,6 @@ import DeleteBrand from '@common/graphql/brand/DeleteBrand.gql'
 export default {
   extends: BaseItemFormModel,
 
-  data () {
-    return {
-    }
-  },
-
   methods: {
     getDefaultItem () {
       return {

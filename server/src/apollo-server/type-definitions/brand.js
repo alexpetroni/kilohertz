@@ -5,6 +5,7 @@ const typeDef = `
     brandBySlug(slug: String!): Brand
 
     brands(idArr: [ID!]!): [Brand!]!
+    allBrands: [Brand!]!
     brandsBySlug(slugArr: [String!]!): [Brand!]!
     searchBrands(args: JSON): [Brand!]!
     paginatedBrands(args: JSON): PaginatedBrands!

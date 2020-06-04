@@ -7,11 +7,6 @@ import DeleteVariableFeatureSets from '@common/graphql/variable-feature/DeleteVa
 export default {
   extends: BasePagListFormModel,
 
-  data () {
-    return {
-    }
-  },
-
   methods: {
     async loadPage (queryVars, fetchPolicy = 'network-only') {
       try{

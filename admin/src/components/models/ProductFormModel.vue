@@ -13,11 +13,6 @@ import UpdateProductVariations from '@common/graphql/product/UpdateProductVariat
 export default {
   extends: BaseItemFormModel,
 
-  data () {
-    return {
-    }
-  },
-
   methods: {
     getDefaultItem () {
       return {
@@ -26,7 +21,7 @@ export default {
         slug: '',
         sku: '',
 
-        published: null,
+        published: false,
 
         displayOrder: 5,
 
@@ -112,7 +107,6 @@ export default {
         variables,
         fetchPolicy,
       })
-      console.log('loadItem .... %o ', product)
       return product
     },
 
@@ -142,7 +136,6 @@ export default {
     },
 
     async updateProductVariations (inputArr, parentId) {
-      console.log('inputArr %o key %o', inputArr, parentId)
       let { data: { updateProductVariations } } = await this.$apollo.mutate({
         mutation: UpdateProductVariations,
         variables: {parentId, inputArr },
@@ -161,7 +154,6 @@ export default {
         this.refreshItem()
 
       }catch(error){
-        // console.log('error %o', error)
         this.itemError(error.message)
       }finally{
         this.loading = false
@@ -172,7 +164,6 @@ export default {
       this.clearError()
       this.loading = true
       try{
-        console.log('Model -> onUpdateVariations %o', val)
         const result = await this.updateProductVariations(val, this.id)
 
         this.notifiy('item-updated', this.parseItemUpdatedNotify(result))
@@ -180,7 +171,6 @@ export default {
         this.refreshItem()
 
       }catch(error){
-        // console.log('error %o', error)
         this.itemError(error.message)
       }finally{
         this.loading = false

@@ -19,11 +19,6 @@ export default {
     },
   },
 
-  data () {
-    return {
-    }
-  },
-
   methods: {
     itemKey () {
       return {
@@ -42,18 +37,15 @@ export default {
     },
 
     async loadItem (key) {
-      console.log('loadItem productAttachmentsSet key %o', key)
       let { data: { productAttachmentsSet } } = await this.$apollo.query({
         query: ProductAttachmentsSet,
         variables: key,
       })
-      console.log('loadItem productAttachmentsSet %o', productAttachmentsSet)
       return productAttachmentsSet
     },
 
     async updateItem (item, key) {
       let input = this.parseItemForInput(item)
-      console.log('input %o', input)
       let { data: { updateProductAttachmentsSet } } = await this.$apollo.mutate({
         mutation: UpdateProductAttachmentsSet,
         variables: {...key, input },
