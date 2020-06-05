@@ -22,7 +22,7 @@
 <script>
 import AttachmentsSelectListForm from '@/components/forms/mini/AttachmentsSelectListForm'
 import AttachmentsListFormModel from '@/components/models/AttachmentsListFormModel'
-import { pipeEvents, jsonCopy } from '@common/utils'
+import { pipeEvents } from '@common/utils'
 
 export default {
   props: {

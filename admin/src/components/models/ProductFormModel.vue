@@ -53,7 +53,7 @@ export default {
         saleStartDate: null,
         saleEndDate: null,
 
-        brand: '',
+        brand: null,
 
         image: '',
 
