@@ -4,6 +4,7 @@ const typeDef = `
     product(id: ID!, raw:Boolean): Product
 
     paginatedProducts(args: JSON): PaginatedProducts!
+    searchProducts(args: JSON): [Product!]!
 
     productCategories(field: String!, value: String!): [Category!]!
   }

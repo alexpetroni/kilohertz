@@ -298,6 +298,35 @@ const variableFeatureItemFromConfig = function (vf, featureConfig) {
   return vf.items.find(e => e.slug == featureConfig.fiSlug)
 }
 
+// return the variations of a product with an added field, 'features' completed conform featuresConfig
+const variationsWithFeatures = function (product) {
+  if(!product || !isVariableProduct(product)) return
+  return product.variations.map(v => {
+    v.features = zipFeatures (v.featuresConfig, product.variableFeatures)
+    return v
+  })
+}
+
+const zipFeatures = function (featuresConfig, variableFeatures) {
+  return Object.keys(featuresConfig).map(e => {
+    let zip = {}
+    let vf = variableFeatures.find(vf => e == vf.slug)
+    if(vf) {
+      zip.vfSlug = vf.slug
+      zip.vfName = vf.name
+      zip.vfType = vf.type
+
+      let fi = vf.items.find(f => f.slug == featuresConfig[e])
+      if(fi) {
+        zip.fiSlug = fi.slug
+        zip.fiName = fi.name
+        zip.fiValue = fi.value
+      }
+    }
+    return zip
+  })
+}
+
 
 export {
   EventBus,
@@ -343,6 +372,8 @@ export {
   pipeUp,
 
   variableFeatureItemFromConfig,
+
+  variationsWithFeatures,
 
   newItemIdPrefix,
   isGeneratedVariationId,

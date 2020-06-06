@@ -32,9 +32,9 @@ const resolvers = {
     //   return context.models.Product.productsBySlug(slugArr, args)
     // },
     //
-    // searchProducts (_, { args }, context) {
-    //   return context.models.Product.searchProducts(args)
-    // },
+    searchProducts (_, { args }, context) {
+      return context.models.Product.searchProducts(args)
+    },
 
     paginatedProducts (_, { args }, context) {
       return context.models.Product.paginatedProducts(args)

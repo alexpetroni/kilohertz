@@ -104,6 +104,14 @@
                 </v-tabs>
             </v-tab-item>
 
+            <v-tab-item
+            value="tab-linked-products"
+            >
+              <LinkedProductsSetEditor
+              :id="id"
+              />
+            </v-tab-item>
+
 
             <template v-if="isVariableProduct(item)">
             <v-tab-item
@@ -149,6 +157,7 @@ import ProductMediaForm from '@/components/forms/ProductMediaForm'
 import ProductVariableFeaturesForm from '@/components/forms/ProductVariableFeaturesForm'
 import ProductVariationsListForm from '@/components/forms/ProductVariationsListForm'
 import ProductAttachmentsSetEditor from '@/components/editors/ProductAttachmentsSetEditor'
+import LinkedProductsSetEditor from '@/components/editors/LinkedProductsSetEditor'
 
 import { pipeEvents, isNewForm, parseDate, isVariableProduct} from '@common/utils'
 import { pick } from 'lodash-es'
@@ -163,6 +172,7 @@ export default {
     ProductPriceDeliveryForm,
     ProductClassificationForm,
     ProductMediaForm,
+    LinkedProductsSetEditor,
     ProductVariableFeaturesForm,
     ProductVariationsListForm,
     ProductAttachmentsSetEditor,

@@ -1,0 +1,28 @@
+#import "./../../product/fragments/ProductVariableFeaturesFragment.gql"
+#import "./../../product/fragments/ProductVariationItemFragment.gql"
+fragment LinkedProductsData on ProductLinks {
+  id
+  links{
+    product{
+      id
+      name
+      sku
+      slug
+      type
+      published
+
+      ... on VariableProduct {
+
+        variableFeatures{
+          ... ProductVariableFeatureData
+        }
+
+        variations{
+          ... ProductVariationItemData
+        }
+      }
+
+    }
+    variationsSku
+  }
+}

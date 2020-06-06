@@ -43,7 +43,7 @@ const linkedProducts = async function (field, value, linkType, allVariations) {
 
 const updateLinkedProducts = async function (productId, linkType, inputArr) {
   let updateResult = await LinkedProducts.findOneAndUpdate({product: ObjectId(productId), linkType}, {$set: {product: productId, linkType, links: inputArr}}, { upsert:true, new: true })
-  let result = await linkedProducts('id', productId, linkType)
+  let result = await linkedProducts('id', productId, linkType, true)
   return result
 }
 
@@ -97,11 +97,10 @@ function hasRestrictedVariationsSkus (linkedProduct) {
 function variationsVariableFeatures (product) {
   if(!(isVariableProduct(product) && product.variations && Array.isArray(product.variations))) return {}
   return product.variations.reduce((acc, e) => {
-    e.featuresConfig.map(v => {
-      let { vfSlug, fiSlug } = v
-      if(!acc[vfSlug]) acc[vfSlug] = []
-      if(acc[vfSlug].indexOf(fiSlug) == -1) {
-        acc[vfSlug].push(fiSlug)
+    Object.keys(e.featuresConfig).map(k => {
+      if(!acc[k]) acc[k] = []
+      if(acc[k].indexOf(e[k]) == -1) {
+        acc[k].push(e[k])
       }
     })
     return acc

@@ -1,0 +1,6 @@
+#import "./fragments/LinkedProductsFragment.gql"
+query linkedProducts ($field: String!, $value: String!, $linkType: String!, $allVariations: Boolean) {
+  linkedProducts(field: $field, value: $value, linkType: $linkType, allVariations: $allVariations){
+    ... LinkedProductsData
+  }
+}

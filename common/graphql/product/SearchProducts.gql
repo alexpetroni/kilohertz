@@ -1,0 +1,10 @@
+query searchProducts ($args: JSON) {
+  searchProducts(args: $args){
+    id
+    name
+    sku
+    slug
+    image
+    type
+  }
+}

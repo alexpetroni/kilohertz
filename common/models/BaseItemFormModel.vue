@@ -229,7 +229,6 @@ export default {
         if(!result) {
           throw new Error("No item found for this id")
         }
-          // console.log('.... itemLoaded  %o', this.item)
         this.setEditedItem(this.parseLoadResult(result))
         this.notifiy('item-loaded', this.id)
       }catch(error){
@@ -268,7 +267,6 @@ export default {
     setEditedItem (item) {
       this.item = item
       this.setEditFormState()
-      // console.log('setEditedItem this.formState %s', this.formState)
     },
 
     // --------------- Result parsers ---------------

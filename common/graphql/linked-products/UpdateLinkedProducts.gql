@@ -1,0 +1,6 @@
+#import "./fragments/LinkedProductsFragment.gql"
+mutation updateLinkedProducts ($productId: ID!, $linkType: String!, $inputArr:[LinkedProductInput!]!) {
+  updateLinkedProducts(productId: $productId, linkType: $linkType, inputArr: $inputArr){
+    ... LinkedProductsData
+  }
+}

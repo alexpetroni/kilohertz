@@ -102,7 +102,7 @@ export default {
     },
 
     reset () {
-      this.editedItem = jsonCopy(this.item)
+      this.editedItem = this.parseProvidedItems(this.items)
     },
 
     editItem (val) {
@@ -142,7 +142,7 @@ export default {
 
     parseProvidedItems (items) {
       return jsonCopy(items)
-    }
+    },
   },
 
   watch: {
