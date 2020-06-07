@@ -4,7 +4,6 @@
     :linkType="linkType"
     v-slot="{item, modelState, crudEvents}"
     v-on="pipeUp('item-created', 'item-deleted')"
-    :reloadAfterUpdate="true"
     >
       <LinkedProductsSetForm
         :items="item.links"
@@ -20,7 +19,7 @@ import LinkedProductsSetForm from '@/components/forms/LinkedProductsSetForm'
 import { pipeEvents } from '@common/utils'
 
 export default {
-  name: 'LinkedProductsEditor',
+  name: 'LinkedProductsSetEditor',
 
   components: {
     LinkedProductsSetFormModel,

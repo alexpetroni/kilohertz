@@ -26,7 +26,7 @@ export default {
         query: LinkedProducts,
         variables,
       })
-      return linkedProducts ? linkedProducts : {id: key.id, links: [] }
+      return linkedProducts ? linkedProducts : { id: key.id, links: [] }
     },
 
     async updateItem (item, key) {

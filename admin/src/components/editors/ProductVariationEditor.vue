@@ -144,7 +144,7 @@ import { pipeEvents, isNewForm, parseDate, isVariableProduct} from '@common/util
 import { pick } from 'lodash-es'
 
 export default {
-  name: 'ProductEditor',
+  name: 'ProductVariationEditor',
 
   components: {
     ProductVariationFormModel,

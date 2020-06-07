@@ -108,7 +108,7 @@
             value="tab-linked-products"
             >
             <!-- ================ LINKED PRODUCTS TABS ================= -->
-          <v-tabs vertical v-model="mediaTabsModel">
+          <v-tabs vertical v-model="linkedProdTabsModel">
             <v-tab v-for="t in linkedProductsTabs"
             :key="t.linkType"
             :href="`#linked-tab-${t.linkType}`"
@@ -206,6 +206,7 @@ export default {
     return {
       tabsModel: 'tab-basic-data',
       mediaTabsModel: '#media-tab-image',
+      linkedProdTabsModel: '#linked-tab-accessories',
 
       mediaTabs: [
               {title: 'Gallery', component: 'ProductAttachmentsSetEditor', name: 'gallery'},
