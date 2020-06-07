@@ -141,6 +141,12 @@ export default new Router({
         },
 
         {
+          name: 'Product Variation',
+          path: 'product-variation-edit/:id?/:parentId?',
+          component: () => import('@/views/ProductVariation'),
+        },
+
+        {
           name: 'Attachments',
           path: 'attachments',
           component: () => import('@/views/AttachmentsList'),

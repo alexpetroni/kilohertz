@@ -41,9 +41,14 @@
                 <v-toolbar-title>{{ item.name }} Members</v-toolbar-title>
               </v-toolbar>
 
+              <v-row justify="center">
+              <v-col xs="12" sm="6">
               <ProductSearch
                 @selected="onAddProduct"
+                class="pb-6"
               />
+            </v-col>
+          </v-row>
 
               <v-list v-if="hasItems">
                 <draggable v-model="editedItem.products" handle=".handle" @change="onReorder">
@@ -55,6 +60,7 @@
                   :id="id"
                   @delete-item="onDeleteItem(id)"
                   :reordable="reordable"
+                  class="mt-1 mb-1"
                   />
                 </v-list-item>
                 </draggable>
@@ -139,7 +145,7 @@ export default {
 
   methods: {
     onAddProduct (val) {
-      const index = this.editedItem.products.indexOf(this.deleteItemId)
+      const index = this.editedItem.products.indexOf(val)
       if(index >= 0) {
         this.editedItem.products.splice(index, 1)
       }

@@ -4,7 +4,7 @@
   v-slot="{product, loading}"
   >
 
-  <v-card v-if="!loading" flat style="width: 100%;">
+  <v-card v-if="!loading" flat style="width: 100%;" elevation="1">
     <v-toolbar flat>
 
       <v-btn

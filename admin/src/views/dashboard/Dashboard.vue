@@ -313,8 +313,8 @@
       >
         <base-material-stats-card
           color="orange"
-          icon="mdi-sofa"
-          title="Bookings"
+          icon="mdi-flag"
+          title="Products"
           value="184"
           sub-icon="mdi-alert"
           sub-icon-color="red"
@@ -322,7 +322,7 @@
         />
       </v-col>
 
-      <v-col
+      <!-- <v-col
         cols="12"
       >
         <div
@@ -613,7 +613,7 @@
             </span>
           </template>
         </base-material-card>
-      </v-col>
+      </v-col> -->
     </v-row>
   </v-container>
 </template>
@@ -625,7 +625,7 @@
     data () {
       return {
         countryData: {
-          US: 2920,
+          CH: 2920,
           DE: 1390,
           AU: 760,
           GB: 690,
@@ -775,8 +775,8 @@
         ],
         sales: [
           {
-            country: 'USA',
-            flag: 'https://demos.creative-tim.com/vue-material-dashboard-pro/img/flags/US.png',
+            country: 'CH',
+            flag: 'https://www.amazeemetrics.com/content/uploads/2015/07/Switzerland-Flag.png',
             salesInM: 2920,
           },
           {

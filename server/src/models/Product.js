@@ -31,7 +31,7 @@ const product = async function (id, raw) {
   let d = new Date()
   let dStr = d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds()
 
-  console.log('res product %o', res)
+  // console.log('res product %o', res)
   return (await Product.aggregate(agg))[0]
 }
 

@@ -1,8 +1,9 @@
 <template>
-  <ProductFormModel
-    busEventName="product"
+  <ProductVariationFormModel
+    busEventName="product-variation"
     :id="id"
-    v-slot="{item, modelState, crudEvents, updateVariableFeatures, updateVariations }"
+    :parentId="parentId"
+    v-slot="{item, modelState, crudEvents }"
     v-on="pipeUp('item-created', 'item-updated', 'item-deleted')"
     >
 
@@ -34,7 +35,7 @@
             color="elevation-1"
           >
             <v-tab
-                v-for="t in productTabs(item)"
+                v-for="t in productTabs"
                 :href="`#${t.slug}`"
                 :key="t.slug"
                 :disabled="disableTab(t.slug, modelState.formState)"
@@ -60,12 +61,6 @@
                 v-bind="modelState"
                 v-on="Object.assign({}, crudEvents)"
               />
-            </v-tab-item>
-
-            <v-tab-item
-            value="tab-classification"
-            >
-              <ProductClassificationForm :id="id" />
             </v-tab-item>
 
 
@@ -128,52 +123,20 @@
               </v-tab-item>
             </v-tabs>
             </v-tab-item>
-
-
-            <template v-if="isVariableProduct(item)">
-            <v-tab-item
-            value="tab-variable-features"
-            >
-              <ProductVariableFeaturesForm
-                :item="productVariableFeaturesData(item)"
-                v-bind="modelState"
-                @update-item="updateVariableFeatures"
-              />
-            </v-tab-item>
-
-            <v-tab-item
-            value="tab-variations"
-            >
-              <ProductVariationsListForm
-                :items="productVariationsData(item)"
-                :parent="item"
-                v-bind="modelState"
-                @update-item="updateVariations"
-                @edit-item="editVariation"
-                singleDeleteMsg="Do you want to delete this item? <br /><span style='font-size: .75em;'>(you need to 'Update' to save the changes)</span>"
-                multiDeleteMsg="Do you want to delete this items? <br /><span style='font-size: .75em;'>(you need to 'Update' to save the changes)</span>"
-              />
-            </v-tab-item>
-          </template>
-
-
         </v-tabs>
 
 
     </base-material-card>
   </v-container>
-  </ProductFormModel>
+  </ProductVariationFormModel>
 </template>
 
 <script>
-import ProductFormModel from '@/components/models/ProductFormModel'
+import ProductVariationFormModel from '@/components/models/ProductVariationFormModel'
 import FormTopBar from '@common/components/FormTopBar'
 import ProductBasicForm from '@/components/forms/ProductBasicForm'
 import ProductPriceDeliveryForm from '@/components/forms/ProductPriceDeliveryForm'
-import ProductClassificationForm from '@/components/forms/ProductClassificationForm'
 import ProductMediaForm from '@/components/forms/ProductMediaForm'
-import ProductVariableFeaturesForm from '@/components/forms/ProductVariableFeaturesForm'
-import ProductVariationsListForm from '@/components/forms/ProductVariationsListForm'
 import ProductAttachmentsSetEditor from '@/components/editors/ProductAttachmentsSetEditor'
 import LinkedProductsSetEditor from '@/components/editors/LinkedProductsSetEditor'
 
@@ -184,15 +147,12 @@ export default {
   name: 'ProductEditor',
 
   components: {
-    ProductFormModel,
+    ProductVariationFormModel,
     FormTopBar,
     ProductBasicForm,
     ProductPriceDeliveryForm,
-    ProductClassificationForm,
     ProductMediaForm,
     LinkedProductsSetEditor,
-    ProductVariableFeaturesForm,
-    ProductVariationsListForm,
     ProductAttachmentsSetEditor,
   },
 
@@ -200,10 +160,36 @@ export default {
     id: {
       type: String
     },
+
+    parentId: {
+      type: String,
+    },
   },
 
   data () {
     return {
+      productTabs: [
+        {
+          title: 'Basic Data',
+          slug: 'tab-basic-data',
+        },
+
+        {
+          title: 'Price&Delivery',
+          slug: 'tab-price-delivery',
+        },
+
+        {
+          title: 'Media',
+          slug: 'tab-media',
+        },
+
+        {
+          title: 'Linked Products',
+          slug: 'tab-linked-products',
+        },
+      ],
+
       tabsModel: 'tab-basic-data',
       mediaTabsModel: '#media-tab-image',
 
@@ -330,56 +316,12 @@ export default {
       return isNewForm(state) && slug != 'tab-basic-data'
     },
 
-    productTabs (item) {
-      let tabs = [
-          {
-            title: 'Basic Data',
-            slug: 'tab-basic-data',
-          },
-
-          {
-            title: 'Price&Delivery',
-            slug: 'tab-price-delivery',
-          },
-
-          {
-            title: 'Classification',
-            slug: 'tab-classification',
-          },
-
-          {
-            title: 'Media',
-            slug: 'tab-media',
-          },
-
-          {
-            title: 'Linked Products',
-            slug: 'tab-linked-products',
-          },
-        ]
-      if(item && isVariableProduct(item)){
-        tabs.push(
-          {
-            title: 'Variable Features',
-            slug: 'tab-variable-features',
-          },
-
-          {
-            title: 'Variations',
-            slug: 'tab-variations',
-          },
-        )
-      }
-
-      return tabs
-    },
-
     isVariableProduct (prod) {
       return isVariableProduct(prod)
     },
 
-    editVariation (variationId) {
-      this.$emit('edit-variation', { id: variationId, parentId: this.id })
+    editVariation (val) {
+      this.$emit('edit-variation', val)
     },
   },
 

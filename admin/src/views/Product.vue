@@ -7,7 +7,6 @@
 
 <script>
 import ProductEditor from '@/components/editors/ProductEditor'
-import { groupEventsHandler } from '@common/utils'
 
 export default {
   components: {
@@ -20,10 +19,13 @@ export default {
 
   computed: {
     onEditorEvents () {
-      const showList = groupEventsHandler(['item-deleted', 'cancel'], this.showList)
-      const newItem = {'new-item': this.onNewItem }
-      const itemCreated = {'item-created': this.onItemCreated}
-      return Object.assign({}, newItem, itemCreated, showList)
+      return {
+        'item-deleted': this.showList,
+        'cancel': this.showList,
+        'new-item': this.onNewItem,
+        'item-created': this.onItemCreated,
+        'edit-variation': this.onEditVariation,
+      }
     },
   },
 
@@ -47,6 +49,11 @@ export default {
 
     onItemCreated (item) {
       this.$router.push({path: `/product-edit/${item.id}`})
+    },
+
+    onEditVariation (val) {
+      let {id, parentId} = val
+      this.$router.push({path: `/product-variation-edit/${id}/${parentId}`})
     },
   },
 }

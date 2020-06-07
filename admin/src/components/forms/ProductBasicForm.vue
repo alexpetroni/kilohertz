@@ -20,6 +20,7 @@
 
           <v-col cols="12" md="1">
             <v-text-field
+            v-if="!isProductVariation"
             label="Display order"
             v-model.number="editedItem.displayOrder"
             ></v-text-field>
@@ -62,6 +63,7 @@
           ></v-text-field>
         </v-col>
 
+        <template v-if="!isProductVariation">
         <v-col cols="12" md="3">
           <BrandSelect
           v-model="editedItem.brand"
@@ -79,6 +81,7 @@
           required
           ></v-text-field>
         </v-col>
+        </template> <!-- template !isProductVariation -->
 
         <v-col sm="12">
         <v-textarea
@@ -161,6 +164,7 @@
         ></v-text-field>
       </v-col>
 
+      <template v-if="!isProductVariation">
       <v-col sm="12">
         <base-subheading>
           Preview Labels
@@ -172,8 +176,9 @@
           <ProductPreviewFieldForm :item="item"/>
         </v-col>
       </template>
+    </template> <!-- template !isProductVariation -->
 
-      <v-col class="text-center">
+      <v-col sm="12" class="text-center">
         <FormSubmitButtons
         :disabled="submitDisabled"
         :formState="formState"
@@ -192,7 +197,7 @@ import FormItemMixin from '@common/mixins/FormItemMixin'
 import ProductPreviewFieldForm from '@/components/forms/mini/ProductPreviewFieldForm'
 import BrandSelect from '@/components/selectors/BrandSelect'
 import FormSubmitButtons from '@common/components/FormSubmitButtons'
-// import { productTypes } from '@common/utils'
+import { isProductVariation } from '@common/utils'
 
 import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.snow.css'
@@ -235,6 +240,10 @@ export default {
           {text: "Simple", value: "SIMPLE"},
           {text: "Variable", value: "VARIABLE"},
         ]
+    },
+
+    isProductVariation () {
+      return isProductVariation(this.editedItem)
     },
   },
 }
