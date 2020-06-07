@@ -24,7 +24,7 @@
               </v-icon>
             </slot>
             <v-spacer></v-spacer>
-            <v-toolbar-title>{{ title }}</v-toolbar-title>
+            <v-toolbar-title v-html="title"></v-toolbar-title>
             <v-spacer></v-spacer>
 
             <slot

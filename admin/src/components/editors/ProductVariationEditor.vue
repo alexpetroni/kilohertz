@@ -16,9 +16,11 @@
         <template v-slot:heading>
           <FormTopBar
             addNewTitle="Add New Product"
+            editTitle="Edit Variation"
             v-bind="modelState"
             v-on="Object.assign({}, crudEvents, pipeUp('new-item', 'cancel'))"
-            :name="item.name"
+            :name="variationName(item)"
+            :menuItems="topBarMenuItems"
           />
           </template>
 
@@ -206,6 +208,10 @@ export default {
         { name: 'Cross Sells', linkType: 'cross-sells' },
         { name: 'Replacement Material', linkType: 'replacement-material' },
       ],
+
+      topBarMenuItems: [
+        {title: "Reload", emit: 'reload-item', icon: "mdi-reload"},
+      ],
     }
   },
 
@@ -323,6 +329,10 @@ export default {
     editVariation (val) {
       this.$emit('edit-variation', val)
     },
+
+    variationName (item) {
+      return `${item.name} <small>(${item.sku})</small>`
+    }
   },
 
   watch: {

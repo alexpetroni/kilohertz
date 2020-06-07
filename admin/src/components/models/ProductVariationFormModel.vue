@@ -5,7 +5,7 @@ import BaseItemFormModel from '@common/models/BaseItemFormModel'
 import Product from '@common/graphql/product/Product.gql'
 import CreateProduct from '@common/graphql/product/CreateProduct.gql'
 import UpdateProductVariation from '@common/graphql/product/UpdateProductVariation.gql'
-import DeleteProduct from '@common/graphql/product/DeleteProduct.gql'
+import DeleteProductVariation from '@common/graphql/product/DeleteProductVariation.gql'
 
 export default {
   extends: BaseItemFormModel,
@@ -100,8 +100,6 @@ export default {
 
     async updateItem (item, key) {
       let input = this.parseItemForInput(item)
-      console.log('input updateItem %o', item )
-      console.log('variables updateItem %o', {...key, input } )
       let { data: { updateProductVariation } } = await this.$apollo.mutate({
         mutation: UpdateProductVariation,
         variables: {...key, input },
@@ -110,11 +108,11 @@ export default {
     },
 
     async deleteItem (key) {
-      let { data: { deleteProduct } } = await this.$apollo.mutate({
-        mutation: DeleteProduct,
+      let { data: { deleteProductVariation } } = await this.$apollo.mutate({
+        mutation: DeleteProductVariation,
         variables: key,
       })
-      return deleteProduct
+      return deleteProductVariation
     },
 
     parseItemForInput (item) {
