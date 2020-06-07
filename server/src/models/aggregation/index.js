@@ -72,7 +72,6 @@ function parseMatchRegexFilters (search, searchPaths = 'name', searchOptions = '
 // type field String | Array
 // type order String | Array
 function sort (field, sortDesc) {
-  console.log('sort field %s sortDesc %s  ', field, sortDesc)
   // default
   if(!field || isEmptyArray(field)) {
     return { "$sort": { 'createdAt' : -1 } }
@@ -86,11 +85,9 @@ function sort (field, sortDesc) {
   }
 
   let sortObj = field.reduce((acc, e, index) => {
-    acc[e] = sortDesc[index] ? -1 : 1
-    return acc
-  }, {})
-  console.log('sortObj %o ', sortObj)
-  // const sort = order == 'DESC' ? -1 : 1
+      acc[e] = sortDesc[index] ? -1 : 1
+      return acc
+    }, {})
   return { "$sort": sortObj }
 }
 

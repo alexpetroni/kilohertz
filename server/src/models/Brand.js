@@ -35,7 +35,6 @@ const searchBrands = async function (args = {}) {
 }
 
 const paginatedBrands = async function (args = {}) {
-  console.log('%o', args)
   // defaults
   const {
     page, itemsPerPage,

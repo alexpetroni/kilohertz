@@ -173,7 +173,6 @@ export default {
     },
 
     productPrice (item) {
-      console.log('price item %o', item)
       return item.price
     },
   },

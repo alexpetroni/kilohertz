@@ -71,7 +71,6 @@ const updateFamily = async function (id, input) {
   if(uniqueFieldsProvided.length){
     await Promise.all(uniqueFieldsProvided.map(e => utils.checkUniqueFieldValue(Family, e, input[e], id)))
   }
-  console.log('update input %o', input)
   await Family.findByIdAndUpdate(id, input)
   return await family(id)
 }
