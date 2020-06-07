@@ -107,9 +107,26 @@
             <v-tab-item
             value="tab-linked-products"
             >
-              <LinkedProductsSetEditor
-              :id="id"
-              />
+            <!-- ================ LINKED PRODUCTS TABS ================= -->
+          <v-tabs vertical v-model="mediaTabsModel">
+            <v-tab v-for="t in linkedProductsTabs"
+            :key="t.linkType"
+            :href="`#linked-tab-${t.linkType}`"
+            >
+              {{ t.name }}
+            </v-tab>
+
+              <v-tab-item
+                 v-for="t in linkedProductsTabs"
+                 :key="t.linkType"
+                 :value="`linked-tab-${t.linkType}`"
+               >
+                <LinkedProductsSetEditor
+                :id="id"
+                :linkType="t.linkType"
+                />
+              </v-tab-item>
+            </v-tabs>
             </v-tab-item>
 
 
@@ -196,6 +213,12 @@ export default {
               {title: 'Manuals', component: 'ProductAttachmentsSetEditor', name: 'manuals'},
               {title: 'Layouts', component: 'ProductAttachmentsSetEditor', name: 'layouts'}
             ],
+
+      linkedProductsTabs: [
+        { name: 'Accessories', linkType: 'accessories' },
+        { name: 'Cross Sells', linkType: 'cross-sells' },
+        { name: 'Replacement Material', linkType: 'replacement-material' },
+      ],
     }
   },
 

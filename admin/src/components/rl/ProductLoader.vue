@@ -31,7 +31,7 @@ export default {
   },
 
   render() {
-    return this.$scopedSlots.default({ product: this.product })
+    return this.$scopedSlots.default({ product: this.product, loading: this.$apollo.queries.product.loading })
   }
 }
 </script>

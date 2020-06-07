@@ -1,7 +1,7 @@
 <template>
   <LinkedProductsSetFormModel
     :id="id"
-    linkType="cross-sell"
+    :linkType="linkType"
     v-slot="{item, modelState, crudEvents}"
     v-on="pipeUp('item-created', 'item-deleted')"
     :reloadAfterUpdate="true"
@@ -29,8 +29,14 @@ export default {
 
   props: {
     id: {
-      type: String
+      type: String,
+      required: true,
     },
+
+    linkType: {
+      type: String,
+      required: true,
+    }
   },
 
   methods: {

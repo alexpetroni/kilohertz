@@ -31,12 +31,14 @@ export default {
       let { data: { family } } = await this.$apollo.query({
         query: Family,
         variables: key,
+        fetchPolicy: 'network-only'
       })
       return family
     },
 
     async updateItem (item, key) {
       let input = this.parseItemForInput(item)
+      console.log('input %o', input)
       let { data: { updateFamily } } = await this.$apollo.mutate({
         mutation: UpdateFamily,
         variables: {...key, input },
@@ -54,6 +56,22 @@ export default {
 
     parseItemForInput (item) {
       return deleteObjFields(item, ['__typename'])
+    },
+
+    parseResult (result) {
+      let item = this.parseItemToMirrorDefaultModel(result)
+      if(item.products && item.products.length){
+        item.products = item.products.map(e => e.id)
+      }
+      return item
+    },
+
+    parseLoadResult (result) {
+      return this.parseResult(result)
+    },
+
+    parseUpdateResult (result) {
+      return this.parseResult(result)
     },
 
   },

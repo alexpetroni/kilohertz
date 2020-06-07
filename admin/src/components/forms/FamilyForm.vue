@@ -28,7 +28,7 @@
               <v-text-field v-model="editedItem.name" label="Name"></v-text-field>
             </v-col>
 
-            <!-- VF Items form -->
+            <!-- Family components form -->
             <template v-if="isEditForm">
 
             <v-col
@@ -38,53 +38,24 @@
             flat
             >
               <v-toolbar flat>
-                <v-toolbar-title>{{ item.name }} Features</v-toolbar-title>
+                <v-toolbar-title>{{ item.name }} Members</v-toolbar-title>
               </v-toolbar>
 
-              <VariableFeatureItemForm
-                :type="editedItem.type"
-                :item="editedVFItem"
-                :formState="VFItemState"
-                @create-item="onAddItem"
-                @cancel="setNewVFItem"
-                ref="vfEditor"
+              <ProductSearch
+                @selected="onAddProduct"
               />
 
-
-
               <v-list v-if="hasItems">
-                <draggable v-model="editedItem.items" handle=".handle" @change="onReorder">
+                <draggable v-model="editedItem.products" handle=".handle" @change="onReorder">
                 <v-list-item
-                  v-for="(item, index) in editedItem.items"
-                  :key="item.name"
+                  v-for="id in editedItem.products"
+                  :key="id"
                 >
-
-                  <v-list-item-icon>
-                    <v-btn
-                      v-if="isReordable"
-                      title="Drag to reorder"
-                      icon
-                      class="handle"
-                    >
-                      <v-icon>mdi-drag-vertical</v-icon>
-                    </v-btn>
-
-                    <template v-if="isColorType">
-                    <v-avatar size="28" :color="item.value" class="vfColor mt-2"></v-avatar>
-                    </template>
-                  </v-list-item-icon>
-
-                <v-list-item-content>
-                  <v-list-item-title v-text="item.name"></v-list-item-title>
-                </v-list-item-content>
-
-                  <v-list-item-action>
-                    <div>
-                    <EditBtn @click="editVfItem(index)"/>
-                    <DeleteBtn @click="deleteVfItem(index)"/>
-                  </div>
-                  </v-list-item-action>
-
+                  <ProductFamilyItemForm
+                  :id="id"
+                  @delete-item="onDeleteItem(id)"
+                  :reordable="reordable"
+                  />
                 </v-list-item>
                 </draggable>
               </v-list>
@@ -127,10 +98,8 @@ import draggable from 'vuedraggable'
 import FormItemMixin from '@common/mixins/FormItemMixin'
 import FormTopBar from '@common/components/FormTopBar'
 import FormSubmitButtons from '@common/components/FormSubmitButtons'
-import VariableFeatureItemForm from '@/components/forms/mini/VariableFeatureItemForm'
-import { FormState, isVfColorType } from '@common/utils'
-import EditBtn from '@common/components/btn/EditBtn'
-import DeleteBtn from '@common/components/btn/DeleteBtn'
+import ProductSearch from '@/components/selectors/ProductSearch'
+import ProductFamilyItemForm from '@/components/forms/mini/ProductFamilyItemForm'
 import ConfirmationDialog from '@common/components/ConfirmationDialog'
 
 export default {
@@ -140,34 +109,17 @@ export default {
     draggable,
     FormTopBar,
     FormSubmitButtons,
-    EditBtn,
-    DeleteBtn,
-    VariableFeatureItemForm,
+    // EditBtn,
+    // DeleteBtn,
+    ProductSearch,
+    ProductFamilyItemForm,
     ConfirmationDialog,
   },
 
   data () {
     return {
-      editedVFItemIndex: -1,
-      editedVFItem: this.getDefaultVFItem(),
-      VFItemState: FormState.NEW,
-
       deleteItemDialog: false,
-      deleteItemIndex: null,
-
-      vfTypes: [
-        {text: "Text", value: "TEXT"},
-        {text: "Color", value: "COLOR_HEX"},
-        {text: "SVG", value: "SVG"},
-      ],
-
-      slugFieldDisabled: true,
-      editSlug: false,
-
-      rules: {
-        required: value => !!value || 'Required.',
-        min: v => v.length >= 3 || 'Min 3 characters',
-      },
+      deleteItemId: null,
     }
   },
 
@@ -177,79 +129,43 @@ export default {
     },
 
     hasItems () {
-      return this.editedItem.items && this.editedItem.items.length
+      return this.editedItem.products && this.editedItem.products.length
     },
 
-    isColorType () {
-      return isVfColorType(this.editedItem.type)
-    },
-
-    isReordable () {
-      return this.editedItem.items.length > 1
+    reordable () {
+      return this.editedItem.products.length > 1
     }
   },
 
   methods: {
-    toggleSlugField () {
-      this.slugFieldDisabled = !this.slugFieldDisabled
-    },
-
-    onAddItem (val) {
-      val.name = val.name.trim()
-      if(!val.name) return
-      if(this.editedItem.items.find(e => e.name.toLowerCase() == val.name.toLowerCase())) {
-        return alert("A feature with this name already exists.")
+    onAddProduct (val) {
+      const index = this.editedItem.products.indexOf(this.deleteItemId)
+      if(index >= 0) {
+        this.editedItem.products.splice(index, 1)
       }
-      this.editedItem.items.push(val)
-      this.setNewVFItem()
-    },
-
-    getDefaultVFItem () {
-      return {
-      name: '',
-      slug: '',
-      value: '#FFFFFF',
-      description: '',
-      }
-    },
-
-    setNewVFItem () {
-      this.editedVFItemIndex = -1
-      this.editedVFItem = this.getDefaultVFItem()
-      this.VFItemState = FormState.NEW
+      this.editedItem.products.push(val)
     },
 
     onReorder () {
+      console.log("this.editedItem %o", this.editedItem.products)
       this.$emit('reorder-list', this.editedItem)
     },
 
-    editVfItem (index) {
-      if(!this.hasItems || !this.editedItem.items[index]) return
-      this.editedVFItemIndex = index
-      this.editedVFItem = this.editedItem.items[index]
-      this.VFItemState = FormState.EDIT
-      this.$vuetify.goTo(this.$refs.vfEditor)
-    },
-
-    deleteVfItem (index) {
-      if(!this.hasItems || !this.editedItem.items[index]) return
-      this.deleteItemIndex = index
+    onDeleteItem (id) {
+      this.deleteItemId = id
       this.deleteItemDialog = true
     },
 
     onDeleteItemConfirm () {
-      this.editedItem.items.splice(this.deleteItemIndex, 1)
+      const index = this.editedItem.products.indexOf(this.deleteItemId)
+      if(index >=0){
+        this.editedItem.products.splice(index, 1)
+      }
     },
 
     resetDeleteItemDialog () {
-      this.deleteItemIndex = null
+      this.deleteItemId = null
     },
   },
 }
 </script>
-<style lang="scss" scoped>
-.vfColor {
-  border: solid 1px;
-  border-color: #757575 !important
-}
-</style>

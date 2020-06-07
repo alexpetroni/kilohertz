@@ -71,7 +71,7 @@ const updateFamily = async function (id, input) {
   if(uniqueFieldsProvided.length){
     await Promise.all(uniqueFieldsProvided.map(e => utils.checkUniqueFieldValue(Family, e, input[e], id)))
   }
-
+  console.log('update input %o', input)
   await Family.findByIdAndUpdate(id, input)
   return await family(id)
 }
@@ -135,8 +135,21 @@ function familyProductsAgg () {
                 {"$addFields": { id: "$_id"}},
                 { "$project": { _id: 0, createdAt: 0, updatedAt:0 }},
               ],
-              as: "products"
-        }}
+              as: "productsUnordered"
+        }},
+
+        // reorder the Products as they are specified in products Array
+        {
+          "$addFields": {
+            "products": {
+              $map: {
+                input: "$products",
+                as: "p",
+                in: { $arrayElemAt: [ "$productsUnordered", { "$indexOfArray": [ "$productsUnordered.id", "$$p" ] } ] }
+              }
+            },
+          }
+        },
   ]
 }
 
