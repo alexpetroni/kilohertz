@@ -4,7 +4,7 @@ import BaseItemFormModel from '@common/models/BaseItemFormModel'
 
 import Categories from '@common/graphql/category/Categories.gql'
 import CreateCategory from '@common/graphql/category/CreateCategory.gql'
-import UpdateCategory from '@common/graphql/category/UpdateCategory.gql'
+import UpdateCategories from '@common/graphql/category/UpdateCategories.gql'
 import DeleteCategory from '@common/graphql/category/DeleteCategory.gql'
 
 export default {
@@ -32,13 +32,13 @@ export default {
       return categories
     },
 
-    async updateItem (item, key) {
+    async updateItem (item) {
       let input = this.parseItemForInput(item)
-      let { data: { updateCategory } } = await this.$apollo.mutate({
-        mutation: UpdateCategory,
-        variables: {...key, input },
+      let { data: { updateCategories } } = await this.$apollo.mutate({
+        mutation: UpdateCategories,
+        variables: { inputArr: input },
       })
-      return updateCategory
+      return updateCategories
     },
 
     async deleteItem (key) {
@@ -50,7 +50,7 @@ export default {
     },
 
     parseItemForInput (item) {
-      return deleteObjFields(item, ['__typename'])
+      return deleteObjFields(item, ['__typename', 'createdAt', 'updatedAt'])
     },
 
   },

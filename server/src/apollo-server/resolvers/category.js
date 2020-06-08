@@ -26,6 +26,10 @@ const resolvers = {
       return context.models.Category.updateCategory(id, input)
     },
 
+    updateCategories(_, { inputArr }, context){
+      return context.models.Category.updateCategories(inputArr)
+    },
+
     deleteCategory(_, { id }, context){
       return context.models.Category.deleteCategory(id)
     },

@@ -8,9 +8,16 @@ const category = async function (id) {
   return (await Category.aggregate(agg))[0]
 }
 
-const categories = async function (args) {
+const categories = async function (args = {}) {
+  const {
+    search, searchFields = ['name', 'slug'], searchOptions = 'i',
+    sortBy='order',
+    sortDesc,
+    rawPrice,
+  } = args
+  let sortOrder = sortDesc ? -1 : 1
   //let agg = [aggExpr.matchByIdArr(idArr), aggExpr.addId()]
-  return await Category.find({})
+  return await Category.find({}).sort([[sortBy, sortOrder]])
 }
 
 const searchCategories = async function (args = {}) {
@@ -71,6 +78,15 @@ const updateCategory = async function (id, input) {
   return await category(id)
 }
 
+// update only order for now
+const updateCategories = async function (inputArr) {
+  let promArr = inputArr.map(e => {
+    return Category.findByIdAndUpdate(e.id, {order: e.order})
+  })
+  await Promise.all(promArr)
+  return await categories
+}
+
 const deleteCategory = async function (id) {
   let category = await Category.findById(id)
   await Category.findByIdAndRemove(id)
@@ -126,4 +142,6 @@ module.exports = {
   updateCategory,
   deleteCategory,
   deleteCategories,
+
+  updateCategories,
 }

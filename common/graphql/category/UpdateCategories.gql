@@ -1,0 +1,6 @@
+#import "./fragments/CategoryFragment.gql"
+mutation updateCategories ($inputArr: [CategoryInput!]!) {
+  updateCategories(inputArr: $inputArr){
+    ...CategoryData
+  }
+}

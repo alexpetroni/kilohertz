@@ -10,8 +10,6 @@
     title="Categories Tree"
     class="px-5 py-3 mx-auto"
   >
-  <v-alert v-if="error" type="error">{{ error }}</v-alert>
-
 
 
         <v-progress-linear indeterminate v-if="loading"></v-progress-linear>
@@ -128,6 +126,9 @@ export default {
     },
 
     onReorder () {
+      this.editedItem.forEach((e, index) => {
+        e.order = index + 1
+      })
       this.$emit('reorder-list', this.editedItem)
     },
 

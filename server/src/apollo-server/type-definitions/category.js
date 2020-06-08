@@ -11,6 +11,7 @@ const typeDef = `
   extend type Mutation {
     createCategory(input: CategoryInput!): Category
     updateCategory(id: ID!, input: CategoryInput!): Category
+    updateCategories(inputArr: [CategoryInput!]!): [Category!]!
     deleteCategory(id: ID!): ID
     deleteCategories(idArr: [ID!]!): [ID!]!
   }
