@@ -161,7 +161,8 @@ export default {
 
   methods: {
     onFileSelect (val) {
-      this.$emit('input', val)
+      let files = this.multiple ? [...this.item, ...val] : val
+      this.$emit('input', files)
     },
 
     onDeleteImg (val) {
