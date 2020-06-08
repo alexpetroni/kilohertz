@@ -6,7 +6,7 @@
     color="white"
   >
     <v-container>
-      <v-toolbar-title>My Logo</v-toolbar-title>
+      <v-toolbar-title class="link" @click="showHome">Kilohertz</v-toolbar-title>
     </v-container>
   </v-app-bar>
 </template>
@@ -15,5 +15,11 @@
 
   export default {
     name: 'AppBar',
+
+    methods: {
+      showHome () {
+        this.$router.push({path: '/'})
+      }
+    }
   }
 </script>

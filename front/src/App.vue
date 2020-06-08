@@ -2,7 +2,9 @@
   <v-app>
     <AppBar />
     <v-content>
+      <v-container>
         <router-view></router-view>
+      </v-container>
     </v-content>
     <Footer />
   </v-app>
@@ -25,3 +27,9 @@ export default {
   }),
 };
 </script>
+
+<style>
+.link {
+  cursor: pointer;
+}
+</style>

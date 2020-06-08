@@ -322,7 +322,10 @@
         />
       </v-col>
 
-      <!-- <v-col
+      <!-- ============================================= DEVELOPMENT ============================================= -->
+      <template v-if="isDevelopmentMode">
+
+      <v-col
         cols="12"
       >
         <div
@@ -613,12 +616,16 @@
             </span>
           </template>
         </base-material-card>
-      </v-col> -->
+      </v-col>
+
+    </template>
     </v-row>
   </v-container>
 </template>
 
 <script>
+
+
   export default {
     name: 'DashboardDashboard',
 
@@ -817,6 +824,10 @@
     computed: {
       totalSales () {
         return this.sales.reduce((acc, val) => acc + val.salesInM, 0)
+      },
+
+      isDevelopmentMode () {
+        return process.env.NODE_ENV == 'development'
       },
     },
 

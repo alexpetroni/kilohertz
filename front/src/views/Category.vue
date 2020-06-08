@@ -1,0 +1,93 @@
+<template>
+  <CategoryFullRL
+  :id="id"
+  v-slot="{ item }"
+  >
+
+  <v-container>
+    <v-row v-if="item">
+       <v-col cols="12" class="display-3">
+      {{ item.category.name}}
+      </v-col>
+    </v-row>
+
+
+    <PaginatedProducts
+    />
+
+
+    <v-row v-if="item">
+      <v-col cols="12" class="display-3 mt-6">
+        {{ metaTitle(item) }}
+      </v-col>
+      <v-col cols="12" class="display-1">
+        {{ metaDescription(item) }}
+      </v-col>
+    </v-row>
+
+    <v-row v-if="item">
+      <v-col
+      v-for="(h, index) in highlights(item)"
+      :key="index"
+      xs="12" sm="4" md="3"
+      >
+      <v-card>
+        <v-card-title >
+          {{ h.title }}
+        </v-card-title>
+        <v-card-text>
+          {{ h.content }}
+        </v-card-text>
+      </v-card>
+     </v-col>
+    </v-row>
+  </v-container>
+  </CategoryFullRL>
+</template>
+
+<script>
+import CategoryFullRL from '@/components/rl/CategoryFullRL'
+import PaginatedProducts from '@/components/layouts/PaginatedProducts'
+
+export default {
+  name: 'Category',
+
+  components: {
+    CategoryFullRL,
+    PaginatedProducts,
+  },
+
+  data: () => ({
+    id: null,
+  }),
+
+  computed: {
+
+  },
+
+  methods: {
+    highlights (item) {
+      console.log('item %o', item)
+      let hArr = item && item.categoryMeta && item.categoryMeta.highlights
+      return hArr ? hArr : []
+    },
+
+    metaTitle (item) {
+      return item && item.categoryMeta && item.categoryMeta.title
+    },
+
+    metaDescription (item) {
+      return item && item.categoryMeta && item.categoryMeta.description
+    }
+  },
+
+  watch: {
+    '$route.params.id': {
+      handler: function (val) {
+        this.id = val
+      },
+      immediate: true
+    },
+  },
+}
+</script>

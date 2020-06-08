@@ -1,0 +1,13 @@
+#import "./fragments/CategoryFragment.gql"
+#import "./../category-meta/fragments/CategoryMetaFragment.gql"
+query categoryWithMeta ($id: ID!) {
+
+  category(id: $id){
+    ...CategoryData
+  }
+
+  categoryMeta(id: $id){
+    ...CategoryMetaData
+  }
+  
+}

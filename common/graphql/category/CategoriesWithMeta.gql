@@ -1,0 +1,15 @@
+#import "./fragments/CategoryFragment.gql"
+#import "./../category-meta/fragments/CategoryMetaFragment.gql"
+
+query categoriesWithMeta ($args: JSON) {
+  categoriesWithMeta (args: $args){
+    meta {
+    ... CategoryMetaData
+    }
+
+    category {
+      ...CategoryData
+    }
+
+  }
+}

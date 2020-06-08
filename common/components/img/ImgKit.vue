@@ -27,7 +27,10 @@ import {IKImage} from "imagekitio-vue"
 
       transformation: {
         type: Array
-      }
+      },
+
+      
+
     },
   }
 </script>
