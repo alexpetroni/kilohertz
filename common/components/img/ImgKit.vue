@@ -1,7 +1,7 @@
 <template>
   <IKImage
-  publicKey="public_+9disIZyM7bZUFcu7H1CfrIcSsU="
-  urlEndpoint="https://ik.imagekit.io/kilohertz/"
+  publicKey="publicKey"
+  urlEndpoint="urlEndpoint"
   :src="src"
   :path="path"
   :transformation="transformation"
@@ -9,9 +9,12 @@
 </template>
 
 <script>
+import ImgKitMixin from '@common/components/img/ImgKitMixin'
 import {IKImage} from "imagekitio-vue"
 
   export default {
+    mixins: [ ImgKitMixin ],
+
     components: {
       IKImage,
     },
@@ -29,7 +32,7 @@ import {IKImage} from "imagekitio-vue"
         type: Array
       },
 
-      
+
 
     },
   }

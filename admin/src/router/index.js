@@ -153,9 +153,9 @@ export default new Router({
         },
 
         {
-          name: 'Media',
-          path: 'media-edit/:id?',
-          component: () => import('@/views/AttachmentsList'),
+          name: 'Attachment',
+          path: 'attachment-edit/:id?',
+          component: () => import('@/views/Attachment'),
         },
 
 

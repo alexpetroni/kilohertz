@@ -1,7 +1,7 @@
 <template>
   <IKContext
-    publicKey="public_+9disIZyM7bZUFcu7H1CfrIcSsU="
-    urlEndpoint="https://ik.imagekit.io/kilohertz/"
+  publicKey="publicKey"
+  urlEndpoint="urlEndpoint"
     authenticationEndpoint="http://localhost:4000/imagekitauth">
       <IKUpload :fileName="kilo" :onSuccess="onSuccess" :onError="onError"/>
   </IKContext>
@@ -9,8 +9,11 @@
 
 <script>
 import {IKContext, IKUpload} from "imagekitio-vue"
+import ImgKitMixin from '@common/components/img/ImgKitMixin'
 
   export default {
+    mixins: [ ImgKitMixin ],
+
     components: {
       IKContext,
       IKUpload,
