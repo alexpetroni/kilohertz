@@ -11,6 +11,7 @@
           v-bind="modelState"
           v-on="formEvents"
           :name="item.name"
+          :menuItems="topBarMenuItems"
         />
         </template>
 
@@ -20,9 +21,19 @@
 
           <v-row justify="center">
             <v-col
-            cols="12"
+            cols="9"
             >
               <ImgKit :src="item.url" />
+            </v-col>
+
+            <v-col cols="3">
+              <ul style="list-style: none;">
+              <li>Type: {{ item.type }}</li>
+              <li>File type: {{ item.fileType }}</li>              
+              <li>Thumbnail: <a :href="item.thumbnail" target="_blank"><img :src="item.thumbnail" style="vertical-align: middle;"/></a></li>
+              <li>URL: <a :href="item.url" target="_blank">{{ item.url }}</a></li>
+              <li>Tags: {{ item.tags }}</li>
+              </ul>
             </v-col>
 
 
@@ -54,6 +65,12 @@ export default {
     FormTopBar,
     FormSubmitButtons,
     ImgKit,
+  },
+
+  data () {
+    return {
+      topBarMenuItems: [{title: "Reload", emit: 'reload-item', icon: "mdi-reload"}],
+    }
   },
 
   computed: {

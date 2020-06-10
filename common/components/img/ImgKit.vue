@@ -1,7 +1,7 @@
 <template>
   <IKImage
-  publicKey="publicKey"
-  urlEndpoint="urlEndpoint"
+  :publicKey="publicKey"
+  :urlEndpoint="urlEndpoint"
   :src="src"
   :path="path"
   :transformation="transformation"
@@ -10,7 +10,7 @@
 
 <script>
 import ImgKitMixin from '@common/components/img/ImgKitMixin'
-import {IKImage} from "imagekitio-vue"
+import { IKImage } from "imagekitio-vue"
 
   export default {
     mixins: [ ImgKitMixin ],
@@ -31,9 +31,6 @@ import {IKImage} from "imagekitio-vue"
       transformation: {
         type: Array
       },
-
-
-
     },
   }
 </script>

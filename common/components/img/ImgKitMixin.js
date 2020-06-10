@@ -1,6 +1,6 @@
 // ImgKit Mixin
 const mix = {
-  data: function () {
+  data () {
     return {
       publicKey: process.env.VUE_APP_IMGKIT_PUBKEY,
       urlEndpoint: process.env.VUE_APP_IMGKIT_ENDPOINT,
