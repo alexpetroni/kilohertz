@@ -4,17 +4,17 @@ const resolvers = {
       return context.models.Product.product(id, raw)
     },
 
-    // productBy (_, { field, value, args }, context) {
-    //   return context.models.Product.productBy(field, value, args)
-    // },
-    //
-    // productBySku (_, { sku, args }, context) {
-    //   return context.models.Product.productBySku(sku, args)
-    // },
-    //
-    // productBySlug (_, { slug, args }, context) {
-    //   return context.models.Product.productBySlug(slug, args)
-    // },
+    productBy (_, { field, value, args }, context) {
+      return context.models.Product.productBy(field, value, args)
+    },
+
+    productBySku (_, { sku, args }, context) {
+      return context.models.Product.productBySku(sku, args)
+    },
+
+    productBySlug (_, { slug, args }, context) {
+      return context.models.Product.productBySlug(slug, args)
+    },
     //
     // products (_, { idArr, args }, context) {
     //   return context.models.Product.products(idArr, args)

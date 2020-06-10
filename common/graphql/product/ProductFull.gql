@@ -1,0 +1,6 @@
+#import './fragments/ProductFragment.gql'
+query productFull ($field: String!, $value:String!) {
+  productBy(field: $field, value: $value){
+    ... ProductData
+  }
+}

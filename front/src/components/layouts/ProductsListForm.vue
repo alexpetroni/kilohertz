@@ -54,6 +54,7 @@
             >
             <ProductPreviewCard
             :product="item"
+            v-on="pipeUp('show-product')"
             />
           </v-col>
         </v-row>
@@ -66,6 +67,7 @@
 <script>
 import FormPagListMixin from '@common/mixins/FormPagListMixin'
 import ProductPreviewCard from '@/components/layouts/ProductPreviewCard'
+import { pipeEvents } from '@common/utils'
 
 export default {
 
@@ -87,6 +89,9 @@ export default {
   },
 
   methods: {
+    pipeUp (...events) {
+      return pipeEvents(this, ...events)
+    },
   },
 }
 </script>

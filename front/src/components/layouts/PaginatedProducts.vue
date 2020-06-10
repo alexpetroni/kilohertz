@@ -8,7 +8,7 @@
         :totalItems="totalItems"
         :tableOptions="tableOptions"
         v-bind="modelState"
-        v-on="Object.assign({}, tableEvents)"
+        v-on="Object.assign({}, tableEvents, pipeUp('show-product'))"
       />
   </v-row>
   </PaginatedProductsRL>
@@ -17,6 +17,7 @@
 <script>
 import PaginatedProductsRL from '@/components/rl/PaginatedProductsRL'
 import ProductsListForm from '@/components/layouts/ProductsListForm'
+import { pipeEvents } from '@common/utils'
 
 export default {
   name: '',
@@ -81,6 +82,10 @@ export default {
 
     categoryDescription (item) {
       return item.meta && item.meta.description ? item.meta.description : ''
+    },
+
+    pipeUp (...events) {
+      return pipeEvents(this, ...events)
     },
   },
 

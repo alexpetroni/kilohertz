@@ -1,0 +1,38 @@
+#import './fragments/ProductPriceFragment.gql'
+#import './fragments/ProductVariationItemFragment.gql'
+#import './../variable-feature/fragments/VariableFeatureFragment.gql'
+query productBy ($field: String!, $value: String!, $args: JSON) {
+  productBy(field: $field, value: $value, args: $args){
+    createdAt
+    updatedAt
+    name
+    slug
+    sku
+    type
+    published
+    excerpt
+    description
+    displayOrder
+
+    ... ProductPrice
+
+    ... on SimpleProduct {
+      id
+    }
+
+    ... on ProductVariation {
+      parentId
+    }
+
+    ... on VariableProduct {
+      id
+      variableFeatures {
+        ... VariableFeatureData
+      }
+
+      variations {
+        ... ProductVariationItemData
+      }
+    }
+  }
+}

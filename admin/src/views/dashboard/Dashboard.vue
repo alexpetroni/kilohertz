@@ -271,6 +271,7 @@
           icon="mdi-twitter"
           title="Followers"
           value="+245"
+          smallValue="xxx"
           sub-icon="mdi-clock"
           sub-text="Just Updated"
         />

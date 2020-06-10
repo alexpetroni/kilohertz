@@ -327,6 +327,34 @@ const zipFeatures = function (featuresConfig, variableFeatures) {
   })
 }
 
+// split a multi line text delimited by '|' for columns in a multi-dimmendional array
+// ex. a | b \n c | d will produce [[a, b], [c, d]]
+function splitInfoTxt (txt) {
+  if(!txt || typeof txt !== 'string') return []
+  return txt.split(/\r?\n/).map(e => e.split('|'))
+}
+
+// take a text delimited by '|' and return an dataTable object with {headers: [{value: 'f_1'},...] , items: {name: , value: 'f_1'}, ..}
+// used by tehnical product info, packaging etc.
+function splitedTxtToTableData (txt, key='key', fieldPrepend = 'f_') {
+  let twoDimensionalArr = splitInfoTxt(txt)
+  return {
+    items: twoDimensionalArr.map((e, i) => {
+      if(Array.isArray(e)){
+        let obj = e.reduce((acc, item, index) => {
+          acc[fieldPrepend + index] = item
+          return acc
+        }, {})
+        obj[key] = i
+        return obj
+      }
+      return e
+    }),
+
+    headers: Array.isArray(twoDimensionalArr[0]) ? twoDimensionalArr.map((e, index) => ({value: fieldPrepend + index})) : []
+    }
+}
+
 
 export {
   EventBus,
@@ -377,4 +405,7 @@ export {
 
   newItemIdPrefix,
   isGeneratedVariationId,
+
+  splitedTxtToTableData,
+  splitInfoTxt,
 }

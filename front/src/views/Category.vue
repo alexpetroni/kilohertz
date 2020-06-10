@@ -13,6 +13,7 @@
 
 
     <PaginatedProducts
+    @show-product="onShowProduct"
     />
 
 
@@ -44,6 +45,7 @@
 import CategoryFullRL from '@/components/rl/CategoryFullRL'
 import PaginatedProducts from '@/components/layouts/PaginatedProducts'
 import CategoryHighlightCard from '@/components/layouts/CategoryHighlightCard'
+// import { pipeEvents } from '@common/utils'
 
 export default {
   name: 'Category',
@@ -74,7 +76,15 @@ export default {
 
     metaDescription (item) {
       return item && item.categoryMeta && item.categoryMeta.description
-    }
+    },
+
+    onShowProduct (val) {
+      let {field, value} = val
+      console.log('field, value %o %o ', field, value)
+      if(field == 'slug'){
+        this.$router.push({path: `/product/${value}`})
+      }
+    },
   },
 
   watch: {

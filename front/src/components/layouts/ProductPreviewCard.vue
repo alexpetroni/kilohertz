@@ -54,12 +54,6 @@
       </div>
 
       <v-spacer />
-
-      <!-- <span class="caption grey--text font-weight-light">
-        <v-icon small color="orange">mdi-fire</v-icon>
-
-        up to {{ randomDiscount() }}% dicount
-      </span> -->
     </template>
   </base-material-card>
 </template>
@@ -139,7 +133,7 @@ export default {
 
   methods: {
     showProduct () {
-      this.$emit('show-product', this.product.id)
+      this.$emit('show-product', {field: 'slug', value: this.product.slug})
     },
 
     randomPrice () {
