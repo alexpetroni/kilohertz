@@ -6,10 +6,10 @@
     v-if="product"
   >
     <template v-slot:image>
-      <!-- <v-img
-        src="https://demos.creative-tim.com/vue-material-dashboard-pro/img/card-1.jpg"
-      /> -->
-      <div @click="showProduct(product)">
+      <div
+       @click="showProduct(product)"
+       class="link"
+       >
       <ImgKit
       :path="imgPath"
       :transform="[{w: 400}]"
@@ -20,61 +20,28 @@
     </template>
 
     <template v-slot:reveal-actions>
-      <v-tooltip bottom>
+
+      <v-tooltip bottom
+      v-for="(p, index) in previewFields"
+      :key="index"
+      >
         <template v-slot:activator="{ attrs, on }">
           <v-btn
             class="mx-1"
             v-bind="attrs"
             icon
+            :color="p.color"
             v-on="on"
           >
-            <v-icon>mdi-tag-heart-outline</v-icon>
+            <v-icon>{{ p.icon }}</v-icon>
           </v-btn>
         </template>
 
-        <span>{{ tooltipText(product, 0) }}</span>
-      </v-tooltip>
-
-      <v-tooltip bottom>
-        <template v-slot:activator="{ attrs, on }">
-          <v-btn
-            v-bind="attrs"
-            class="mx-1"
-            color="success"
-            light
-            icon
-            v-on="on"
-          >
-            <v-icon class="success--text">
-              mdi-trophy
-            </v-icon>
-          </v-btn>
-        </template>
-
-        <span>{{ tooltipText(product, 1) }}</span>
-      </v-tooltip>
-
-      <v-tooltip bottom>
-        <template v-slot:activator="{ attrs, on }">
-          <v-btn
-            v-bind="attrs"
-            class="mx-1"
-            color="error"
-            light
-            icon
-            v-on="on"
-          >
-            <v-icon class="error--text">
-              mdi-star-face
-            </v-icon>
-          </v-btn>
-        </template>
-
-        <span>{{ tooltipText(product, 2) }}</span>
+        <span>{{ p.title }}</span>
       </v-tooltip>
     </template>
 
-    <v-card-title class="justify-center font-weight-light"  @click="showProduct(product)">
+    <v-card-title class="justify-center font-weight-light link"  @click="showProduct">
       {{ product.name }}
     </v-card-title>
 
@@ -134,7 +101,11 @@ export default {
 
   data () {
     return {
-
+      previewIcons: [
+        { icon: 'mdi-tag-heart-outline', color: 'blue' },
+        { icon: 'mdi-trophy', color: 'success'},
+        { icon: 'mdi-star-face', color: 'error'},
+      ],
     }
   },
 
@@ -153,7 +124,13 @@ export default {
       }
 
       return priceTxt ? priceTxt : 'no price...'
-    }
+    },
+
+    previewFields () {
+      const pf = this.product && this.product.previewFields
+      if(!Array.isArray(pf) || !pf.length) return []
+      return pf.filter(e => !!e.title).map((e, index) => Object.assign({}, this.previewIcons[index], { title: e.title }))
+    },
   },
 
   watch: {
@@ -161,15 +138,6 @@ export default {
   },
 
   methods: {
-    tooltipText (index) {
-      let text = ''
-      const item = this.product
-      if(item && item.meta && item.meta.previewFields && item.meta.previewFields[index] && item.meta.previewFields[index]['title']){
-        text = item.meta.previewFields[index]['title']
-      }
-      return text
-    },
-
     showProduct () {
       this.$emit('show-product', this.product.id)
     },
@@ -183,6 +151,7 @@ export default {
       let disc = 10 + 25 * Math.random()
       return Math.round(disc)
     },
+
 
   },
 

@@ -29,16 +29,11 @@
       <v-col
       v-for="(h, index) in highlights(item)"
       :key="index"
-      xs="12" sm="4" md="3"
+      xs="12" sm="4" md="4"
       >
-      <v-card>
-        <v-card-title >
-          {{ h.title }}
-        </v-card-title>
-        <v-card-text>
-          {{ h.content }}
-        </v-card-text>
-      </v-card>
+        <CategoryHighlightCard
+        :item="h"
+        />
      </v-col>
     </v-row>
   </v-container>
@@ -48,6 +43,7 @@
 <script>
 import CategoryFullRL from '@/components/rl/CategoryFullRL'
 import PaginatedProducts from '@/components/layouts/PaginatedProducts'
+import CategoryHighlightCard from '@/components/layouts/CategoryHighlightCard'
 
 export default {
   name: 'Category',
@@ -55,6 +51,7 @@ export default {
   components: {
     CategoryFullRL,
     PaginatedProducts,
+    CategoryHighlightCard,
   },
 
   data: () => ({
@@ -67,9 +64,8 @@ export default {
 
   methods: {
     highlights (item) {
-      console.log('item %o', item)
       let hArr = item && item.categoryMeta && item.categoryMeta.highlights
-      return hArr ? hArr : []
+      return Array.isArray(hArr) ? hArr : []
     },
 
     metaTitle (item) {
