@@ -112,7 +112,6 @@ import {
   } from '@common/utils'
 
 export default {
-  name: '',
 
   components: {
     ConfirmationDialog,
@@ -266,10 +265,6 @@ export default {
         message: this.deleteConfirmationMsg,
       }
     },
-  },
-
-  watch: {
-
   },
 
   methods: {

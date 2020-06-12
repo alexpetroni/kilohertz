@@ -37,30 +37,11 @@ import ImgKit from '@common/components/img/ImgKit'
 import DeleteBtn from '@common/components/btn/DeleteBtn'
 
 export default {
-  name: '',
 
   components: {
     ProductLoader,
     ImgKit,
     DeleteBtn,
-  },
-
-  directives: {
-
-  },
-
-  filters: {
-
-  },
-
-  extends: {
-
-  },
-
-  mixins: [],
-
-  model: {
-
   },
 
   props: {
@@ -74,31 +55,10 @@ export default {
     }
   },
 
-  data () {
-    return {
-
-    }
-  },
-
-  computed: {
-
-  },
-
-  watch: {
-
-  },
-
   methods: {
     title (product) {
       return product.name
     },
   },
-
-
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-
-</style>

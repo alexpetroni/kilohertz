@@ -11,29 +11,6 @@
 import { isVariableProduct, productPrice } from '@common/utils'
 
 export default {
-  name: '',
-
-  components: {
-
-  },
-
-  directives: {
-
-  },
-
-  filters: {
-
-  },
-
-  extends: {
-
-  },
-
-  mixins: [],
-
-  model: {
-
-  },
 
   props: {
     product: {
@@ -45,12 +22,6 @@ export default {
       type: Number,
       default: 1,
     },
-  },
-
-  data () {
-    return {
-
-    }
   },
 
   computed: {
@@ -83,16 +54,6 @@ export default {
     },
 
   },
-
-  watch: {
-
-  },
-
-  methods: {
-
-  },
-
-
 }
 </script>
 

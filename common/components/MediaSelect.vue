@@ -109,25 +109,6 @@
 import {mediaSelect} from '@/cloudinary-media-library'
 
 export default {
-  name: '',
-
-  components: {
-
-  },
-
-  directives: {
-
-  },
-
-  filters: {
-
-  },
-
-  extends: {
-
-  },
-
-  mixins: [],
 
   model: {
     prop: 'media',
@@ -219,19 +200,13 @@ export default {
     }
   },
 
-  watch: {
-
-  },
-
   methods: {
     openMediaSelect () {
       mediaSelect(this).show({multiple: this.multiple, max_files: this.maxFiles, })
     },
 
     onInsert (val) {
-      console.log('onInsert %o', val)
       let img = this.isSingleImage ? val[0]['public_id'] : this.addToGallery(val.map(e => e.public_id))
-      console.log('change %s', img)
       this.$emit('change', img)
     },
 
@@ -246,7 +221,6 @@ export default {
           gallery.push(e)
         }
       })
-      console.log()
       return gallery
     },
 
@@ -261,13 +235,7 @@ export default {
 
   created () {
     this.$on('insert-media', this.onInsert)
-  }
-
+  },
 
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-
-</style>

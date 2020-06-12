@@ -20,39 +20,9 @@ import ProductsListForm from '@/components/layouts/ProductsListForm'
 import { pipeEvents } from '@common/utils'
 
 export default {
-  name: '',
-
   components: {
     PaginatedProductsRL,
     ProductsListForm,
-  },
-
-  directives: {
-
-  },
-
-  filters: {
-
-  },
-
-  extends: {
-
-  },
-
-  mixins: [],
-
-  model: {
-
-  },
-
-  props: {
-
-  },
-
-  data () {
-    return {
-
-    }
   },
 
   computed: {

@@ -26,7 +26,7 @@ Vue.use(VueRouter)
   },
 
   {
-    path: '/product/:slug?',
+    path: '/product/:slug/:sel?', // sel is the selected product variation sku
     name: 'Product',
     component: () => import('../views/Product.vue')
   },

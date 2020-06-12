@@ -2,23 +2,6 @@
 import BaseFormModelMixin from '@common/mixins/BaseFormModelMixin'
 
 export default {
-  name: '',
-
-  components: {
-
-  },
-
-  directives: {
-
-  },
-
-  filters: {
-
-  },
-
-  extends: {
-
-  },
 
   mixins: [BaseFormModelMixin],
 
@@ -33,10 +16,6 @@ export default {
       // to be provided in component
       gqlUpdateQuery: null,
     }
-  },
-
-  computed: {
-
   },
 
   watch: {

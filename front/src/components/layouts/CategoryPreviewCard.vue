@@ -66,28 +66,9 @@
 import ImgKit from '@common/components/img/ImgKit'
 
 export default {
-  name: '',
 
   components: {
     ImgKit,
-  },
-
-  directives: {
-
-  },
-
-  filters: {
-
-  },
-
-  extends: {
-
-  },
-
-  mixins: [],
-
-  model: {
-
   },
 
   props: {
@@ -127,10 +108,6 @@ export default {
     },
   },
 
-  watch: {
-
-  },
-
   methods: {
     tooltipText (item, index) {
       let text = ''
@@ -162,7 +139,5 @@ export default {
       return Math.round(disc)
     },
   },
-
-
 }
 </script>

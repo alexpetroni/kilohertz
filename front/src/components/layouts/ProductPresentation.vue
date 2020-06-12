@@ -18,7 +18,7 @@
         <ProductVariationConfig
         v-if="isVariableProduct"
         :variableFeatures="variableFeatures"
-        v-model="variationConfig"
+        v-model="selectedConfig"
         />
 
         <ProductPrice
@@ -95,14 +95,10 @@ import ProductTechnicalInformationTable from '@/components/layouts/product/Produ
 import ProductDimensionsTable from '@/components/layouts/product/ProductDimensionsTable'
 import ProductPrice from '@/components/layouts/product/ProductPrice'
 import ProductVariationConfig from '@/components/layouts/product/ProductVariationConfig'
-
-
-
 import { isVariableProduct , PRODUCT_TYPE} from '@common/utils'
 import { isEqual, defaultsDeep, omitBy, isNil } from 'lodash-es'
 
 export default {
-  name: '',
 
   components: {
     ImgKit,
@@ -113,34 +109,19 @@ export default {
     ProductVariationConfig,
   },
 
-  directives: {
-
-  },
-
-  filters: {
-
-  },
-
-  extends: {
-
-  },
-
-  mixins: [],
-
-  model: {
-
-  },
-
   props: {
     product: {
       type: Object,
-
     },
+
+    selectedVariationSku: {
+      type: String,
+    }
   },
 
   data () {
     return {
-      selectedVariationConfig: {},
+      selectedConfig: {},
 
       previewIcons: [
         { icon: 'mdi-tag-heart-outline', color: 'blue' },
@@ -160,22 +141,10 @@ export default {
 
     selectedVariation () {
       const variations = this.product && this.product.variations
-      if(!Array.isArray(variations) || !variations.length) return
-      // console.log('Find a variation, %o', variations.find(e => isEqual(this.variationConfig, e.featuresConfig)))
-      let v = variations.find(e => isEqual(this.variationConfig, e.featuresConfig))
+      if(!this.selectedVariationSku || !Array.isArray(variations) || !variations.length) return
+      let v = variations.find(e => e.sku == this.selectedVariationSku)
       let result = v ? omitBy(v, isNil) : null
-      // console.log('variation after omit, %o', result)
       return result
-    },
-
-    variationConfig: {
-      get () {
-        return this.selectedVariationConfig
-      },
-
-      set (val) {
-        this.selectedVariationConfig = val
-      }
     },
 
     isVariableProduct () {
@@ -185,12 +154,6 @@ export default {
     variableFeatures () {
       return this.isVariableProduct ? this.product.variableFeatures : []
     },
-
-    // previewFields () {
-    //   const pf = this.product && this.product.previewFields
-    //   if(!Array.isArray(pf) || !pf.length) return []
-    //   return pf.filter(e => !!e.title).map((e, index) => Object.assign({}, this.previewIcons[index], { title: e.title }))
-    // },
 
     hasTechnicalInformation () {
       return this.p && this.p.technicalInformation
@@ -228,30 +191,26 @@ export default {
   },
 
   watch: {
+    selectedConfig: function (val) {
+      this.$emit('selection-change', this.getVariationSkuForConfig(val))
+    },
+
+    selectedVariation: function (val) {
+      if(val && val.featuresConfig && !isEqual(this.selectedConfig, val.featuresConfig)) { // sync selected config if needed
+        this.selectedConfig = val.featuresConfig
+      }
+    }
   },
 
   methods: {
-    // showProduct () {
-    //   this.$emit('show-product', {field: 'slug', value: this.product.slug})
-    // },
-    //
-    // randomPrice () {
-    //   let price = 25 + 100 * Math.random()
-    //   return Math.round(price)
-    // },
-    //
-    // randomDiscount () {
-    //   let disc = 10 + 25 * Math.random()
-    //   return Math.round(disc)
-    // },
-
-
+    getVariationSkuForConfig (featuresConfig) {
+      const variations = this.product && this.product.variations
+      if(!Array.isArray(variations) || !variations.length) return
+      let v = variations.find(e => isEqual(featuresConfig, e.featuresConfig))
+      return v && v.sku
+    }
   },
 
 
 }
 </script>
-
-<style scoped lang="sass">
-
-</style>

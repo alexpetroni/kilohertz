@@ -30,7 +30,6 @@ import CategoriesRL from '@/components/rl/CategoriesRL'
 import CategoryPreviewCard from '@/components/layouts/CategoryPreviewCard'
 
 export default {
-  name: '',
 
   components: {
     CategoriesRL,

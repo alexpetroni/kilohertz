@@ -63,28 +63,8 @@ import ImgKit from '@common/components/img/ImgKit'
 import { isVariableProduct } from '@common/utils'
 
 export default {
-  name: '',
-
   components: {
     ImgKit,
-  },
-
-  directives: {
-
-  },
-
-  filters: {
-
-  },
-
-  extends: {
-
-  },
-
-  mixins: [],
-
-  model: {
-
   },
 
   props: {
@@ -125,10 +105,6 @@ export default {
       if(!Array.isArray(pf) || !pf.length) return []
       return pf.filter(e => !!e.title).map((e, index) => Object.assign({}, this.previewIcons[index], { title: e.title }))
     },
-  },
-
-  watch: {
-
   },
 
   methods: {

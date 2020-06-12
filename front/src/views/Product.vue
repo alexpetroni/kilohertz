@@ -1,71 +1,51 @@
 <template>
-  <ProductFullRL
+  <ProductPresentationRL
   field="slug"
   :id="slug"
   v-slot="{ item }"
   >
     <ProductPresentation
     :product="item.productBy"
+    :selectedVariationSku="selectedVariationSku"
+    @selection-change="onSelectionChange"
     />
-  </ProductFullRL>
+  </ProductPresentationRL>
 </template>
 
 <script>
-import ProductFullRL from '@/components/rl/ProductFullRL'
+import ProductPresentationRL from '@/components/rl/ProductPresentationRL'
 import ProductPresentation from '@/components/layouts/ProductPresentation'
 
 export default {
-  name: '',
 
   components: {
-    ProductFullRL,
+    ProductPresentationRL,
     ProductPresentation,
-  },
-
-  directives: {
-
-  },
-
-  filters: {
-
-  },
-
-  extends: {
-
-  },
-
-  mixins: [],
-
-  model: {
-
-  },
-
-  props: {
   },
 
   data () {
     return {
       slug: '',
+      selectedVariationSku: '',
     }
   },
 
-  computed: {
-
-  },
-
   methods: {
-
+    onSelectionChange (sku) {
+      if(sku == this.selectedVariationSku) return
+      let path = `/product/${this.slug}` + (sku ? `/${sku}` : '')
+      this.$router.push({path})
+    },
   },
 
   watch: {
-    '$route.params.slug': {
+    '$route.params': {
       handler: function (val) {
-        this.slug = val
+        this.slug = val.slug
+        this.selectedVariationSku = val.sel
       },
       immediate: true
     },
   },
-
-
 }
 </script>

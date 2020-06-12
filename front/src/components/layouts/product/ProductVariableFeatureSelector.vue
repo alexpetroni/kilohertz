@@ -54,10 +54,6 @@ import   {
   } from '@common/utils'
 
 export default {
-  model: {
-    prop: 'selected',
-    event: 'change'
-  },
 
   props: {
     feature: {
@@ -88,7 +84,6 @@ export default {
     isColorType () {
       return isVfColorType(this.feature.type)
     },
-
   },
 }
 </script>
