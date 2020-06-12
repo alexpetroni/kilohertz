@@ -73,9 +73,9 @@ const resolvers = {
     //   return context.models.Product.productPriceRaw(id)
     // },
 
-    // productVariation (_, { parentId, id }, context) {
-    //   return context.models.Product.productVariation(parentId, id)
-    // },
+    productVariation (_, { parentId, id }, context) {
+      return context.models.Product.productVariation(parentId, id)
+    },
     //
     // productVariableFeatures (_, { id }, context) {
     //   return context.models.Product.productVariableFeatures(id)

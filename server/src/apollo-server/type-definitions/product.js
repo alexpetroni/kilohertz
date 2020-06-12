@@ -10,6 +10,8 @@ const typeDef = `
     searchProducts(args: JSON): [Product!]!
 
     productCategories(field: String!, value: String!): [Category!]!
+
+    productVariation(parentId: ID!, id: ID!): PVItem
   }
 
   extend type Mutation {

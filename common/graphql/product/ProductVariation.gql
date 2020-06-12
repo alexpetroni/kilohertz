@@ -1,0 +1,6 @@
+#import './fragments/PVItemFragment.gql'
+query productVariation(parentId: ID!, id: ID!) {
+  productVariation(parentId: $parentId, id: $id){
+    ... PVItemData
+  }
+}

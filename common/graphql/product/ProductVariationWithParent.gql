@@ -1,0 +1,12 @@
+#import './fragments/PVItemFragment.gql'
+#import './fragments/ProductFragment.gql'
+query productVariationWithParent($parentId: ID!, $id: ID!) {
+
+  productVariation(parentId: $parentId, id: $id){
+    ... PVItemData
+  }
+
+  product(id: $parentId, raw: true) {
+    ... ProductData
+  }
+}

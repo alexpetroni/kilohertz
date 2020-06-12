@@ -1,6 +1,6 @@
 <script>
 import BaseItemFormModel from '@common/models/BaseItemFormModel'
-import ProductFull from '@common/graphql/product/ProductFull.gql'
+import ProductPresentation from '@common/graphql/product/ProductPresentation.gql'
 
 export default {
   extends: BaseItemFormModel,
@@ -25,7 +25,7 @@ export default {
 
     async loadItem (key, fetchPolicy) {
       let { data: { productBy, categoryMeta } } = await this.$apollo.query({
-        query: ProductFull,
+        query: ProductPresentation,
         variables: key,
         fetchPolicy
       })

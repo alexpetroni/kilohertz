@@ -356,6 +356,76 @@ function splitedTxtToTableData (txt, key='key', fieldPrepend = 'f_') {
 }
 
 
+// -------------------- PRICE ---------------------------------
+function productPrice (product, quantity = 1) {
+  if(quantity > 1 && hasVolumePrice(product)){
+    return productPriceForQty(volumePriceArr(product), quantity, product.price)
+  }
+  return product && product.price ? product.price : undefined
+}
+
+function productDiscount (product, quantity = 1) {
+  if(!product || !product.saleIsActive) return 0
+  let price = productPrice(product, quantity)
+  return price && product.regularPrice ? Math.round(((product.regularPrice - price)/product.regularPrice)*100) : 0
+}
+
+function hasVolumePrice (product) {
+  return !!volumePriceArr(product).length
+}
+
+function volumePriceArr (product) {
+  return product && product.volumePrice ? volumePriceStringToArr(product.volumePrice) : []
+}
+
+function variationsHaveMultiplePrices (product) {
+  return isVariableProduct(product) && variationsPricesRange(product).length > 1
+}
+
+// return an array with [minPrice, maxPrice]
+function variationsPricesRange (product) {
+  if(!isVariableProduct(product) || !Array.isArray(product.variations)) return []
+  let sortedArr = product.variations
+  .map(v => v.price)
+  .filter((e, index, arr) => e && arr.indexOf(e) === index) // remove null and duplicates
+  .sort()
+
+  if(sortedArr.length > 1){
+    return [sortedArr[0], sortedArr[sortedArr.length - 1]]
+  }
+  return sortedArr
+}
+
+function variationsMinPrice (product) {
+  return variationsPricesRange(product)[0]
+}
+
+function volumePriceStringToArr (priceStr) {
+  if(priceStr && typeof priceStr === 'string'){
+    let pricesArr = priceStr.split(',').reduce((acc, e) => {
+      let [qty, price] = e.split(':').map(e => parseFloat(e))
+      if(qty && price) {
+        acc.push({qty, price})
+      }
+      return acc
+    }, [])
+
+    return pricesArr.sort((a,b) => a.qty - b.qty)
+  }
+  return []
+}
+
+function productPriceForQty (volumePriceArr, qty, singlePrice) {
+  if(!volumePriceArr || !Array.isArray(volumePriceArr) || qty < 2) return null
+  return volumePriceArr.reduce((acc, e) => {
+    if(e.qty <= qty) {
+      acc = e.price
+    }
+    return acc
+  }, singlePrice)
+}
+
+
 export {
   EventBus,
   FormState,
@@ -402,10 +472,16 @@ export {
   variableFeatureItemFromConfig,
 
   variationsWithFeatures,
+  zipFeatures, 
 
   newItemIdPrefix,
   isGeneratedVariationId,
 
   splitedTxtToTableData,
   splitInfoTxt,
+
+  productPrice,
+  productDiscount,
+  variationsHaveMultiplePrices,
+  variationsMinPrice,
 }

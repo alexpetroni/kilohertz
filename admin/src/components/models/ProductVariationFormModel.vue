@@ -2,8 +2,7 @@
 import { deleteObjFields, PRODUCT_TYPE, SALE_TYPE } from '@common/utils'
 import BaseItemFormModel from '@common/models/BaseItemFormModel'
 
-import Product from '@common/graphql/product/Product.gql'
-import CreateProduct from '@common/graphql/product/CreateProduct.gql'
+import ProductVariationWithParent from '@common/graphql/product/ProductVariationWithParent.gql'
 import UpdateProductVariation from '@common/graphql/product/UpdateProductVariation.gql'
 import DeleteProductVariation from '@common/graphql/product/DeleteProductVariation.gql'
 
@@ -14,6 +13,12 @@ export default {
     parentId: {
       type: String,
       required: true,
+    }
+  },
+
+  data () {
+    return {
+      parent: {}
     }
   },
 
@@ -73,6 +78,8 @@ export default {
         packageWeightUnit: '',
 
         packaging: '',
+
+        featuresConfig: {},
       }
     },
 
@@ -80,22 +87,14 @@ export default {
       return { parentId: this.parentId }
     },
 
-    async createItem (item, key) {
-      let { data: { createProduct } } = await this.$apollo.mutate({
-        mutation: CreateProduct,
-        variables: {input:item, ...key},
-      })
-      return createProduct
-    },
-
     async loadItem (key, fetchPolicy = 'network-only') {
       const variables = Object.assign({}, key, {raw: true})
-      let { data: { product } } = await this.$apollo.query({
-        query: Product,
+      let { data } = await this.$apollo.query({
+        query: ProductVariationWithParent,
         variables,
         fetchPolicy,
       })
-      return product
+      return data
     },
 
     async updateItem (item, key) {
@@ -117,6 +116,19 @@ export default {
 
     parseItemForInput (item) {
       return deleteObjFields(item, ['__typename', 'saleIsActive'])
+    },
+
+    parseLoadResult (data) {
+      this.parent = data.product
+      // const fc = data.productVariation.featuresConfig
+      console.log('parseLoadResult %o', data)
+      let parsed = this.parseItemToMirrorDefaultModel(data.productVariation) // because featuresConfig doesn't have a fixed structure, it will be omitted, so should be added later
+      parsed.featuresConfig = data.productVariation.featuresConfig
+      return parsed
+    },
+
+    extraSlotParams () {
+      return { parent: this.parent }
     },
 
   },

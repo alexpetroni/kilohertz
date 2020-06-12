@@ -225,7 +225,10 @@ export default {
 
   computed: {
     submitDisabled () {
-      return !this.editedItem.name.trim() || !this.editedItem.sku.trim()
+      const name = this.editedItem.name && this.editedItem.name.trim()
+      const sku = this.editedItem.sku && this.editedItem.sku.trim()
+      const type = this.editedItem.type
+      return !(this.isProductVariation ? sku && type : name && sku && type) 
     },
 
     publishedLabel () {

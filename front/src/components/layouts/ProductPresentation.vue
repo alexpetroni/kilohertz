@@ -1,6 +1,5 @@
 <template>
   <v-row>
-
     <template v-if="product">
       <v-col sm="6" md="6">
         <ImgKit
@@ -16,7 +15,16 @@
         <div class="headline pt-5">{{ p.excerpt }}</div>
         <div class="display-1 pt-3" v-html="p.description"></div>
 
+        <ProductVariationConfig
+        v-if="isVariableProduct"
+        :variableFeatures="variableFeatures"
+        v-model="variationConfig"
+        />
 
+        <ProductPrice
+        :product="p"
+        :quantity="9"
+        />
       </v-col>
 
       <v-col md="8">
@@ -85,8 +93,13 @@ import ImgKit from '@common/components/img/ImgKit'
 import ProductPackagingTable from '@/components/layouts/product/ProductPackagingTable'
 import ProductTechnicalInformationTable from '@/components/layouts/product/ProductTechnicalInformationTable'
 import ProductDimensionsTable from '@/components/layouts/product/ProductDimensionsTable'
+import ProductPrice from '@/components/layouts/product/ProductPrice'
+import ProductVariationConfig from '@/components/layouts/product/ProductVariationConfig'
 
-import { isVariableProduct } from '@common/utils'
+
+
+import { isVariableProduct , PRODUCT_TYPE} from '@common/utils'
+import { isEqual, defaultsDeep, omitBy, isNil } from 'lodash-es'
 
 export default {
   name: '',
@@ -96,6 +109,8 @@ export default {
     ProductPackagingTable,
     ProductTechnicalInformationTable,
     ProductDimensionsTable,
+    ProductPrice,
+    ProductVariationConfig,
   },
 
   directives: {
@@ -119,11 +134,14 @@ export default {
   props: {
     product: {
       type: Object,
+
     },
   },
 
   data () {
     return {
+      selectedVariationConfig: {},
+
       previewIcons: [
         { icon: 'mdi-tag-heart-outline', color: 'blue' },
         { icon: 'mdi-trophy', color: 'success'},
@@ -133,24 +151,39 @@ export default {
   },
 
   computed: {
-
     p () {
-      return this.product || {}
-    },
-    // imgPath () {
-    //   return this.product && this.product.image
-    // },
-
-    productPrice () {
-      if(!this.product) return
-      let priceTxt = ''
-      if(isVariableProduct(this.product) && this.product.price){
-        priceTxt = `from CHF ${this.product.price}`
-      }else{
-        priceTxt = this.product.price ? `CHF ${this.product.price}` : ''
+      if(isVariableProduct(this.product) && this.selectedVariation){
+        return defaultsDeep({ type: PRODUCT_TYPE.VARIATION }, this.selectedVariation, this.product)
       }
+      return this.product
+    },
 
-      return priceTxt ? priceTxt : 'no price...'
+    selectedVariation () {
+      const variations = this.product && this.product.variations
+      if(!Array.isArray(variations) || !variations.length) return
+      // console.log('Find a variation, %o', variations.find(e => isEqual(this.variationConfig, e.featuresConfig)))
+      let v = variations.find(e => isEqual(this.variationConfig, e.featuresConfig))
+      let result = v ? omitBy(v, isNil) : null
+      // console.log('variation after omit, %o', result)
+      return result
+    },
+
+    variationConfig: {
+      get () {
+        return this.selectedVariationConfig
+      },
+
+      set (val) {
+        this.selectedVariationConfig = val
+      }
+    },
+
+    isVariableProduct () {
+      return isVariableProduct(this.product)
+    },
+
+    variableFeatures () {
+      return this.isVariableProduct ? this.product.variableFeatures : []
     },
 
     // previewFields () {
@@ -195,7 +228,6 @@ export default {
   },
 
   watch: {
-
   },
 
   methods: {

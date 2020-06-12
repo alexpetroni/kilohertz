@@ -3,7 +3,7 @@
     busEventName="product-variation"
     :id="id"
     :parentId="parentId"
-    v-slot="{item, modelState, crudEvents }"
+    v-slot="{item, modelState, crudEvents, parent }"
     v-on="pipeUp('item-created', 'item-updated', 'item-deleted')"
     >
 
@@ -19,7 +19,7 @@
             editTitle="Edit Variation"
             v-bind="modelState"
             v-on="Object.assign({}, crudEvents, pipeUp('new-item', 'cancel'))"
-            :name="variationName(item)"
+            :name="variationName(item, parent)"
             :menuItems="topBarMenuItems"
           />
           </template>
@@ -105,7 +105,7 @@
             value="tab-linked-products"
             >
             <!-- ================ LINKED PRODUCTS TABS ================= -->
-          <v-tabs vertical v-model="mediaTabsModel">
+          <v-tabs vertical v-model="linkedProdTabsModel">
             <v-tab v-for="t in linkedProductsTabs"
             :key="t.linkType"
             :href="`#linked-tab-${t.linkType}`"
@@ -142,7 +142,7 @@ import ProductMediaForm from '@/components/forms/ProductMediaForm'
 import ProductAttachmentsSetEditor from '@/components/editors/ProductAttachmentsSetEditor'
 import LinkedProductsSetEditor from '@/components/editors/LinkedProductsSetEditor'
 
-import { pipeEvents, isNewForm, parseDate, isVariableProduct} from '@common/utils'
+import { pipeEvents, isNewForm, parseDate, isVariableProduct, zipFeatures } from '@common/utils'
 import { pick } from 'lodash-es'
 
 export default {
@@ -194,6 +194,7 @@ export default {
 
       tabsModel: 'tab-basic-data',
       mediaTabsModel: '#media-tab-image',
+      linkedProdTabsModel: '#linked-tab-accessories',
 
       mediaTabs: [
               {title: 'Gallery', component: 'ProductAttachmentsSetEditor', name: 'gallery'},
@@ -330,8 +331,10 @@ export default {
       this.$emit('edit-variation', val)
     },
 
-    variationName (item) {
-      return `${item.name} <small>(${item.sku})</small>`
+    variationName (item, parent) {
+      let features = zipFeatures(item.featuresConfig, parent.variableFeatures)
+      let properties = features.map(e => e.fiName).join(', ')
+      return `${parent.name} <small>(#${item.sku} - ${properties})</small>`
     }
   },
 
