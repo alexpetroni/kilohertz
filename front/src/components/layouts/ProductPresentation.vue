@@ -3,7 +3,7 @@
     <template v-if="product">
       <v-col sm="6" md="6">
         <ImgKit
-        :path="product.image"
+        :path="p.image"
         :transform="[{w: 600}]"
         style="max-width: 100%;"
         />
@@ -11,7 +11,7 @@
 
       <v-col sm="6" md="6">
         <div class="display-4">{{ p.name }}</div>
-        <div class="text--disabled">SKU# {{p.sku}}</div>
+        <div class="text--disabled">SKU {{p.sku}}</div>
         <div class="headline pt-5">{{ p.excerpt }}</div>
         <div class="display-1 pt-3" v-html="p.description"></div>
 
@@ -21,9 +21,8 @@
         v-model="selectedConfig"
         />
 
-        <ProductPrice
+        <ProductPresentationAddToCart
         :product="p"
-        :quantity="9"
         />
       </v-col>
 
@@ -93,7 +92,7 @@ import ImgKit from '@common/components/img/ImgKit'
 import ProductPackagingTable from '@/components/layouts/product/ProductPackagingTable'
 import ProductTechnicalInformationTable from '@/components/layouts/product/ProductTechnicalInformationTable'
 import ProductDimensionsTable from '@/components/layouts/product/ProductDimensionsTable'
-import ProductPrice from '@/components/layouts/product/ProductPrice'
+import ProductPresentationAddToCart from '@/components/layouts/product/ProductPresentationAddToCart'
 import ProductVariationConfig from '@/components/layouts/product/ProductVariationConfig'
 import { isVariableProduct , PRODUCT_TYPE} from '@common/utils'
 import { isEqual, defaultsDeep, omitBy, isNil } from 'lodash-es'
@@ -105,7 +104,7 @@ export default {
     ProductPackagingTable,
     ProductTechnicalInformationTable,
     ProductDimensionsTable,
-    ProductPrice,
+    ProductPresentationAddToCart,
     ProductVariationConfig,
   },
 
@@ -121,6 +120,7 @@ export default {
 
   data () {
     return {
+      qty: 1,
       selectedConfig: {},
 
       previewIcons: [
@@ -144,6 +144,8 @@ export default {
       if(!this.selectedVariationSku || !Array.isArray(variations) || !variations.length) return
       let v = variations.find(e => e.sku == this.selectedVariationSku)
       let result = v ? omitBy(v, isNil) : null
+
+      // console.log('selectedVariation %o', result)
       return result
     },
 

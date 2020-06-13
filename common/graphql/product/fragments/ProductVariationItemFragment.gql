@@ -18,6 +18,8 @@ fragment ProductVariationItemData on PVItem{
   saleEndDate
   stock
 
+  image
+
   sizeWidth
   sizeHeight
   sizeLength
@@ -29,5 +31,5 @@ fragment ProductVariationItemData on PVItem{
 
   packaging
 
-  featuresConfig 
+  featuresConfig
 }

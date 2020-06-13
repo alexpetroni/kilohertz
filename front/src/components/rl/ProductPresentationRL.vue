@@ -8,7 +8,7 @@ export default {
   props: {
     field: {
       type: String,
-      default: 'id'
+      default: 'id' // id | sku | slug
     },
 
     args: {
@@ -33,11 +33,12 @@ export default {
     },
 
     parseLoadResult (result) {
+      console.log('parseLoadResult %o', result)
       return result
     },
 
     itemKey () {
-      return {field: this.field, value: this.id}
+      return { field: this.field, value: this.id }  // as 'id' a 'sku' or a 'slug' are qualified as well
     },
 
   },

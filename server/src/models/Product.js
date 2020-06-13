@@ -45,7 +45,9 @@ const productBy = async function (field, value, args = {}) {
 
   agg.push( ... prodAssamblerAgg(rawPrice))
 
-  return (await Product.aggregate(agg))[0]
+  let result = await Product.aggregate(agg)
+  console.log('product %o', result[0])
+  return result[0]
 }
 
 const productBySku = async function (sku, args = {}) {
@@ -801,12 +803,12 @@ function aggExprProductVariableFeatures () {
 function aggExprProductVariationsItems (rawPrice) {
   var currentDate = new Date()
   let agg = [
-    { "$lookup" : {
-      "from": "attachments",
-      "localField": "variations.image",
-      "foreignField": "_id",
-      "as": "tmpVariationsImages"
-    }},
+    // { "$lookup" : {
+    //   "from": "attachments",
+    //   "localField": "variations.image",
+    //   "foreignField": "_id",
+    //   "as": "tmpVariationsImages"
+    // }},
 
     {"$addFields": {
       "variations": { $cond: {

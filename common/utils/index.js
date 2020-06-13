@@ -358,20 +358,22 @@ function splitedTxtToTableData (txt, key='key', fieldPrepend = 'f_') {
 
 // -------------------- PRICE ---------------------------------
 function productPrice (product, quantity = 1) {
+  if(!product) return
   if(quantity > 1 && hasVolumePrice(product)){
     return productPriceForQty(volumePriceArr(product), quantity, product.price)
   }
-  return product && product.price ? product.price : undefined
+  return product.price
 }
 
 function productDiscount (product, quantity = 1) {
   if(!product || !product.saleIsActive) return 0
   let price = productPrice(product, quantity)
-  return price && product.regularPrice ? Math.round(((product.regularPrice - price)/product.regularPrice)*100) : 0
+  return price && product.regularPrice ? discountPercent(price, product.regularPrice) : 0
 }
 
+// if a product or any of his variations has volumePrice discount
 function hasVolumePrice (product) {
-  return !!volumePriceArr(product).length
+  return !!volumePriceArr(product).length || (isVariableProduct(product) && product.variations && product.variations.some(e => hasVolumePrice(e)))
 }
 
 function volumePriceArr (product) {
@@ -385,10 +387,11 @@ function variationsHaveMultiplePrices (product) {
 // return an array with [minPrice, maxPrice]
 function variationsPricesRange (product) {
   if(!isVariableProduct(product) || !Array.isArray(product.variations)) return []
-  let sortedArr = product.variations
-  .map(v => v.price)
-  .filter((e, index, arr) => e && arr.indexOf(e) === index) // remove null and duplicates
-  .sort()
+  let priceArr = product.variations.map(v => v.price)
+  priceArr.push(product.price) // some of the variations can inherit the price from the parent product, so we should add this too
+  let sortedArr = priceArr.filter((e, index, arr) => e && arr.indexOf(e) === index) // remove null and duplicates
+  .sort((a, b) => a - b)
+
 
   if(sortedArr.length > 1){
     return [sortedArr[0], sortedArr[sortedArr.length - 1]]
@@ -398,6 +401,27 @@ function variationsPricesRange (product) {
 
 function variationsMinPrice (product) {
   return variationsPricesRange(product)[0]
+}
+
+function variationsMaxDiscount (product) {
+  if(!variationsHaveMultiplePrices(product)) return {}
+  // the accumulator should retain main product amount and percent if present
+  let amount = product.price && product.regularPrice ? product.regularPrice - product.price : 0
+  let percent = discountPercent(product.price, product.regularPrice)
+  let accumulator = {amount, percent}
+  return product.variations
+  .reduce((acc, v) => {
+    if(v.price && v.regularPrice && v.price != v.regularPrice){
+      let amount = v.regularPrice - v.price
+      let percent = discountPercent(v.price, v.regularPrice)
+      if(amount > acc.amount) acc.amount = amount
+      if(percent > acc.percent) acc.percent = percent
+    }
+
+    return acc
+    },
+    accumulator)
+
 }
 
 function volumePriceStringToArr (priceStr) {
@@ -423,6 +447,40 @@ function productPriceForQty (volumePriceArr, qty, singlePrice) {
     }
     return acc
   }, singlePrice)
+}
+
+function discountPercent (price, regularPrice, decimals = 0) {
+  if(isNaN(price) || isNaN(regularPrice)) return 0
+  return +(100*(regularPrice - price)/regularPrice).toFixed(decimals)
+}
+
+
+const productPriceObject = function (product, quantity = 1) {
+  if(!product || !product.price) return
+  const hasVolDisc = hasVolumePrice(product)
+  const hasSalePrice = !!(product.regularPrice && product.price != product.regularPrice)
+  const regularPrice = hasSalePrice ? product.regularPrice : null
+  const price = hasVolDisc && quantity > 1 ? productPriceForQty(volumePriceArr(product), quantity, product.price) : product.price
+  const discPer = regularPrice ? discountPercent(price, regularPrice) : discountPercent(price, product.price)
+  const discAm = regularPrice ? regularPrice - price : product.price - price
+  const isVarProd = isVariableProduct(product)
+  const varMultiPrices = isVarProd && variationsHaveMultiplePrices(product)
+  const varPricesRange = varMultiPrices && variationsPricesRange(product)
+  const { amount: variationsMaxDiscountAmount = 0, percent: variationsMaxDiscountPercent = 0 }  = variationsPricesRange ? variationsMaxDiscount(product) : {}
+
+  return {
+    hasVolumeDiscount: hasVolDisc,
+    hasSalePrice: hasSalePrice,
+    regularPrice: regularPrice,
+    price: price,
+    discountPercent: discPer,
+    discountAmount: discAm,
+    isVariableProduct: isVarProd,
+    variationsHaveMultiplePrices: varMultiPrices,
+    variationsPricesRange: varPricesRange,
+    variationsMaxDiscountAmount,
+    variationsMaxDiscountPercent,
+  }
 }
 
 
@@ -472,7 +530,7 @@ export {
   variableFeatureItemFromConfig,
 
   variationsWithFeatures,
-  zipFeatures, 
+  zipFeatures,
 
   newItemIdPrefix,
   isGeneratedVariationId,
@@ -481,6 +539,7 @@ export {
   splitInfoTxt,
 
   productPrice,
+  productPriceObject,
   productDiscount,
   variationsHaveMultiplePrices,
   variationsMinPrice,

@@ -1,14 +1,27 @@
 <template>
-  <div>
-    <div :class="priceStyle">{{ formatedPrice }}</div>
-    <div v-if="saleIsActive" class="regularPrice"> {{ formatedRegularPrice }} </div>
-     <br />
-    {{ product }}
+  <div class="subtitle-2 d-flex">
+    <!-- ======================== VARIABLE PRODUCT ======================== -->
+    <template v-if="priceObj.isVariableProduct">
+      <span class="discountPercent" v-if="priceObj.variationsMaxDiscountAmount"><v-icon color="error">mdi-label-percent</v-icon> -{{priceObj.variationsMaxDiscountPercent}}% </span>
+      <span v-if="priceObj.variationsHaveMultiplePrices" class="ml-2">ab {{ priceObj.variationsPricesRange[0] }}</span>
+      <template v-else>
+
+        <span v-if="priceObj.discountAmount" class="regularPrice subtitle-2"> {{ formatedRegularPrice }} </span>
+        <span :class="priceStyle">{{ formatedPrice }}</span>
+      </template>
+    </template>
+
+    <!-- ======================== CARTABLE PRODUCT ======================== -->
+    <template v-else>
+      <v-icon color="error">mdi-label-percent</v-icon><span class="discountPercent" v-if="priceObj.discountPercent"> -{{ priceObj.discountPercent }}% </span>
+      <span v-if="priceObj.discountAmount" class="regularPrice mx-2"> {{ formatedRegularPrice }} </span>
+      <span :class="priceStyle">{{ formatedPrice }}</span>
+    </template>
   </div>
 </template>
 
 <script>
-import { isVariableProduct, productPrice } from '@common/utils'
+import { isVariableProduct, productPrice, productPriceObject } from '@common/utils'
 
 export default {
 
@@ -16,6 +29,19 @@ export default {
     product: {
       type: Object,
       default: () => {}
+      // {
+      // hasVolumeDiscount,
+      // hasSalePrice,
+      // regularPrice,
+      // price,
+      // discountPercent,
+      // discountAmount,
+      // isVariableProduct,
+      // variationsHaveMultiplePrices,
+      // variationsPricesRange,
+      // variationsMaxDiscountAmount,
+      // variationsMaxDiscountPercent,
+      // }
     },
 
     quantity: {
@@ -25,6 +51,10 @@ export default {
   },
 
   computed: {
+    priceObj () {
+      return productPriceObject(this.product, this.quantity)
+    },
+
     hasVolumePrice () {
       return true
     },
@@ -38,15 +68,15 @@ export default {
     },
 
     formatedPrice () {
-      return 'CHF ' + this.currentPrice
+      return 'CHF ' + this.priceObj.price
     },
 
     formatedRegularPrice () {
-      return 'CHF ' + this.product.regularPrice
+      return 'CHF ' + this.priceObj.regularPrice
     },
 
     priceStyle () {
-      return this.saleIsActive ? 'salePrice' : ''
+      return this.priceObj.discountAmount ? 'salePrice' : ''
     },
 
     currentPrice () {
@@ -66,5 +96,9 @@ export default {
 
 .salePrice {
   color: red;
+}
+
+.discountPercent {
+
 }
 </style>
