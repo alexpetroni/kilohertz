@@ -17,10 +17,11 @@
 
       <v-btn
       :disabled="disabledBtn"
-      @click="addToCart"
+      @click="addToCart({product, qty})"
       color="primary"
       >
       Add to Cart
+      <v-icon right dark v-if="alreadyInCart">mdi-check</v-icon>
     </v-btn>
     </v-card-actions>
   </v-card>
@@ -29,6 +30,7 @@
 <script>
 import ProductPrice from '@/components/layouts/product/ProductPrice'
 import { isVariableProduct } from '@common/utils'
+import { mapState, mapMutations } from 'vuex'
 
 export default {
 
@@ -67,19 +69,27 @@ export default {
   },
 
   computed: {
+    ...mapState(['cartItems']),
+
     disabledBtn () {
       return isVariableProduct(this.product) || isNaN(this.qty)  || this.qty < 1
+    },
+
+    alreadyInCart () {
+      return !!this.cartItems.find(e => e.product.sku == this.product.sku)
     },
   },
 
   watch: {
-
+    product: function (val) {
+      // syc quantity with the one in cart
+      let inCart = this.cartItems.find(e => e.product.sku == val.sku)
+      this.qty = inCart ? inCart.qty : 1
+    },
   },
 
   methods: {
-    addToCart () {
-
-    },
+    ...mapMutations(['addToCart']),
   },
 
 

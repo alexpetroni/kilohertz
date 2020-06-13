@@ -293,10 +293,10 @@ const pipeUp = function (comp, eventsArr) {
   {})
 }
 
-const variableFeatureItemFromConfig = function (vf, featureConfig) {
-  if(!featureConfig || !vf || !Array.isArray(vf.items) || vf.slug != featureConfig.vfSlug) return
-  return vf.items.find(e => e.slug == featureConfig.fiSlug)
-}
+// const variableFeatureItemFromConfig = function (vf, featureConfig) {
+//   if(!featureConfig || !vf || !Array.isArray(vf.items) || vf.slug != featureConfig.vfSlug) return
+//   return vf.items.find(e => e.slug == featureConfig.fiSlug)
+// }
 
 // return the variations of a product with an added field, 'features' completed conform featuresConfig
 const variationsWithFeatures = function (product) {
@@ -527,7 +527,7 @@ export {
   groupEventsHandler,
   pipeUp,
 
-  variableFeatureItemFromConfig,
+  // variableFeatureItemFromConfig,
 
   variationsWithFeatures,
   zipFeatures,
