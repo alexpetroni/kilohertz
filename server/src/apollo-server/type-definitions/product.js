@@ -11,6 +11,8 @@ const typeDef = `
 
     productCategories(field: String!, value: String!): [Category!]!
 
+    productFamily(field: String!, value: String!): Family
+
     productVariation(parentId: ID!, id: ID!): PVItem
   }
 

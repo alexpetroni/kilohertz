@@ -1,0 +1,6 @@
+#import "./../family/fragments/FamilyFragment.gql"
+query productFamily($field: String!, $value: String!){
+  productFamily(field: $field, value: $value){
+    ... FamilyData
+  }
+}

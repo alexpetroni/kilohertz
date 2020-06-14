@@ -4,7 +4,7 @@
       <v-col sm="6" md="6">
         <ImgKit
         :path="p.image"
-        :transform="[{w: 600}]"
+        :transformation="[{w: 600}]"
         style="max-width: 100%;"
         />
       </v-col>

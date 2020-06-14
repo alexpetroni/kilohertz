@@ -24,12 +24,12 @@ export default {
     },
 
     async loadItem (key, fetchPolicy) {
-      let { data: { productBy, categoryMeta, productCategories } } = await this.$apollo.query({
+      let { data: { productBy, categoryMeta, productCategories, productFamily } } = await this.$apollo.query({
         query: ProductPresentation,
         variables: key,
         fetchPolicy
       })
-      return { productBy, categoryMeta, productCategories }
+      return { productBy, categoryMeta, productCategories, productFamily }
     },
 
     parseLoadResult (result) {

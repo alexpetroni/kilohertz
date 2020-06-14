@@ -61,9 +61,9 @@ const resolvers = {
     //   return context.models.Product.productGallery(field, value)
     // },
     //
-    // productFamily (_, { field, value }, context) {
-    //   return context.models.Product.productFamily(field, value)
-    // },
+    productFamily (_, { field, value }, context) {
+      return context.models.Product.productFamily(field, value)
+    },
 
     // productDelivery (_, { id }, context) {
     //   return context.models.Product.productDelivery(id)

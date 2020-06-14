@@ -1,12 +1,18 @@
 #import './fragments/ProductFragment.gql'
 #import './../category/fragments/CategoryFragment.gql'
+#import "./../family/fragments/FamilyFragment.gql"
 
 query productFull ($field: String!, $value:String!) {
+
   productBy(field: $field, value: $value){
     ... ProductData
   }
 
   productCategories(field: $field, value: $value){
     ... CategoryData
+  }
+
+  productFamily (field: $field, value: $value) {
+    ... FamilyData
   }
 }

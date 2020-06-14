@@ -194,14 +194,23 @@ const productGallery = async function (field, value) {
 }
 
 const productFamily = async function (field, value) {
-  let productId = field == 'id' ? value : (await Product.findOne({[field]: value}))[0]['id']
+  let productId = null
+    console.log('field --------------------- %s', field)
+  if(field == 'id'){
+    productId = value
+  } else{
+    let prod = await Product.findOne({[field]: value}, '_id')
+    console.log('my prod %o', prod)
+    productId = prod && prod._id
+  } // (await Product.findOne({[field]: value}))[0]['id']
+  console.log('my prod ---------------------')
   if (!productId) return null
   let family = await Family.findOne({"products": productId})
   .populate({
     path: 'products',
     select: 'id name slug type sku image'
     })
-
+console.log('family ------------------- %o ', family)
   return family
 }
 

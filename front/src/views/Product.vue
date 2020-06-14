@@ -5,10 +5,22 @@
   v-slot="{ item }"
   >
   <div>
-    <ProductBreadcrumbs
-    :product="item.productBy"
-    :categories="item.productCategories"
-    />
+    <v-row no-gutters>
+      <v-col md="6" sm="12">
+        <ProductBreadcrumbs
+        :product="item.productBy"
+        :categories="item.productCategories"
+        />
+      </v-col>
+
+      <v-col md="6" sm="12">
+        <ProductFamily
+        v-if="item.productFamily"
+        :family="item.productFamily"
+        :excludeValue="productSku(item.productBy)"
+        />
+      </v-col>
+    </v-row>
 
     <ProductPresentation
     :product="item.productBy"
@@ -23,6 +35,7 @@
 import ProductPresentationRL from '@/components/rl/ProductPresentationRL'
 import ProductPresentation from '@/components/layouts/ProductPresentation'
 import ProductBreadcrumbs from '@/components/layouts/product/ProductBreadcrumbs'
+import ProductFamily from '@/components/layouts/product/ProductFamily'
 
 export default {
 
@@ -30,6 +43,7 @@ export default {
     ProductPresentationRL,
     ProductPresentation,
     ProductBreadcrumbs,
+    ProductFamily,
   },
 
   data () {
@@ -44,6 +58,10 @@ export default {
       if(sku == this.selectedVariationSku) return
       let path = `/product/${this.slug}` + (sku ? `/${sku}` : '')
       this.$router.push({path})
+    },
+
+    productSku (prod) {
+      return prod && prod.sku
     },
   },
 

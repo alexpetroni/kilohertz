@@ -10,5 +10,6 @@ fragment FamilyData on Family{
     slug
     sku
     type
+    image
   }
 }
