@@ -27,7 +27,7 @@
         />
       </v-col>
 
-      <v-col md="8">
+      <v-col md="8" v-if="infoTabs.length">
         <!-- ==================== INFO TABS DATA ==================== -->
         <v-card>
           <v-card-text>
@@ -71,14 +71,36 @@
           </base-material-tabs>
         </v-card-text>
         </v-card>
-
-        {{ p }}
-
-        <!-- ==================== LINKED PRODUCTS DATA ==================== -->
-
-
-
       </v-col>
+
+
+      <!-- ==================== LINKED PRODUCTS DATA ==================== -->
+
+      <LinkedProductsRL
+      v-for="link in linkedProducts"
+      :key="link.type"
+      :id="link.type"
+      field="slug"
+      :fieldValue="p.slug"
+      v-slot="{item}"
+      >
+      <v-col cols="12" v-if="item && item.links && item.links.length">
+        <v-row>
+        <v-col cols="12" class="headline">{{ link.title }}</v-col>
+        <v-col
+        v-for="p in item.links"
+        :key="p.product.id"
+        sm="4"
+        md="3"
+        >
+          <LinkedProductCard
+          :product="p.product"
+          />
+        </v-col>
+        </v-row>
+      </v-col>
+
+      </LinkedProductsRL>
     </template>
 
     <template v-else>
@@ -98,6 +120,10 @@ import ProductVariationConfig from '@/components/layouts/product/ProductVariatio
 import { isVariableProduct , PRODUCT_TYPE} from '@common/utils'
 import { isEqual, defaultsDeep, omitBy, isNil } from 'lodash-es'
 
+import LinkedProductsRL from '@/components/rl/LinkedProductsRL'
+import LinkedProductCard from '@/components/layouts/LinkedProductCard'
+
+
 export default {
 
   components: {
@@ -107,6 +133,8 @@ export default {
     ProductDimensionsTable,
     ProductPresentationAddToCart,
     ProductVariationConfig,
+    LinkedProductsRL,
+    LinkedProductCard,
   },
 
   props: {
@@ -128,6 +156,12 @@ export default {
         { icon: 'mdi-tag-heart-outline', color: 'blue' },
         { icon: 'mdi-trophy', color: 'success'},
         { icon: 'mdi-star-face', color: 'error'},
+      ],
+
+      linkedProducts: [
+        {type: 'accessories', title: 'Zubehör'},
+        {type: 'cross-sells', title: 'Kunden kauften auch'},
+        {type: 'replacement-material', title: 'Ersatzmaterial'},
       ],
     }
   },

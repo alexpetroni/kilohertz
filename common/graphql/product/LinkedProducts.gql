@@ -1,0 +1,27 @@
+#import './fragments/ProductBasicFragment.gql'
+#import './fragments/ProductPriceFragment.gql'
+#import './fragments/ProductVariableFeaturesFragment.gql'
+#import './fragments/ProductVariationItemFragment.gql'
+query linkedProducts ($field: String!, $value: String!, $linkType: String!) {
+  linkedProducts(field: $field, value: $value, linkType: $linkType){
+    id
+    links {
+      product {
+        ... ProductBasicData
+        ... ProductPriceData
+
+        ... on VariableProduct {
+
+          variableFeatures{
+            ... ProductVariableFeatureData
+          }
+
+          variations{
+            ... ProductVariationItemData
+          }
+        }
+      }
+      variationsSku
+    }
+  }
+}

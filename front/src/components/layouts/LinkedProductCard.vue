@@ -12,7 +12,7 @@
        >
       <ImgKit
       :path="imgPath"
-      :transformation="[{w: 400}]"
+      :transformation="[{w: 350}]"
       style="max-width: 100%;"
 
       />
