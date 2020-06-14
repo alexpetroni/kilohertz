@@ -32,4 +32,17 @@ export default {
 .link {
   cursor: pointer;
 }
+
+.regularPrice {
+  text-decoration: line-through;
+  color: grey;
+}
+
+.salePrice {
+  color: red;
+}
+
+.discount {
+  color: red;
+}
 </style>

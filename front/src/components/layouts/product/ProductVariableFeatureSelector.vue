@@ -8,6 +8,7 @@
       item-text="name"
       item-value="slug"
       :label="feature.name"
+      :item-disabled="checkDisabled"
       />
     </template>
 
@@ -19,14 +20,14 @@
         :label="feature.name"
         item-text="name"
         item-value="slug"
+        :item-disabled="checkDisabled"
        >
          <template v-slot:selection="data">
              <v-avatar left>
-               <v-icon :disabled="data.item.disabled" :color="data.item.value">mdi-circle</v-icon>
+               <v-icon :color="data.item.value">mdi-circle</v-icon>
                <!-- <v-img :src="data.item.avatar"></v-img> -->
              </v-avatar>
              {{ data.item.name }}
-
          </template>
          <template v-slot:item="data">
            <template v-if="typeof data.item !== 'object'">
@@ -34,7 +35,7 @@
            </template>
            <template v-else>
              <v-list-item-avatar>
-               <v-icon :color="data.item.value">mdi-circle</v-icon>
+               <v-icon :color="data.item.value" :class="avatarStyle(data.item)">mdi-circle</v-icon>
              </v-list-item-avatar>
              <v-list-item-content>
                <v-list-item-title v-html="data.item.name"></v-list-item-title>
@@ -63,7 +64,12 @@ export default {
 
     selected: {
       type: String,
-    }
+    },
+
+    disabledOptions: {
+      type: Array,
+      default: () => []
+    },
   },
 
   computed: {
@@ -85,5 +91,21 @@ export default {
       return isVfColorType(this.feature.type)
     },
   },
+
+  methods: {
+    checkDisabled (item) {
+      return this.disabledOptions.indexOf(item.slug) != -1
+    },
+
+    avatarStyle (item) {
+      return this.checkDisabled(item) ? {disabledAvatar: true} : {}
+    },
+  }
 }
 </script>
+
+<style>
+.disabledAvatar {
+  opacity: 0.3;
+}
+</style>

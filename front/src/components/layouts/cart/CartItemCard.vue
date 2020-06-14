@@ -1,14 +1,14 @@
 <template>
 <v-container>
   <v-row>
-    <v-col sm="4" md="2">
+    <v-col sm="3" md="2">
       <ImgKit
       :path="product.image"
       :transform="[{w: 150, h: 150}]"
       style="max-width: 100%;"
       />
     </v-col>
-    <v-col sm="4" md="4">
+    <v-col sm="6" md="8">
       <div class="display-2">{{product.name}}</div>
       <template v-if="isProductVariation">
         <div v-for="(f, index) in productFeatures" :key="index">
@@ -19,15 +19,32 @@
 
       <div class="del"><v-btn icon small @click="$emit('remove-item', product.sku)"><v-icon small grey>mdi-trash-can-outline</v-icon> Entfernen</v-btn></div>
     </v-col>
-    <v-col>
+
+    <v-col sm="3" md="2">
+      <div style="width: 5em;" >
+      <v-text-field
+      label="Qty."
+      :value="qty"
+      @change="onQtyChange"
+      type="number"
+      >
+      </v-text-field>
+      </div>
+      <div :class="priceStyle">{{ formatedPrice }}</div>
+      <template v-if="priceObj.discountAmount">
+        <div class="regularPrice">{{ formatedRegularPrice }}</div>
+        <div class="discount">-{{ priceObj.discountPercent}}%</div>
+      </template>
     </v-col>
+    <v-col cols="12" dense><v-divider></v-divider></v-col>
   </v-row>
 </v-container>
 </template>
 
 <script>
 import ImgKit from '@common/components/img/ImgKit'
-import { isProductVariation, zipFeatures } from '@common/utils'
+import { isProductVariation, zipFeatures, productPriceObject, formatPrice } from '@common/utils'
+import { mapState, mapMutations } from 'vuex'
 
 export default {
 
@@ -70,17 +87,31 @@ export default {
   },
 
   computed: {
+    ...mapState(['currencySymbol']),
+
     isProductVariation () {
-      console.log('prod %o', this.product)
       return isProductVariation(this.product)
     },
 
     productFeatures () {
-      console.log('this.product.variableFeatures %o', this.product.variableFeatures)
-      console.log('this.product.featuresConfig %o', this.product.featuresConfig)
       return zipFeatures(this.product.featuresConfig, this.product.variableFeatures)
     },
 
+    priceObj () {
+      return productPriceObject(this.product, this.qty)
+    },
+
+    priceStyle () {
+      return this.priceObj.discountAmount ? 'salePrice' : ''
+    },
+
+    formatedPrice () {
+      return formatPrice(this.priceObj.price, this.currencySymbol)
+    },
+
+    formatedRegularPrice () {
+      return formatPrice(this.priceObj.regularPrice, this.currencySymbol)
+    },
   },
 
   watch: {
@@ -88,7 +119,15 @@ export default {
   },
 
   methods: {
+    ...mapMutations(['addToCart']),
 
+    onQtyChange (val) {
+      if(isNaN(val) || val < 0){
+        val = 1
+      }
+      val = parseInt(val)
+      this.addToCart({product: this.product, qty:val})
+    },
   },
 
 

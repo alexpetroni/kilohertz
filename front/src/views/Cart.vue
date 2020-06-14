@@ -34,9 +34,9 @@
 
           <v-card-actions>
             <v-spacer />
-            <v-btn @click="backToShop">Entdecke mehr</v-btn>
+            <v-btn color="primary" @click="backToShop">Entdecke mehr</v-btn>
             <v-spacer />
-            <v-btn :disabled="cartIsEmpty">Zur Kasse</v-btn>
+            <v-btn color="primary" :disabled="cartIsEmpty">Zur Kasse</v-btn>
             <v-spacer />
           </v-card-actions>
         </base-material-card>

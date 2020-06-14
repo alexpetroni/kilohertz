@@ -483,6 +483,10 @@ const productPriceObject = function (product, quantity = 1) {
   }
 }
 
+const formatPrice = function (price, currency) {
+  return `${currency} ${price}`
+}
+
 
 export {
   EventBus,
@@ -543,4 +547,6 @@ export {
   productDiscount,
   variationsHaveMultiplePrices,
   variationsMinPrice,
+
+  formatPrice,
 }

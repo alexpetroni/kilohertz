@@ -21,7 +21,8 @@
 </template>
 
 <script>
-import { isVariableProduct, productPrice, productPriceObject } from '@common/utils'
+import { productPriceObject, formatPrice } from '@common/utils'
+import { mapState } from 'vuex'
 
 export default {
 
@@ -29,6 +30,18 @@ export default {
     product: {
       type: Object,
       default: () => {}
+    },
+
+    quantity: {
+      type: Number,
+      default: 1,
+    },
+  },
+
+  computed: {
+    ...mapState(['currencySymbol']),
+    priceObj () {
+      return productPriceObject(this.product, this.quantity)
       // {
       // hasVolumeDiscount,
       // hasSalePrice,
@@ -44,43 +57,16 @@ export default {
       // }
     },
 
-    quantity: {
-      type: Number,
-      default: 1,
-    },
-  },
-
-  computed: {
-    priceObj () {
-      return productPriceObject(this.product, this.quantity)
-    },
-
-    hasVolumePrice () {
-      return true
-    },
-
-    isVariableProduct () {
-      return isVariableProduct(this.product)
-    },
-
-    saleIsActive () {
-      return !!this.product.saleIsActive
-    },
-
     formatedPrice () {
-      return 'CHF ' + this.priceObj.price
+      return formatPrice(this.priceObj.price, this.currencySymbol)
     },
 
     formatedRegularPrice () {
-      return 'CHF ' + this.priceObj.regularPrice
+      return formatPrice(this.priceObj.regularPrice, this.currencySymbol)
     },
 
     priceStyle () {
       return this.priceObj.discountAmount ? 'salePrice' : ''
-    },
-
-    currentPrice () {
-      return productPrice(this.product, this.quantity)
     },
 
   },
@@ -89,14 +75,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.regularPrice {
-  text-decoration: line-through;
-  color: grey;
-}
 
-.salePrice {
-  color: red;
-}
 
 .discountPercent {
 

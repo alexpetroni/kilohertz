@@ -19,6 +19,7 @@
         v-if="isVariableProduct"
         :variableFeatures="variableFeatures"
         v-model="selectedConfig"
+        :selectableConfigs="selectableConfigs"
         />
 
         <ProductPresentationAddToCart
@@ -190,6 +191,11 @@ export default {
 
       return tabs
     },
+
+    selectableConfigs () {
+      if(!this.isVariableProduct) return []
+      return this.product.variations.map(e => e.featuresConfig)
+    }
   },
 
   watch: {
