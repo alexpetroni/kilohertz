@@ -1,6 +1,6 @@
 <template>
   <PaginatedProductsRL
-  id="categories"
+  :category="category"
   v-slot="{items, totalItems, tableOptions, tableEvents, modelState}">
   <v-row>
       <ProductsListForm

@@ -8,6 +8,7 @@
       v-on="tableEvents"
       show-select
       :loading_xx="loading"
+      width="100%"
     >
 
       <template v-slot:header>
@@ -58,6 +59,19 @@
             v-on="pipeUp('show-product')"
             />
           </v-col>
+        </v-row>
+      </template>
+
+
+      <template v-slot:no-results>
+        <v-row>
+          <v-col cols="12" class="text-center pa-12">No data</v-col>
+        </v-row>
+      </template>
+
+      <template v-slot:no-data>
+        <v-row>
+          <v-col cols="12" class="text-center pa-12">No results found</v-col>
         </v-row>
       </template>
 

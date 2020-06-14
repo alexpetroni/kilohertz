@@ -5,16 +5,25 @@ import PaginatedProducts from '@common/graphql/product/PaginatedProducts.gql'
 export default {
   extends: BasePagListFormModel,
 
+  props: {
+    category: {
+      type: String,
+    },
+  },
+
   methods: {
     getDefaultItem () {
       return []
     },
 
     async loadPage (queryVars, fetchPolicy = 'network-only') {
+      const args = this.category ? Object.assign({}, queryVars, { category: this.category }) : queryVars
+
+      console.log('args %o', args)
       try{
         let { data:{paginatedProducts} } = await this.$apollo.query({
           query: PaginatedProducts,
-          variables: {args: queryVars},
+          variables: { args },
           fetchPolicy,
         })
         return {
