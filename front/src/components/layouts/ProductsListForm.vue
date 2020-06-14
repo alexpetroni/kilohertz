@@ -1,4 +1,5 @@
 <template>
+  <v-container class="px-3" fluid>
     <v-data-iterator
       v-model="selected"
       :headers="headers"
@@ -77,6 +78,7 @@
 
 
     </v-data-iterator>
+  </v-container>
 </template>
 
 <script>
