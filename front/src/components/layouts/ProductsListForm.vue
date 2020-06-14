@@ -13,9 +13,10 @@
       <template v-slot:header>
         <v-alert v-if="error" type="error">{{ error }}</v-alert>
         <v-toolbar
-        transparent
+        color="transparent"
         flat
         >
+        <span  v-if="title" class="display-3">{{ title }}</span>
         <v-spacer />
         <v-text-field
           :label="search"
@@ -72,6 +73,12 @@ import { pipeEvents } from '@common/utils'
 export default {
 
   mixins: [ FormPagListMixin ],
+
+  props: {
+    title: {
+      type: String,
+    },
+  },
 
   components: {
     ProductPreviewCard,

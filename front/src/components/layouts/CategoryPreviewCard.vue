@@ -126,7 +126,7 @@ export default {
     },
 
     showCategory () {
-      this.$emit('show-category', this.category.id)
+      this.$emit('show-category', { id:this.category.id, slug: this.category.slug })
     },
 
     randomPrice () {

@@ -20,7 +20,7 @@ Vue.use(VueRouter)
   },
 
   {
-    path: '/category/:id?',
+    path: '/category/:slug/:id?',
     name: 'Category',
     component: () => import('../views/Category.vue')
   },

@@ -4,23 +4,32 @@
   :id="slug"
   v-slot="{ item }"
   >
+  <div>
+    <ProductBreadcrumbs
+    :product="item.productBy"
+    :categories="item.productCategories"
+    />
+
     <ProductPresentation
     :product="item.productBy"
     :selectedVariationSku="selectedVariationSku"
     @selection-change="onSelectionChange"
     />
+  </div>
   </ProductPresentationRL>
 </template>
 
 <script>
 import ProductPresentationRL from '@/components/rl/ProductPresentationRL'
 import ProductPresentation from '@/components/layouts/ProductPresentation'
+import ProductBreadcrumbs from '@/components/layouts/product/ProductBreadcrumbs'
 
 export default {
 
   components: {
     ProductPresentationRL,
     ProductPresentation,
+    ProductBreadcrumbs,
   },
 
   data () {

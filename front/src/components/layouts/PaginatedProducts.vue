@@ -7,6 +7,7 @@
         :items="items"
         :totalItems="totalItems"
         :tableOptions="tableOptions"
+        :title="title"
         v-bind="modelState"
         v-on="Object.assign({}, tableEvents, pipeUp('show-product'))"
       />
@@ -23,6 +24,16 @@ export default {
   components: {
     PaginatedProductsRL,
     ProductsListForm,
+  },
+
+  props: {
+    category: {
+      type: String,
+    },
+
+    title: {
+      type: String,
+    },
   },
 
   computed: {

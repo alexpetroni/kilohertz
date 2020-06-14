@@ -6,13 +6,13 @@
 
   <v-container>
     <v-row v-if="item">
-       <v-col cols="12" class="display-3">
-      {{ item.category.name}}
-      </v-col>
+      <CategoryBreadcrumbs :category="item.category" />
     </v-row>
 
 
     <PaginatedProducts
+    :category="id"
+    :title="categoryName(item)"
     @show-product="onShowProduct"
     />
 
@@ -43,6 +43,7 @@
 
 <script>
 import CategoryFullRL from '@/components/rl/CategoryFullRL'
+import CategoryBreadcrumbs from '@/components/layouts/category/CategoryBreadcrumbs'
 import PaginatedProducts from '@/components/layouts/PaginatedProducts'
 import CategoryHighlightCard from '@/components/layouts/CategoryHighlightCard'
 // import { pipeEvents } from '@common/utils'
@@ -52,6 +53,7 @@ export default {
 
   components: {
     CategoryFullRL,
+    CategoryBreadcrumbs,
     PaginatedProducts,
     CategoryHighlightCard,
   },
@@ -80,10 +82,13 @@ export default {
 
     onShowProduct (val) {
       let {field, value} = val
-      console.log('field, value %o %o ', field, value)
       if(field == 'slug'){
         this.$router.push({path: `/product/${value}`})
       }
+    },
+
+    categoryName (item) {
+      return item && item.category && item.category.name
     },
   },
 
