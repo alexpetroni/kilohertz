@@ -45,4 +45,10 @@ export default {
 .discount {
   color: red;
 }
+
+.card-icon-preview {
+  max-width: 28px;
+  max-height: 28px;
+  display: inline-block;
+}
 </style>

@@ -56,10 +56,11 @@
       </template>
 
       <template v-slot:item.image="{item}">
-        <ImgKit
+        <v-img :src="previewImg(item)" class="prod-thumbnail"/>
+        <!-- <ImgKit
         :path="item.image"
         :transformation="[{w:90, h: 90}]"
-         />
+         /> -->
       </template>
 
       <template v-slot:item.type="{item}">
@@ -109,7 +110,7 @@ import EditBtn from '@common/components/btn/EditBtn'
 import DeleteBtn from '@common/components/btn/DeleteBtn'
 import ConfirmationDialog from '@common/components/ConfirmationDialog'
 import BulkActionSelector from '@common/components/BulkActionSelector'
-import ImgKit from '@common/components/img/ImgKit'
+// import ImgKit from '@common/components/img/ImgKit'
 import { parseDate, isSimpleProduct } from '@common/utils'
 
 export default {
@@ -122,7 +123,7 @@ export default {
     DeleteBtn,
     ConfirmationDialog,
     BulkActionSelector,
-    ImgKit,
+  //  ImgKit,
   },
 
   data () {
@@ -175,6 +176,18 @@ export default {
     productPrice (item) {
       return item.price
     },
+
+    previewImg (item) {
+
+      return item.image ? this.imgUrl(item.image, [{w:90, h: 90}]) : ''
+    }
   },
 }
 </script>
+
+<style scoped>
+.prod-thumbnail {
+  max-width: 90px;
+  max-height: 90px;
+}
+</style>

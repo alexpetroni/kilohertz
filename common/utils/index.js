@@ -21,12 +21,14 @@ const isEditForm = (val) => {
 const VF_TYPE = {
   TEXT: 'TEXT',
   COLOR: 'COLOR_HEX',
+  IMAGE: 'IMAGE',
   SVG: 'SVG',
 }
 
 const VF_TYPE_NAME = {
   TEXT: 'Text',
   COLOR_HEX: 'Color',
+  IMAGE: 'Image',
   SVG: 'SVG',
 }
 
@@ -36,6 +38,10 @@ const isVfTextType = function (type) {
 
 const isVfColorType = function (type) {
   return type == VF_TYPE.COLOR
+}
+
+const isVfImageType = function (type) {
+  return type == VF_TYPE.IMAGE
 }
 
 const isVfSvgType = function (type) {
@@ -495,6 +501,7 @@ export {
   VF_TYPE,
   isVfTextType,
   isVfColorType,
+  isVfImageType,
   isVfSvgType,
   vfTypeName,
 

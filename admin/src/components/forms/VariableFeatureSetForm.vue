@@ -19,13 +19,18 @@
 
         <v-alert v-if="error" type="error">{{ error }}</v-alert>
 
-          <v-row>
+          <v-row justify="center">
+
             <v-col
-            xs="12"
-            sm="8"
-            offset-sm="2"
+            cols="12"
             md="6"
-            offset-md="3"
+            >
+              <v-text-field v-model="editedItem.name" label="Name"></v-text-field>
+            </v-col>
+
+            <v-col
+            cols="12"
+            md="3"
             >
               <v-select
               v-model="editedItem.type"
@@ -35,15 +40,6 @@
               </v-select>
             </v-col>
 
-            <v-col
-            xs="12"
-            sm="8"
-            offset-sm="2"
-            md="6"
-            offset-md="3"
-            >
-              <v-text-field v-model="editedItem.name" label="Name"></v-text-field>
-            </v-col>
 
             <!-- VF Items form -->
             <template v-if="isEditForm">
@@ -146,7 +142,7 @@ import FormItemMixin from '@common/mixins/FormItemMixin'
 import FormTopBar from '@common/components/FormTopBar'
 import FormSubmitButtons from '@common/components/FormSubmitButtons'
 import VariableFeatureItemForm from '@/components/forms/mini/VariableFeatureItemForm'
-import { FormState, isVfColorType } from '@common/utils'
+import { FormState, isVfColorType, VF_TYPE } from '@common/utils'
 import EditBtn from '@common/components/btn/EditBtn'
 import DeleteBtn from '@common/components/btn/DeleteBtn'
 import ConfirmationDialog from '@common/components/ConfirmationDialog'
@@ -174,9 +170,10 @@ export default {
       deleteItemIndex: null,
 
       vfTypes: [
-        {text: "Text", value: "TEXT"},
-        {text: "Color", value: "COLOR_HEX"},
-        {text: "SVG", value: "SVG"},
+        {text: "Text", value: VF_TYPE.TEXT},
+        {text: "Color", value: VF_TYPE.COLOR},
+        {text: "Image", value: VF_TYPE.IMAGE},
+        {text: "SVG", value: VF_TYPE.SVG},
       ],
 
       rules: {
@@ -232,7 +229,7 @@ export default {
       return {
       name: '',
       slug: '',
-      value: '#FFFFFF',
+      value: '',
       description: '',
       }
     },

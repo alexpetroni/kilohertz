@@ -87,6 +87,7 @@ export default {
     reset () {
       this.editedItem = jsonCopy(this.item)
     },
+
   },
 
   watch: {

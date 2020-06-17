@@ -4,9 +4,9 @@ import './registerServiceWorker'
 import apolloProvider from './vue-apollo-provider'
 import router from './router'
 import store from './store'
-import vuetify from './plugins/vuetify';
-// import { createProvider } from './vue-apollo'
+import vuetify from './plugins/vuetify'
 import './plugins/base'
+import './plugins/dam-img'
 
 Vue.config.productionTip = false
 

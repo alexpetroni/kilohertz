@@ -28,12 +28,12 @@ export default {
 
     groupBy: {
       type: [String, Array],
-      default: '',
+      default: () => [],
     },
 
     groupDesc: {
-      type: Boolean,
-      default: false,
+      type: Array,
+      default: () => [],
     },
   },
 

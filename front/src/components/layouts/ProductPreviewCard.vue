@@ -10,12 +10,7 @@
        @click="showProduct(product)"
        class="link"
        >
-      <ImgKit
-      :path="imgPath"
-      :transformation="[{w: 400}]"
-      style="max-width: 100%;"
-
-      />
+      <v-img :src="imgUrl(product.image, [{w: 400}])" style="max-width: 100%;" />
     </div>
     </template>
 
@@ -26,17 +21,14 @@
       :key="index"
       >
         <template v-slot:activator="{ attrs, on }">
-          <v-btn
-            class="mx-1"
-            v-bind="attrs"
-            icon
-            :color="p.color"
-            v-on="on"
-          >
-            <v-icon>{{ p.icon }}</v-icon>
-          </v-btn>
-        </template>
+          <v-img
+          v-bind="attrs"
+          v-on="on"
+          :src="p.image"
+          class="card-icon-preview mx-2 mt-2"
+          />
 
+        </template>
         <span>{{ p.title }}</span>
       </v-tooltip>
     </template>
@@ -59,12 +51,12 @@
 </template>
 
 <script>
-import ImgKit from '@common/components/img/ImgKit'
+
 import { isVariableProduct } from '@common/utils'
 
 export default {
   components: {
-    ImgKit,
+
   },
 
   props: {
@@ -84,9 +76,6 @@ export default {
   },
 
   computed: {
-    imgPath () {
-      return this.product && this.product.image
-    },
 
     productPrice () {
       if(!this.product) return
@@ -101,9 +90,12 @@ export default {
     },
 
     previewFields () {
-      const pf = this.product && this.product.previewFields
-      if(!Array.isArray(pf) || !pf.length) return []
-      return pf.filter(e => !!e.title).map((e, index) => Object.assign({}, this.previewIcons[index], { title: e.title }))
+      if(!this.product || !this.product.previewFields) return []
+      return this.product.previewFields.map(e => {
+        let { title, content } = e
+        let image = e.image && this.imgUrl(e.image, [{w: 28, h: 28}])
+        return {title, content, image}
+      })
     },
   },
 
@@ -121,10 +113,12 @@ export default {
       let disc = 10 + 25 * Math.random()
       return Math.round(disc)
     },
-
-
   },
 
 
 }
 </script>
+
+<style scoped>
+
+</style>

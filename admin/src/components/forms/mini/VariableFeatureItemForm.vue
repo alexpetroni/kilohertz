@@ -1,19 +1,29 @@
 <template>
-
-    <v-container>
-      <v-row justify="center" >
-        <v-sheet >
+  <v-container>
+    <template v-if="isTextType">
+      <v-row justify="center" dense>
+        <v-col cols="12" md="6">
           <v-text-field
           v-model="editedItem.name"
           label="Name"
           @keyup.enter="onEnter"
           />
-        </v-sheet>
+        </v-col>
+      </v-row>
+    </template>
 
-        <template
-        v-if="isColorType"
-        >
 
+    <template v-if="isColorType">
+      <v-row justify="center" dense>
+        <v-col cols="12" md="6">
+          <v-text-field
+          v-model="editedItem.name"
+          label="Name"
+          @keyup.enter="onEnter"
+          />
+        </v-col>
+
+        <v-col cols="12" md="4">
         <v-avatar
         :color="editedItem.value"
         size="28"
@@ -34,7 +44,7 @@
 
             <v-card>
             <v-color-picker
-            v-model="editedItem.value"
+            v-model="vfColor"
             mode="hexa"
             flat
             hide-mode-switch
@@ -57,16 +67,56 @@
           </v-card-actions>
           </v-card>
           </v-dialog>
+        </v-col>
+      </v-row>
+    </template>
 
-        </template>
 
+    <template v-if="isImageType">
+        <v-row justify="center" dense>
+          <v-col cols="12" md="6">
+            <v-text-field
+            v-model="editedItem.name"
+            label="Name"
+            @keyup.enter="onEnter"
+            />
+          </v-col>
 
-        <template
-        v-if="isSvgType"
-        >
+          <v-col md="4">
+            <AttachmentForm
+            v-model="editedItem.value"
+            />
+          </v-col>
+        </v-row>
+    </template>
 
-        </template>
+    <template v-if="isSvgType">
+        <v-row justify="center" dense>
+          <v-col cols="12" md="6">
+            <v-text-field
+            v-model="editedItem.name"
+            label="Name"
+            @keyup.enter="onEnter"
+            />
+          </v-col>
 
+          <v-col md="1">
+            <div v-html="editedItem.value" ></div>
+          </v-col>
+        </v-row>
+
+        <v-row justify="center" dense>
+          <v-col cols="12" md="8" sm="12">
+            <v-textarea
+            v-model="editedItem.value"
+            label="SVG Code"
+            >
+            </v-textarea>
+          </v-col>
+        </v-row>
+    </template>
+
+      <v-row justify="center">
         <v-col
         cols="12"
         >
@@ -89,14 +139,15 @@
 </template>
 
 <script>
-import { isVfTextType, isVfColorType, isVfSvgType } from '@common/utils'
+import { isVfTextType, isVfColorType, isVfImageType, isVfSvgType  } from '@common/utils'
 import FormItemMixin from '@common/mixins/FormItemMixin'
 import FormSubmitButtons from '@common/components/FormSubmitButtons'
-
+import AttachmentForm from '@/components/forms/mini/AttachmentForm'
 
 export default {
   components: {
     FormSubmitButtons,
+    AttachmentForm,
   },
 
   mixins: [ FormItemMixin ],
@@ -124,16 +175,31 @@ export default {
       return isVfColorType(this.type)
     },
 
+    isImageType () {
+      return isVfImageType(this.type)
+    },
+
+
     isSvgType () {
       return isVfSvgType(this.type)
     },
 
     submitDisabled () {
-      return !this.hasName || !this.editedItem.value
+      return !this.hasName
     },
 
     hasName () {
       return this.editedItem.name && this.editedItem.name.trim()
+    },
+
+    vfColor: {
+      get () {
+        return this.editedItem.value ? this.editedItem.value : '#FFFFFF'
+      },
+
+      set (val) {
+        this.$set(this.editedItem, 'value', val)
+      }
     },
 
   },
@@ -156,11 +222,7 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
-.v-text-field{
-      width: 250px;
-}
 
 .selectedColor {
   border: solid 3px;

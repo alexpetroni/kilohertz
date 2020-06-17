@@ -8,11 +8,7 @@
     <div
     class="link"
     @click="showCategory">
-    <ImgKit
-    :path="imgPath"
-    :transform="[{w: 400}]"
-    style="max-width: 100%;"
-    />
+    <v-img :src="imgUrl(category.image, [{w: 400}])" style="max-width: 100%;" />
   </div>
   </template>
 
@@ -23,15 +19,13 @@
     bottom
     >
       <template v-slot:activator="{ attrs, on }">
-        <v-btn
-          class="mx-1"
-          :color="p.color"
-          v-bind="attrs"
-          icon
-          v-on="on"
-        >
-          <v-icon>{{ p.icon }}</v-icon>
-        </v-btn>
+        <v-img
+        v-if="p.image"
+        v-bind="attrs"
+        v-on="on"
+        :src="p.image"
+        class="card-icon-preview mx-2 mt-2"
+        />
       </template>
 
       <span>{{ p.title }}</span>
@@ -63,12 +57,11 @@
 </template>
 
 <script>
-import ImgKit from '@common/components/img/ImgKit'
 
 export default {
 
   components: {
-    ImgKit,
+
   },
 
   props: {
@@ -94,9 +87,12 @@ export default {
     },
 
     previewFields () {
-      const pf = this.meta && this.meta.previewFields
-      if(!Array.isArray(pf) || !pf.length) return []
-      return pf.filter(e => !!e.title).map((e, index) => Object.assign({}, this.previewIcons[index], { title: e.title }))
+      if(!this.meta || !this.meta.previewFields) return []
+      return this.meta.previewFields.map(e => {
+        let { title, content } = e
+        let image = e.image && this.imgUrl(e.image, [{w: 28, h: 28}])
+        return {title, content, image}
+      })
     },
 
     category () {
