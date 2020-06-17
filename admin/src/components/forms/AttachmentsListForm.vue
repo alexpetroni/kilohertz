@@ -51,7 +51,7 @@
           </template>
         </v-text-field>
         <v-spacer />
-        <ImgKitUpload
+        <ImgTransfUpload
         v-if="showUpload"
         @item-uploaded="$emit('reload')"
         />
@@ -68,7 +68,7 @@
       </template>
 
       <template v-slot:item.thumbnail="{item}">
-        <ImgKit :src="item.thumbnail" />
+        <ImgTransf :path="item.path" :transformation="[{w:150, h: 150}]"/>
       </template>
 
       <template v-slot:item.actions="{item}">
@@ -102,8 +102,8 @@ import EditBtn from '@common/components/btn/EditBtn'
 import DeleteBtn from '@common/components/btn/DeleteBtn'
 import ConfirmationDialog from '@common/components/ConfirmationDialog'
 import BulkActionSelector from '@common/components/BulkActionSelector'
-import ImgKit from '@common/components/img/ImgKit'
-import ImgKitUpload from '@common/components/img/ImgKitUpload'
+import ImgTransf from '@common/components/img/ImgTransf'
+import ImgTransfUpload from '@common/components/img/ImgTransfUpload'
 
 import { parseDate } from '@common/utils'
 
@@ -117,8 +117,8 @@ export default {
     DeleteBtn,
     ConfirmationDialog,
     BulkActionSelector,
-    ImgKit,
-    ImgKitUpload,
+    ImgTransf,
+    ImgTransfUpload,
   },
 
   data () {

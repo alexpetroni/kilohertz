@@ -1,5 +1,6 @@
 <template>
   <div class="subtitle-2 d-flex">
+    <template v-if="priceObj">
     <!-- ======================== VARIABLE PRODUCT ======================== -->
     <template v-if="priceObj.isVariableProduct">
       <span class="discountPercent" v-if="priceObj.variationsMaxDiscountAmount"><v-icon color="error">mdi-label-percent</v-icon> -{{priceObj.variationsMaxDiscountPercent}}% </span>
@@ -16,6 +17,8 @@
       <v-icon color="error">mdi-label-percent</v-icon><span class="discountPercent" v-if="priceObj.discountPercent"> -{{ priceObj.discountPercent }}% </span>
       <span v-if="priceObj.discountAmount" class="regularPrice mx-2"> {{ formatedRegularPrice }} </span>
       <span :class="priceStyle">{{ formatedPrice }}</span>
+    </template>
+
     </template>
   </div>
 </template>

@@ -56,11 +56,12 @@
       </template>
 
       <template v-slot:item.image="{item}">
-        <v-img :src="previewImg(item)" class="prod-thumbnail"/>
-        <!-- <ImgKit
+
+        <ImgTransf
         :path="item.image"
         :transformation="[{w:90, h: 90}]"
-         /> -->
+        class="prod-thumbnail"
+         />
       </template>
 
       <template v-slot:item.type="{item}">
@@ -110,7 +111,7 @@ import EditBtn from '@common/components/btn/EditBtn'
 import DeleteBtn from '@common/components/btn/DeleteBtn'
 import ConfirmationDialog from '@common/components/ConfirmationDialog'
 import BulkActionSelector from '@common/components/BulkActionSelector'
-// import ImgKit from '@common/components/img/ImgKit'
+// import ImgTransf from '@common/components/img/ImgTransf'
 import { parseDate, isSimpleProduct } from '@common/utils'
 
 export default {
@@ -123,7 +124,7 @@ export default {
     DeleteBtn,
     ConfirmationDialog,
     BulkActionSelector,
-  //  ImgKit,
+  //  ImgTransf,
   },
 
   data () {

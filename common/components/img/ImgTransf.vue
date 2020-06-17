@@ -1,19 +1,11 @@
 <template>
-  <div >kaka IMG KIT Comp</div>
+  <v-img v-if="this.path" :src="imgUrl(this.path, this.transformation)" />
 </template>
 
 <script>
 
   export default {
-
-    components: {
-    },
-
     props: {
-      src: {
-        type: String,
-      },
-
       path: {
         type: String,
       },

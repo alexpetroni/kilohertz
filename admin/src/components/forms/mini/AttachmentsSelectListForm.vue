@@ -11,7 +11,7 @@
     >
     <v-btn absolute fab small top right icon @click="onCancel" class="pt-12"><v-icon small>mdi-close</v-icon></v-btn>
     <v-alert v-if="error" type="error">{{ error }}</v-alert>
-    
+
     <v-data-iterator
       v-model="selected"
       :items="items"
@@ -71,7 +71,7 @@
               <template v-slot:image>
                 <div class="thumbContainer">
                   <div class="mx-auto">
-                <ImgKit :src="item.thumbnail" />
+                <ImgTransf :path="item.path" :transformation="[{w:150, h:150}]"/>
               </div>
                 </div>
               </template>
@@ -111,7 +111,7 @@
 
 <script>
 import FormPagListMixin from '@common/mixins/FormPagListMixin'
-import ImgKit from '@common/components/img/ImgKit'
+import ImgTransf from '@common/components/img/ImgTransf'
 
 export default {
   props: {
@@ -123,7 +123,7 @@ export default {
   mixins: [ FormPagListMixin ],
 
   components: {
-    ImgKit,
+    ImgTransf,
   },
 
   data () {

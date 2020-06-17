@@ -23,13 +23,13 @@
             <v-col
             cols="9"
             >
-              <ImgKit :src="item.url" />
+              <ImgTransf :path="item.path" />
             </v-col>
 
             <v-col cols="3">
               <ul style="list-style: none;">
               <li>Type: {{ item.type }}</li>
-              <li>File type: {{ item.fileType }}</li>              
+              <li>File type: {{ item.fileType }}</li>
               <li>Thumbnail: <a :href="item.thumbnail" target="_blank"><img :src="item.thumbnail" style="vertical-align: middle;"/></a></li>
               <li>URL: <a :href="item.url" target="_blank">{{ item.url }}</a></li>
               <li>Tags: {{ item.tags }}</li>
@@ -56,7 +56,7 @@
 import FormItemMixin from '@common/mixins/FormItemMixin'
 import FormTopBar from '@common/components/FormTopBar'
 import FormSubmitButtons from '@common/components/FormSubmitButtons'
-import ImgKit from '@common/components/img/ImgKit'
+import ImgTransf from '@common/components/img/ImgTransf'
 
 export default {
   mixins: [ FormItemMixin ],
@@ -64,7 +64,7 @@ export default {
   components: {
     FormTopBar,
     FormSubmitButtons,
-    ImgKit,
+    ImgTransf,
   },
 
   data () {

@@ -16,7 +16,7 @@
         <v-icon>mdi-drag-vertical</v-icon>
       </v-btn>
 
-      <ImgKit
+      <ImgTransf
       :path="product.image"
       :transformation="[{w:75, h: 75}]"
       class="pr-3"
@@ -33,14 +33,14 @@
 
 <script>
 import ProductLoader from '@/components/rl/ProductLoader'
-import ImgKit from '@common/components/img/ImgKit'
+import ImgTransf from '@common/components/img/ImgTransf'
 import DeleteBtn from '@common/components/btn/DeleteBtn'
 
 export default {
 
   components: {
     ProductLoader,
-    ImgKit,
+    ImgTransf,
     DeleteBtn,
   },
 

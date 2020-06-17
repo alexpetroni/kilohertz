@@ -52,7 +52,6 @@ export default {
     },
 
     definedVariationConfig () { // the variationConfig with only the fields that are valid choices
-      console.log('definedVariationConfig %o', pickBy(this.variationConfig, (val) => !!val))
       return pickBy(this.variationConfig, (val) => !!val)
     },
   },
@@ -64,16 +63,9 @@ export default {
     },
     // slug is the variableFeature slug and dvc is the computed 'definedVariationConfig'
     disabledFeaturesForConfig (slug, vc) {
-      // remove from variationConfig the own value if set and the empty ones
-      // let dvc = Object.keys(vc).reduce((acc, e) => {
-      //   if(vc[e] && e != slug ){
-      //     acc[e] = vc[e]
-      //   }
-      //   return acc
-      // }, {})
+
 
       let dvc = pickBy(vc, (val, key) => !!val && key != slug)
-console.log('dvc %o', dvc)
       if(isEmpty(dvc)) return []
       const vf = this.variableFeatures.find(e => e.slug == slug)
       const allOptions = vf && vf.items && vf.items.map(e => e.slug)
@@ -83,9 +75,9 @@ console.log('dvc %o', dvc)
       .filter(e => Object.keys(dvc).every(k => e[k] == dvc[k])) // filter the configs that match partial variationConfig
       .map(e => e[slug]) // retain only the values for that slug
       .filter((e, index, arr) => arr.indexOf(e) == index) // remove duplicates
-      console.log('availableOptions for %s %o', slug, availableOptions)
+
       let dis = difference(allOptions, availableOptions)
-      console.log('dis %o', dis)
+
       return dis
     },
 

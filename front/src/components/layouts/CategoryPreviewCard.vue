@@ -13,23 +13,7 @@
   </template>
 
   <template v-slot:reveal-actions>
-    <v-tooltip
-    v-for="(p, index) in previewFields"
-    :key="index"
-    bottom
-    >
-      <template v-slot:activator="{ attrs, on }">
-        <v-img
-        v-if="p.image"
-        v-bind="attrs"
-        v-on="on"
-        :src="p.image"
-        class="card-icon-preview mx-2 mt-2"
-        />
-      </template>
-
-      <span>{{ p.title }}</span>
-    </v-tooltip>
+    <PreviewIconsGroup :items="previewFields" />
   </template>
 
   <v-card-title class="justify-center font-weight-light link"  @click="showCategory">
@@ -57,11 +41,12 @@
 </template>
 
 <script>
+import PreviewIconsGroup from '@common/components/PreviewIconsGroup'
 
 export default {
 
   components: {
-
+    PreviewIconsGroup,
   },
 
   props: {
@@ -73,11 +58,6 @@ export default {
 
   data () {
     return {
-      previewIcons: [
-        { icon: 'mdi-tag-heart-outline', color: 'blue' },
-        { icon: 'mdi-trophy', color: 'success'},
-        { icon: 'mdi-star-face', color: 'error'},
-      ],
     }
   },
 

@@ -2,7 +2,7 @@
   <v-row>
     <template v-if="product">
       <v-col sm="6" md="6">
-        <ImgKit
+        <ImgTransf
         :path="p.image"
         :transformation="[{w: 600}]"
         style="max-width: 100%;"
@@ -111,7 +111,7 @@
 </template>
 
 <script>
-import ImgKit from '@common/components/img/ImgKit'
+import ImgTransf from '@common/components/img/ImgTransf'
 import ProductPackagingTable from '@/components/layouts/product/ProductPackagingTable'
 import ProductTechnicalInformationTable from '@/components/layouts/product/ProductTechnicalInformationTable'
 import ProductDimensionsTable from '@/components/layouts/product/ProductDimensionsTable'
@@ -127,7 +127,7 @@ import LinkedProductCard from '@/components/layouts/LinkedProductCard'
 export default {
 
   components: {
-    ImgKit,
+    ImgTransf,
     ProductPackagingTable,
     ProductTechnicalInformationTable,
     ProductDimensionsTable,

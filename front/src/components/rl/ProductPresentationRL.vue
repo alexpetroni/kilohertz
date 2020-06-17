@@ -33,7 +33,6 @@ export default {
     },
 
     parseLoadResult (result) {
-      console.log('parseLoadResult %o', result)
       return result
     },
 

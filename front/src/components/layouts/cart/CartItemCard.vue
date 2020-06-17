@@ -2,7 +2,7 @@
 <v-container>
   <v-row>
     <v-col sm="3" md="2">
-      <ImgKit
+      <ImgTransf
       :path="product.image"
       :transform="[{w: 150, h: 150}]"
       style="max-width: 100%;"
@@ -42,14 +42,14 @@
 </template>
 
 <script>
-import ImgKit from '@common/components/img/ImgKit'
+import ImgTransf from '@common/components/img/ImgTransf'
 import { isProductVariation, zipFeatures, productPriceObject, formatPrice } from '@common/utils'
 import { mapState, mapMutations } from 'vuex'
 
 export default {
 
   components: {
-    ImgKit,
+    ImgTransf,
   },
 
   directives: {

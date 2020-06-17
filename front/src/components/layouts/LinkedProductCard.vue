@@ -10,35 +10,16 @@
        @click="showProduct(product)"
        class="link"
        >
-      <ImgKit
+      <ImgTransf
       :path="imgPath"
       :transformation="[{w: 350}]"
       style="max-width: 100%;"
-
       />
     </div>
     </template>
 
     <template v-slot:reveal-actions>
-
-      <v-tooltip bottom
-      v-for="(p, index) in previewFields"
-      :key="index"
-      >
-        <template v-slot:activator="{ attrs, on }">
-          <v-btn
-            class="mx-1"
-            v-bind="attrs"
-            icon
-            :color="p.color"
-            v-on="on"
-          >
-            <v-icon>{{ p.icon }}</v-icon>
-          </v-btn>
-        </template>
-
-        <span>{{ p.title }}</span>
-      </v-tooltip>
+      <PreviewIconsGroup :items="previewFields" />
     </template>
 
     <v-card-title class="justify-center font-weight-light link"  @click="showProduct">
@@ -59,12 +40,14 @@
 </template>
 
 <script>
-import ImgKit from '@common/components/img/ImgKit'
+import ImgTransf from '@common/components/img/ImgTransf'
+import PreviewIconsGroup from '@common/components/PreviewIconsGroup'
 import { isVariableProduct } from '@common/utils'
 
 export default {
   components: {
-    ImgKit,
+    ImgTransf,
+    PreviewIconsGroup,
   },
 
   props: {
@@ -75,11 +58,7 @@ export default {
 
   data () {
     return {
-      previewIcons: [
-        { icon: 'mdi-tag-heart-outline', color: 'blue' },
-        { icon: 'mdi-trophy', color: 'success'},
-        { icon: 'mdi-star-face', color: 'error'},
-      ],
+
     }
   },
 
@@ -101,9 +80,12 @@ export default {
     },
 
     previewFields () {
-      const pf = this.product && this.product.previewFields
-      if(!Array.isArray(pf) || !pf.length) return []
-      return pf.filter(e => !!e.title).map((e, index) => Object.assign({}, this.previewIcons[index], { title: e.title }))
+      if(!this.product || !this.product.previewFields) return []
+      return this.product.previewFields.map(e => {
+        let { title, content } = e
+        let image = e.image && this.imgUrl(e.image, [{w: 28, h: 28}])
+        return {title, content, image}
+      })
     },
   },
 

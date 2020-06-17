@@ -25,7 +25,6 @@ export default {
 
     async loadItem (key, fetchPolicy) {
       let variables = {field: this.field, value: this.fieldValue, linkType: key.id }
-      console.log('variables %o', variables)
       let { data: { linkedProducts } } = await this.$apollo.query({
         query: LinkedProducts,
         variables,
@@ -35,7 +34,6 @@ export default {
     },
 
     parseLoadResult (result) {
-      console.log('result linkedProducts %o', result)
       return result
     },
 

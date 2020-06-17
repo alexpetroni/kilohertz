@@ -8,7 +8,7 @@
     :to="'/product/' + p.slug"
     :title="p.name"
     >
-      <ImgKit
+      <ImgTransf
       :path="p.image"
       :transformation="[{w: 75, h: 75}]"
       style="max-width: 100%;"
@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import ImgKit from '@common/components/img/ImgKit'
+import ImgTransf from '@common/components/img/ImgTransf'
 
 export default {
   props: {
@@ -37,7 +37,7 @@ export default {
   },
 
   components: {
-    ImgKit,
+    ImgTransf,
   },
 
   computed: {
