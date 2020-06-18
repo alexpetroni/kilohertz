@@ -1,6 +1,6 @@
 // ErrorsMixin
 
-const mix = {
+export default {
   data: function () {
     return {
       error: '',
@@ -19,5 +19,3 @@ const mix = {
     },
   },
 }
-
-export default mix

@@ -30,9 +30,54 @@
       {{ product.excerpt }}
     </v-card-text>
 
-    <template v-slot:actions>
-      <div class="display-2 font-weight-light grey--text" v-html="productPrice">
-      </div>
+      <template v-slot:actions>
+        <v-container class="pa-0 ma-0">
+        <v-row no-gutters wrap>
+
+        <AddToCartRL
+        :product="p"
+        v-slot="{priceObj, qty, addToCartBtnDisabled, addToCart, alreadyInCart, on}"
+        >
+        <v-col cols="12">
+          <div v-html="showPrice(priceObj)"></div>
+          <div  style="width: 6em; display: inline-block;">
+            <v-text-field
+                label="Qty."
+                type="number"
+                :value="qty"
+                v-on="on"
+                class="mx-4"
+              ></v-text-field>
+          </div>
+
+            <v-btn
+            :disabled="addToCartBtnDisabled"
+            @click="addToCart({product:p, qty})"
+            color="primary"
+            small
+            bottom
+            right
+            >
+            Add to Cart
+            <v-icon right dark v-if="alreadyInCart">mdi-check</v-icon>
+          </v-btn>
+
+          </v-col>
+        </AddToCartRL>
+
+
+
+        <v-col cols="12">
+
+          <ProductVariationConfig
+          v-if="isVariableProduct"
+          :variableFeatures="variableFeatures"
+          v-model="selectedConfig"
+          :selectableConfigs="selectableConfigs"
+          />
+      </v-col>
+    </v-row>
+  </v-container>
 
       <v-spacer />
     </template>
@@ -40,15 +85,23 @@
 </template>
 
 <script>
+import ProductPresentationMixin  from '@/mixins/ProductPresentationMixin'
 import ImgTransf from '@common/components/img/ImgTransf'
 import PreviewIconsGroup from '@common/components/PreviewIconsGroup'
-import { isVariableProduct } from '@common/utils'
+import AddToCartRL from '@/components/rl/AddToCartRL'
+import { isVariableProduct, formatPrice } from '@common/utils'
+import ProductVariationConfig from '@/components/layouts/product/ProductVariationConfig'
+import { mapState } from 'vuex'
 
 export default {
   components: {
     ImgTransf,
     PreviewIconsGroup,
+    ProductVariationConfig,
+    AddToCartRL,
   },
+
+  mixins: [ ProductPresentationMixin ],
 
   props: {
     product: {
@@ -63,6 +116,8 @@ export default {
   },
 
   computed: {
+    ...mapState(['currencySymbol']),
+
     imgPath () {
       return this.product && this.product.image
     },
@@ -90,6 +145,23 @@ export default {
   },
 
   methods: {
+
+    showPrice (priceObj) {
+      if(!priceObj) return
+      if(priceObj.isVariableProduct) {
+       if(priceObj.variationsHaveMultiplePrices) {
+         return `ab <span class="normal-price preview-card-price">${formatPrice(priceObj.variationsPricesRange[0], this.currencySymbol)}</span>`
+       }else{
+         return `<span class="normal-price preview-card-price">${formatPrice(priceObj.price, this.currencySymbol)}</span>`
+       }
+      }
+
+      if(priceObj.hasSalePrice){
+        return `<span class="hot-price preview-card-price">${formatPrice(priceObj.price, this.currencySymbol)} </span> statt <span class="regular-price preview-card-price">${formatPrice(priceObj.regularPrice, this.currencySymbol)}</span>`
+      }
+      return `<span class="normal-price preview-card-price">${formatPrice(priceObj.price, this.currencySymbol)} </span>`
+    },
+
     showProduct () {
       this.$emit('show-product', {field: 'slug', value: this.product.slug})
     },
@@ -104,9 +176,15 @@ export default {
       return Math.round(disc)
     },
 
+    updatedSelectedSku (val) {
+      this.selectedVariationSku = val
+    },
 
   },
 
+  created () {
+    this.$on('selection-change', this.updatedSelectedSku)
+  },
 
 }
 </script>

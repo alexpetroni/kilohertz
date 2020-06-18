@@ -2,7 +2,7 @@
   <v-card flat color="transparent">
     <v-card-actions>
       <v-spacer />
-    <ProductPrice
+    <ProductPresentationPrice
     :product="product"
     :quantity="qty"
     />
@@ -28,32 +28,13 @@
 </template>
 
 <script>
-import ProductPrice from '@/components/layouts/product/ProductPrice'
+import ProductPresentationPrice from '@/components/layouts/product/ProductPresentationPrice'
 import { isVariableProduct } from '@common/utils'
 import { mapState, mapMutations } from 'vuex'
 
 export default {
-
   components: {
-    ProductPrice,
-  },
-
-  directives: {
-
-  },
-
-  filters: {
-
-  },
-
-  extends: {
-
-  },
-
-  mixins: [],
-
-  model: {
-
+    ProductPresentationPrice,
   },
 
   props: {
@@ -95,8 +76,3 @@ export default {
 
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-
-</style>

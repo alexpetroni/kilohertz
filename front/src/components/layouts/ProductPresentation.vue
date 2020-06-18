@@ -116,6 +116,8 @@
 </template>
 
 <script>
+import ProductPresentationMixin  from '@/mixins/ProductPresentationMixin'
+
 import ImgTransf from '@common/components/img/ImgTransf'
 import ProductPackagingTable from '@/components/layouts/product/ProductPackagingTable'
 import ProductTechnicalInformationTable from '@/components/layouts/product/ProductTechnicalInformationTable'
@@ -124,14 +126,12 @@ import ProductPresentationAddToCart from '@/components/layouts/product/ProductPr
 import ProductVariationConfig from '@/components/layouts/product/ProductVariationConfig'
 import ProductVolumeDiscount from '@/components/layouts/product/ProductVolumeDiscount'
 
-import { isVariableProduct , PRODUCT_TYPE} from '@common/utils'
-import { isEqual, defaultsDeep, omitBy, isNil } from 'lodash-es'
-
 import LinkedProductsRL from '@/components/rl/LinkedProductsRL'
 import LinkedProductCard from '@/components/layouts/LinkedProductCard'
 
 
 export default {
+  mixins: [ ProductPresentationMixin ],
 
   components: {
     ImgTransf,
@@ -146,26 +146,13 @@ export default {
   },
 
   props: {
-    product: {
-      type: Object,
-    },
-
-    selectedVariationSku: {
+    svSku: {
       type: String,
-    }
+    },
   },
 
   data () {
     return {
-      qty: 1,
-      selectedConfig: {},
-
-      previewIcons: [
-        { icon: 'mdi-tag-heart-outline', color: 'blue' },
-        { icon: 'mdi-trophy', color: 'success'},
-        { icon: 'mdi-star-face', color: 'error'},
-      ],
-
       linkedProducts: [
         {type: 'accessories', title: 'Zubehör'},
         {type: 'cross-sells', title: 'Kunden kauften auch'},
@@ -175,30 +162,6 @@ export default {
   },
 
   computed: {
-    p () {
-      if(isVariableProduct(this.product) && this.selectedVariation){
-        return defaultsDeep({ type: PRODUCT_TYPE.VARIATION }, this.selectedVariation, this.product)
-      }
-      return this.product
-    },
-
-    selectedVariation () {
-      const variations = this.product && this.product.variations
-      if(!this.selectedVariationSku || !Array.isArray(variations) || !variations.length) return
-      let v = variations.find(e => e.sku == this.selectedVariationSku)
-      let result = v ? omitBy(v, isNil) : null
-
-      // console.log('selectedVariation %o', result)
-      return result
-    },
-
-    isVariableProduct () {
-      return isVariableProduct(this.product)
-    },
-
-    variableFeatures () {
-      return this.isVariableProduct ? this.product.variableFeatures : []
-    },
 
     hasTechnicalInformation () {
       return this.p && this.p.technicalInformation
@@ -233,34 +196,16 @@ export default {
 
       return tabs
     },
-
-    selectableConfigs () {
-      if(!this.isVariableProduct) return []
-      return this.product.variations.map(e => e.featuresConfig)
-    }
   },
 
   watch: {
-    selectedConfig: function (val) {
-      this.$emit('selection-change', this.getVariationSkuForConfig(val))
-    },
-
-    selectedVariation: function (val) {
-      if(val && val.featuresConfig && !isEqual(this.selectedConfig, val.featuresConfig)) { // sync selected config if needed
-        this.selectedConfig = val.featuresConfig
-      }
+    svSku: {
+      handler: function (val) {
+        this.selectedVariationSku = val
+      },
+      immediate: true,
     }
-  },
-
-  methods: {
-    getVariationSkuForConfig (featuresConfig) {
-      const variations = this.product && this.product.variations
-      if(!Array.isArray(variations) || !variations.length) return
-      let v = variations.find(e => isEqual(featuresConfig, e.featuresConfig))
-      return v && v.sku
-    }
-  },
-
+  }
 
 }
 </script>

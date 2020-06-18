@@ -24,7 +24,7 @@
 
     <ProductPresentation
     :product="item.productBy"
-    :selectedVariationSku="selectedVariationSku"
+    :svSku="selectedVariationSku"
     @selection-change="onSelectionChange"
     />
   </div>

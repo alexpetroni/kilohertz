@@ -1,15 +1,13 @@
+#import '../../../product/fragments/ProductBasicFragment.gql'
+#import './../../product/fragments/ProductPriceFragment.gql'
 #import "./../../product/fragments/ProductVariableFeaturesFragment.gql"
 #import "./../../product/fragments/ProductVariationItemFragment.gql"
 fragment LinkedProductsData on ProductLinks {
   id
   links{
     product{
-      id
-      name
-      sku
-      slug
-      type
-      published
+    ... ProductBasicData
+    ... ProductPriceData
 
       ... on VariableProduct {
 
@@ -18,7 +16,14 @@ fragment LinkedProductsData on ProductLinks {
         }
 
         variations{
-          ... ProductVariationItemData
+          id
+          sku
+          price
+          regularPrice
+          volumePrice
+          regularVolumePrice
+          saleIsActive
+          featuresConfig
         }
       }
 

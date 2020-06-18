@@ -51,4 +51,20 @@ export default {
   max-height: 28px;
   display: inline-block;
 }
+
+.hot-price{
+  color: orange;
+}
+
+.regular-price {
+  color: #ffdddd;
+}
+
+.normal-price {
+  color: #999;
+}
+
+.preview-card-price{
+  font-weight: 700;
+}
 </style>

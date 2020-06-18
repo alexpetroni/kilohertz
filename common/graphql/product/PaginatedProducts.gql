@@ -1,9 +1,13 @@
 #import './fragments/ProductBasicFragment.gql'
+#import './fragments/ProductPriceFragment.gql'
+#import './fragments/ProductVariableFeaturesFragment.gql'
+
 query paginatedProducts ($args: JSON) {
     paginatedProducts(args: $args){
       total
       items {
         ... ProductBasicData
+        ... ProductPriceData
 
         ... on SimpleProduct {
           id
@@ -13,6 +17,21 @@ query paginatedProducts ($args: JSON) {
         ... on VariableProduct {
           id
           displayOrder
+
+          variableFeatures{
+            ... ProductVariableFeatureData
+          }
+
+          variations{
+            id
+            sku
+            price
+            regularPrice
+            volumePrice
+            regularVolumePrice
+            saleIsActive
+            featuresConfig
+          }
         }
       }
     }
