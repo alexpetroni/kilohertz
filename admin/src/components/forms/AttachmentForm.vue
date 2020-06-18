@@ -23,7 +23,7 @@
             <v-col
             cols="9"
             >
-              <ImgTransf :path="item.path" />
+              <ImgTransf :path="item.filePath" />
             </v-col>
 
             <v-col cols="3">

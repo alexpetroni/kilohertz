@@ -71,7 +71,7 @@
               <template v-slot:image>
                 <div class="thumbContainer">
                   <div class="mx-auto">
-                <ImgTransf :path="item.path" :transformation="[{w:150, h:150}]"/>
+                <ImgTransf :path="item.filePath" :transformation="[{w:250, h:250}]"/>
               </div>
                 </div>
               </template>
@@ -157,8 +157,9 @@ export default {
 
 <style>
 .thumbContainer {
-  width: 150px;
-  height: 150px;
+  width: 250px;
+  height: 250px;
   text-align: center;
+  background: #fff;
 }
 </style>

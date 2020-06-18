@@ -12,4 +12,9 @@
 .handle {
   cursor: grabbing;
 }
+
+.tab-img-thumbnail {
+  width: 90px;
+  height: 90px;
+}
 </style>

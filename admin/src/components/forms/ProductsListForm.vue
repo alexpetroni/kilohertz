@@ -56,11 +56,10 @@
       </template>
 
       <template v-slot:item.image="{item}">
-
         <ImgTransf
         :path="item.image"
         :transformation="[{w:90, h: 90}]"
-        class="prod-thumbnail"
+        class="tab-img-thumbnail"
          />
       </template>
 
@@ -111,7 +110,7 @@ import EditBtn from '@common/components/btn/EditBtn'
 import DeleteBtn from '@common/components/btn/DeleteBtn'
 import ConfirmationDialog from '@common/components/ConfirmationDialog'
 import BulkActionSelector from '@common/components/BulkActionSelector'
-// import ImgTransf from '@common/components/img/ImgTransf'
+import ImgTransf from '@common/components/img/ImgTransf'
 import { parseDate, isSimpleProduct } from '@common/utils'
 
 export default {
@@ -124,7 +123,7 @@ export default {
     DeleteBtn,
     ConfirmationDialog,
     BulkActionSelector,
-  //  ImgTransf,
+    ImgTransf,
   },
 
   data () {
@@ -177,18 +176,6 @@ export default {
     productPrice (item) {
       return item.price
     },
-
-    previewImg (item) {
-
-      return item.image ? this.imgUrl(item.image, [{w:90, h: 90}]) : ''
-    }
   },
 }
 </script>
-
-<style scoped>
-.prod-thumbnail {
-  max-width: 90px;
-  max-height: 90px;
-}
-</style>

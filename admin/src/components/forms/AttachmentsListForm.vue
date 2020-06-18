@@ -68,7 +68,7 @@
       </template>
 
       <template v-slot:item.thumbnail="{item}">
-        <ImgTransf :path="item.path" :transformation="[{w:150, h: 150}]"/>
+        <ImgTransf :path="item.filePath" :transformation="[{w:90, h: 90}]" class="tab-img-thumbnail" />
       </template>
 
       <template v-slot:item.actions="{item}">
