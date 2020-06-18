@@ -24,6 +24,11 @@
 
         <ProductPresentationAddToCart
         :product="p"
+        class="mb-0"
+        />
+
+        <ProductVolumeDiscount
+        :product="p"
         />
       </v-col>
 
@@ -117,6 +122,8 @@ import ProductTechnicalInformationTable from '@/components/layouts/product/Produ
 import ProductDimensionsTable from '@/components/layouts/product/ProductDimensionsTable'
 import ProductPresentationAddToCart from '@/components/layouts/product/ProductPresentationAddToCart'
 import ProductVariationConfig from '@/components/layouts/product/ProductVariationConfig'
+import ProductVolumeDiscount from '@/components/layouts/product/ProductVolumeDiscount'
+
 import { isVariableProduct , PRODUCT_TYPE} from '@common/utils'
 import { isEqual, defaultsDeep, omitBy, isNil } from 'lodash-es'
 
@@ -133,6 +140,7 @@ export default {
     ProductDimensionsTable,
     ProductPresentationAddToCart,
     ProductVariationConfig,
+    ProductVolumeDiscount,
     LinkedProductsRL,
     LinkedProductCard,
   },

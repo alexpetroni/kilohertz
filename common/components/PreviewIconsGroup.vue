@@ -6,6 +6,7 @@
   >
     <template v-slot:activator="{ attrs, on }">
       <v-img
+      v-if="p.image"
       v-bind="attrs"
       v-on="on"
       :src="p.image"

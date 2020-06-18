@@ -87,15 +87,15 @@ const productTypes = function () {
 }
 
 const isSimpleProduct = function (product) {
-  return product.type == PRODUCT_TYPE.SIMPLE
+  return !!product && product.type == PRODUCT_TYPE.SIMPLE
 }
 
 const isVariableProduct = function (product) {
-  return product.type == PRODUCT_TYPE.VARIABLE
+  return !!product && product.type == PRODUCT_TYPE.VARIABLE
 }
 
 const isProductVariation = function (product) {
-  return product.type == PRODUCT_TYPE.VARIATION
+  return !!product && product.type == PRODUCT_TYPE.VARIATION
 }
 
 // ====================== SALE TYPES ======================
@@ -489,6 +489,11 @@ const productPriceObject = function (product, quantity = 1) {
   }
 }
 
+// const productVolumeDiscount = function (product) {
+//   if(!product || hasVolumePrice(product)) return
+//
+// }
+
 const formatPrice = function (price, currency) {
   return `${currency} ${price}`
 }
@@ -554,6 +559,9 @@ export {
   productDiscount,
   variationsHaveMultiplePrices,
   variationsMinPrice,
+  volumePriceArr,
+  hasVolumePrice,
+  discountPercent, 
 
   formatPrice,
 }
