@@ -1,4 +1,4 @@
-p.<template>
+<template>
   <base-material-card
     color="transparent"
     hover-reveal
@@ -43,6 +43,8 @@ p.<template>
               :value="qty"
               v-on="on"
               class="mx-4"
+              :success="alreadyInCart"
+              :prepend-inner-icon="alreadyInCart ? 'mdi-check': ''"
             ></v-text-field>
         </div>
 
@@ -52,11 +54,31 @@ p.<template>
           color="primary"
           small
           bottom
-          right
+          class="mr-n2"
           >
           Add to Cart
-          <v-icon right dark v-if="alreadyInCart">mdi-check</v-icon>
+          <v-icon right dark small v-if="alreadyInCart">mdi-check</v-icon>
         </v-btn>
+
+        <v-btn
+        v-if="isVariableProduct"
+        color="primary"
+        small
+        bottom
+        icon
+        @click="configPanel = !configPanel"
+        >
+        <v-icon right dark small>mdi-cog</v-icon>
+      </v-btn>
+
+        <div v-if="configPanel">
+        <ProductVariationConfig
+        v-if="isVariableProduct"
+        :variableFeatures="variableFeatures"
+        v-model="selectedConfig"
+        :selectableConfigs="selectableConfigs"
+        />
+        </div>
 
         </v-col>
       </AddToCartRL>
@@ -65,12 +87,12 @@ p.<template>
 
       <v-col cols="12">
 
-        <ProductVariationConfig
+        <!-- <ProductVariationConfig
         v-if="isVariableProduct"
         :variableFeatures="variableFeatures"
         v-model="selectedConfig"
         :selectableConfigs="selectableConfigs"
-        />
+        /> -->
     </v-col>
   </v-row>
 </v-container>
@@ -95,6 +117,12 @@ export default {
     PreviewIconsGroup,
     AddToCartRL,
     ProductVariationConfig,
+  },
+
+  data () {
+    return {
+      configPanel: false,
+    }
   },
 
   computed: {

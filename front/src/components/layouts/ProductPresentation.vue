@@ -98,7 +98,7 @@
         sm="4"
         md="3"
         >
-          <LinkedProductCard
+          <ProductPreviewCard
           :product="p.product"
           />
         </v-col>
@@ -127,7 +127,7 @@ import ProductVariationConfig from '@/components/layouts/product/ProductVariatio
 import ProductVolumeDiscount from '@/components/layouts/product/ProductVolumeDiscount'
 
 import LinkedProductsRL from '@/components/rl/LinkedProductsRL'
-import LinkedProductCard from '@/components/layouts/LinkedProductCard'
+import ProductPreviewCard from '@/components/layouts/ProductPreviewCard'
 
 
 export default {
@@ -142,7 +142,7 @@ export default {
     ProductVariationConfig,
     ProductVolumeDiscount,
     LinkedProductsRL,
-    LinkedProductCard,
+    ProductPreviewCard,
   },
 
   props: {
