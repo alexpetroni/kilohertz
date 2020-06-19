@@ -18,8 +18,6 @@ export default {
 
     async loadPage (queryVars, fetchPolicy = 'network-only') {
       const args = this.category ? Object.assign({}, queryVars, { category: this.category }) : queryVars
-
-      console.log('args %o', args)
       try{
         let { data:{paginatedProducts} } = await this.$apollo.query({
           query: PaginatedProducts,

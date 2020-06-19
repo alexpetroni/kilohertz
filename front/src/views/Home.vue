@@ -18,7 +18,6 @@ export default {
 
   methods: {
     onShowCategory (cat) {
-      console.log('cat %s', cat)
       this.$router.push({path: `/category/${cat.slug}/${cat.id}`})
     },
   },

@@ -29,7 +29,23 @@
             >
             </CartItemCard>
 
+            <v-card flat color="transparent">
+              <v-card-text class="text-right">
+                Total: {{ totalFormatPrice }}
+                <div
+                v-if="discountAmount"
+                class="regularPrice">{{ totalFormatRegularPrice }}
+              </div>
+              <div
+              v-if="discountAmount"
+              class="discount">{{ formatedDiscountAmount }}
+            </div>
+              </v-card-text>
+            </v-card>
+
             </template> <!-- cart not empty -->
+
+
           </v-container>
 
           <v-card-actions>
@@ -48,6 +64,7 @@
 <script>
 import { mapState, mapMutations } from 'vuex'
 import CartItemCard from '@/components/layouts/cart/CartItemCard'
+import { formatPrice } from '@common/utils'
 
 export default {
 
@@ -84,7 +101,7 @@ export default {
   },
 
   computed: {
-    ...mapState(['cartItems']),
+    ...mapState(['cartItems', 'currencySymbol']),
 
     cartIsEmpty () {
       return !this.cartItems.length
@@ -100,7 +117,31 @@ export default {
         title += ` (${this.itemsInCart} Artikel)`
       }
       return title
-    }
+    },
+
+    total () {
+      return this.cartIsEmpty ? 0 : this.cartItems.reduce((acc, e) => acc + e.product.price * e.qty, 0)
+    },
+
+    totalRegular () {
+      return this.cartIsEmpty ? 0 : this.cartItems.reduce((acc, e) => acc + (e.product.regularPrice ? e.product.regularPrice: e.product.price) * e.qty, 0)
+    },
+
+    totalFormatPrice () {
+      return formatPrice(this.total, this.currencySymbol)
+    },
+
+    totalFormatRegularPrice () {
+      return formatPrice(this.totalRegular, this.currencySymbol)
+    },
+
+    formatedDiscountAmount () {
+      return '- ' + formatPrice(this.discountAmount, this.currencySymbol)
+    },
+
+    discountAmount () {
+      return this.totalRegular - this.total
+    },
 
   },
 
@@ -122,5 +163,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
+.cart-regular-price {
+  text-decoration: strike-t
+}
 </style>
