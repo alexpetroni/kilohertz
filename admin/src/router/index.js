@@ -158,6 +158,12 @@ export default new VueRouter({
           component: () => import('@/views/Attachment'),
         },
 
+        {
+          name: 'Export',
+          path: '/settings/export',
+          component: () => import('@/views/settings/Export.vue'),
+        },
+
 
 
         // Pages

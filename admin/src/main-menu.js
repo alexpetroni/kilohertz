@@ -40,6 +40,22 @@ let items = [
     title: 'Brands',
     to: '/brands',
   },
+
+  {
+    group: '/settings',
+    icon: 'mdi-cogs',
+    title: 'Settings',
+    children: [
+      {
+        title: 'Export',
+        to: 'export',
+      },
+      {
+        title: 'fullscreen',
+        to: 'full-screen-map',
+      },
+    ],
+  },
 ]
 console.log('process.env.NODE_ENV %s', process.env.NODE_ENV)
 if(process.env.NODE_ENV == 'development'){
