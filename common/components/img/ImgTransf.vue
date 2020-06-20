@@ -3,6 +3,7 @@
 </template>
 
 <script>
+import { imgUrl } from '@common/utils'
 
   export default {
     props: {
@@ -14,5 +15,11 @@
         type: Array
       },
     },
+
+    methods: {
+      imgUrl (path, transformation) {
+        return imgUrl(path, transformation)
+      }
+    }
   }
 </script>

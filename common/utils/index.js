@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import moment from 'moment'
 
+import imagekit from '@common/imagekit'
+
 const EventBus = new Vue()
 
 // ====================== FORM STATE ======================
@@ -498,6 +500,10 @@ const formatPrice = function (price, currency) {
   return `${currency} ${price}`
 }
 
+const imgUrl = function (path, transformation) {
+  return imagekit.url({path, transformation})
+}
+
 
 export {
   EventBus,
@@ -561,7 +567,9 @@ export {
   variationsMinPrice,
   volumePriceArr,
   hasVolumePrice,
-  discountPercent, 
+  discountPercent,
 
   formatPrice,
+
+  imgUrl,
 }

@@ -51,11 +51,10 @@
           </template>
         </v-text-field>
         <v-spacer />
-        <ImgTransfUpload
-        v-if="showUpload"
-        @item-uploaded="$emit('reload')"
+        <FileUploadsSelector
+        multiple
+        @files-uploaded="$emit('reload')"
         />
-          <AddNewBtn @click="onShowUpload"/>
         </v-toolbar>
       </template>
 
@@ -97,13 +96,12 @@
 
 <script>
 import FormPagListMixin from '@common/mixins/FormPagListMixin'
-import AddNewBtn from '@common/components/btn/AddNewBtn'
 import EditBtn from '@common/components/btn/EditBtn'
 import DeleteBtn from '@common/components/btn/DeleteBtn'
 import ConfirmationDialog from '@common/components/ConfirmationDialog'
 import BulkActionSelector from '@common/components/BulkActionSelector'
 import ImgTransf from '@common/components/img/ImgTransf'
-import ImgTransfUpload from '@common/components/img/ImgTransfUpload'
+import FileUploadsSelector from '@/components/selectors/FileUploadsSelector'
 
 import { parseDate } from '@common/utils'
 
@@ -112,13 +110,12 @@ export default {
   mixins: [ FormPagListMixin ],
 
   components: {
-    AddNewBtn,
     EditBtn,
     DeleteBtn,
     ConfirmationDialog,
     BulkActionSelector,
     ImgTransf,
-    ImgTransfUpload,
+    FileUploadsSelector,
   },
 
   data () {
@@ -159,7 +156,7 @@ export default {
 
     onShowUpload () {
       this.showUpload = !this.showUpload
-    }
+    },
   },
 }
 </script>

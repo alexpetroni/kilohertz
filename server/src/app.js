@@ -32,4 +32,7 @@ const options = {
   port
 }
 
+console.log('env %s', process.env.TEST)
+console.log('TT %s', process.env.TT)
+
 app.listen(options, () => console.log(`🚀 Server ready at ${homeUrl} ${ port }${server.graphqlPath}. MongoDB ${mongodbUri}`))
