@@ -50,10 +50,10 @@ let items = [
         title: 'Export',
         to: 'export',
       },
-      {
-        title: 'fullscreen',
-        to: 'full-screen-map',
-      },
+      // {
+      //   title: 'fullscreen',
+      //   to: 'full-screen-map',
+      // },
     ],
   },
 ]

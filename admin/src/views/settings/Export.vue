@@ -11,9 +11,20 @@
       </v-col>
 
       <v-col cols="12">
-        <v-btn color="primary" :href="exportLink()" download>Export all products</v-btn>
+        <v-btn color="primary" @click="onExport">Export all products</v-btn>
       </v-col>
       <v-col cols="12">
+        <v-progress-circular
+        v-if="loading"
+          indeterminate
+          color="primary"
+          />
+        <a
+          v-if="downloadLink"
+         :href="downloadLink"
+         download>
+         Download products export
+       </a>
       </v-col>
     </v-row>
   </v-container>
@@ -37,18 +48,19 @@ export default {
   methods: {
     onExport () {
       this.loading = true
+      let exportLink = process.env.VUE_APP_HTTP + process.env.VUE_APP_PATH_PRODUCTS_EXPORT
       axios
-      .get('/hh')
+      .get(exportLink)
       .then(result => {
         this.downloadLink = result.data
-        this.loading = false
         })
       .catch(error => this.setError(error.message))
+      .finally(() => { this.loading = false })
     },
 
-    exportLink () {
-      return process.env.VUE_APP_HTTP + process.env.VUE_APP_PATH_PRODUCTS_EXPORT
-    },
+    // exportLink () {
+    //   return process.env.VUE_APP_HTTP + process.env.VUE_APP_PATH_PRODUCTS_EXPORT
+    // },
   },
 
 
