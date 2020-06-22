@@ -153,7 +153,7 @@ export default {
     },
 
     onReorder () {
-      console.log("this.editedItem %o", this.editedItem.products)
+      // console.log("this.editedItem %o", this.editedItem.products)
       this.$emit('reorder-list', this.editedItem)
     },
 

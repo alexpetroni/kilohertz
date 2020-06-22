@@ -38,7 +38,6 @@ export default {
 
     async updateItem (item, key) {
       let input = this.parseItemForInput(item)
-      console.log('input %o', input)
       let { data: { updateFamily } } = await this.$apollo.mutate({
         mutation: UpdateFamily,
         variables: {...key, input },

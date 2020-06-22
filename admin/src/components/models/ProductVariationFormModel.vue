@@ -121,7 +121,7 @@ export default {
     parseLoadResult (data) {
       this.parent = data.product
       // const fc = data.productVariation.featuresConfig
-      console.log('parseLoadResult %o', data)
+      // console.log('parseLoadResult %o', data)
       let parsed = this.parseItemToMirrorDefaultModel(data.productVariation) // because featuresConfig doesn't have a fixed structure, it will be omitted, so should be added later
       parsed.featuresConfig = data.productVariation.featuresConfig
       return parsed
