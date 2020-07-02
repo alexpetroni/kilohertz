@@ -11,7 +11,7 @@
     outlined
     :show-size="1000"
     @change="uploadFiles"
-    :loading = loading
+    :loading="loading"
     ref="fileInput"
   >
     <template v-slot:selection="{ index, text }">
