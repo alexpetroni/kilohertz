@@ -41,11 +41,13 @@ export default {
         query: ProductAttachmentsSet,
         variables: key,
       })
+      
       return productAttachmentsSet
     },
 
     async updateItem (item, key) {
       let input = this.parseItemForInput(item)
+      console.log('input %o', input)
       let { data: { updateProductAttachmentsSet } } = await this.$apollo.mutate({
         mutation: UpdateProductAttachmentsSet,
         variables: {...key, input },
@@ -55,7 +57,12 @@ export default {
 
     parseItemForInput (item) {
       let { product, name, attachments } = item
-
+      if(attachments && attachments.length) {
+        attachments = attachments.map(e => {
+          let {title, path, type } = e
+          return {title, path, type}
+        })
+      }
       return { product, name, attachments }
     },
 

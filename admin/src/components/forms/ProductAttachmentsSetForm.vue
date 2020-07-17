@@ -7,8 +7,7 @@
       <v-col
       cols="12"
       >
-        <AttachmentForm
-        multiple
+        <AttachmentsSetForm
         v-model="editedItem.attachments"
         />
       </v-col>
@@ -26,7 +25,7 @@
 
 <script>
 import FormItemMixin from '@common/mixins/FormItemMixin'
-import AttachmentForm from '@/components/forms/mini/AttachmentForm'
+import AttachmentsSetForm from '@/components/forms/mini/AttachmentsSetForm'
 import FormSubmitButtons from '@common/components/FormSubmitButtons'
 import { FormState } from '@common/utils'
 
@@ -40,7 +39,7 @@ export default {
   },
 
   components: {
-    AttachmentForm,
+    AttachmentsSetForm,
     FormSubmitButtons,
   },
 

@@ -25,6 +25,7 @@
       <v-text-field
       label="Qty."
       :value="qty"
+      min="1"
       @change="onQtyChange"
       type="number"
       >

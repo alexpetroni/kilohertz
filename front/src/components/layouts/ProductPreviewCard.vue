@@ -43,6 +43,7 @@
               :value="qty"
               v-on="on"
               class="mx-4"
+              min="1"
               :success="alreadyInCart"
               :prepend-inner-icon="alreadyInCart ? 'mdi-check': ''"
             ></v-text-field>

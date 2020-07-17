@@ -4,5 +4,9 @@ fragment ProductAttachmentsSetData on ProductAttachmentsSet{
   updatedAt
   name
   product
-  attachments
+  attachments {
+    type
+    path
+    title
+  }
 }

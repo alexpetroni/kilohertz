@@ -1,6 +1,7 @@
 <template>
   <v-row>
     <template v-if="product">
+      {{ p }}
       <v-col sm="6" md="6">
         <ImgTransf
         :path="p.image"
@@ -30,6 +31,53 @@
         <ProductVolumeDiscount
         :product="p"
         />
+      </v-col>
+
+
+      <v-col md="8" v-if="hasAttachmentsSets">
+        <!-- ==================== ATTACHMENTS SETS TABS DATA ==================== -->
+        <v-card>
+          <v-card-text>
+          <base-material-tabs color="warning">
+          <v-tab
+            v-for="tab in infoTabs"
+            :key="tab.slug"
+            :href="`#tab-${tab.slug}`"
+          >
+            {{ tab.title }}
+          </v-tab>
+
+            <v-tab-item
+            v-if="hasTechnicalInformation"
+            value="tab-technical-informations"
+            >
+              <ProductTechnicalInformationTable
+              :textContent="p.technicalInformation"
+              />
+            </v-tab-item>
+
+            <v-tab-item
+            v-if="hasPackagingInfo"
+            value="tab-packaging"
+            >
+              <ProductPackagingTable
+              :textContent="p.packaging"
+              />
+            </v-tab-item>
+
+            <v-tab-item
+            v-if="hasDimensionsInfo"
+            value="tab-dimensions"
+            >
+              <ProductDimensionsTable
+              :dimensions="dimensionsInfo"
+              />
+            </v-tab-item>
+
+
+          </base-material-tabs>
+        </v-card-text>
+        </v-card>
       </v-col>
 
       <v-col md="8" v-if="infoTabs.length">
@@ -130,6 +178,8 @@ import LinkedProductsRL from '@/components/rl/LinkedProductsRL'
 import ProductPreviewCard from '@/components/layouts/ProductPreviewCard'
 
 
+
+
 export default {
   mixins: [ ProductPresentationMixin ],
 
@@ -195,6 +245,10 @@ export default {
       }
 
       return tabs
+    },
+
+    hasAttachmentsSets () {
+      return true
     },
   },
 

@@ -11,6 +11,7 @@
         label="Qty."
         type="number"
         v-model.number="qty"
+        min="1"
         class="mx-4"
       ></v-text-field>
     </div>
@@ -59,6 +60,16 @@ export default {
     alreadyInCart () {
       return !!this.cartItems.find(e => e.product.sku == this.product.sku)
     },
+
+    // qty: {
+    //   get () {
+    //     return this.defQty
+    //   },
+    //
+    //   set (q) {
+    //     this.defQty = isNaN(q) || q < 1 ? 1 : q
+    //   }
+    // }
   },
 
   watch: {
