@@ -236,6 +236,7 @@ export default {
         {title: "Flyers", slug: "flyers"},
         {title: "Manuals", slug: "manuals"},
         {title: "Layouts", slug: "layouts"},
+        {title: "Videos", slug: "videos"},
       ],
     }
   },
