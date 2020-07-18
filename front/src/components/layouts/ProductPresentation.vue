@@ -1,7 +1,6 @@
 <template>
   <v-row>
     <template v-if="product">
-      {{ p }}
       <v-col sm="6" md="6">
         <ImgTransf
         :path="p.image"
@@ -33,6 +32,26 @@
         />
       </v-col>
 
+<v-col md="8" >
+  <!-- <ProductAttachmetsSetRL
+  :product="product.id"
+  :variation="variationId"
+  name="gallery"
+  v-slot="{set}"
+  >
+
+  </ProductAttachmetsSetRL> -->
+
+
+
+  <ProductPresentationAttachmentsSets
+  :product="product.id"
+  :variation="variationId"
+  :setsArr="attachmentsSets"
+  />
+
+
+</v-col>
 
       <v-col md="8" v-if="hasAttachmentsSets">
         <!-- ==================== ATTACHMENTS SETS TABS DATA ==================== -->
@@ -173,8 +192,10 @@ import ProductDimensionsTable from '@/components/layouts/product/ProductDimensio
 import ProductPresentationAddToCart from '@/components/layouts/product/ProductPresentationAddToCart'
 import ProductVariationConfig from '@/components/layouts/product/ProductVariationConfig'
 import ProductVolumeDiscount from '@/components/layouts/product/ProductVolumeDiscount'
+import ProductPresentationAttachmentsSets from '@/components/layouts/product/ProductPresentationAttachmentsSets'
 
 import LinkedProductsRL from '@/components/rl/LinkedProductsRL'
+// import ProductAttachmetsSetRL from '@/components/rl/ProductAttachmetsSetRL'
 import ProductPreviewCard from '@/components/layouts/ProductPreviewCard'
 
 
@@ -192,7 +213,9 @@ export default {
     ProductVariationConfig,
     ProductVolumeDiscount,
     LinkedProductsRL,
+    // ProductAttachmetsSetRL,
     ProductPreviewCard,
+    ProductPresentationAttachmentsSets,
   },
 
   props: {
@@ -207,6 +230,12 @@ export default {
         {type: 'accessories', title: 'Zubehör'},
         {type: 'cross-sells', title: 'Kunden kauften auch'},
         {type: 'replacement-material', title: 'Ersatzmaterial'},
+      ],
+
+      attachmentsSets:[
+        {title: "Flyers", slug: "flyers"},
+        {title: "Manuals", slug: "manuals"},
+        {title: "Layouts", slug: "layouts"},
       ],
     }
   },
@@ -248,8 +277,12 @@ export default {
     },
 
     hasAttachmentsSets () {
-      return true
+      return false
     },
+
+    variationId () {
+      return this.isVariableProduct && this.selectedVariation ? this.selectedVariation.id : null
+    }
   },
 
   watch: {

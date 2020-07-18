@@ -1,7 +1,7 @@
 #import './../../product/fragments/ProductBasicFragment.gql'
 #import './../../product/fragments/ProductPriceFragment.gql'
 #import "./../../product/fragments/ProductVariableFeaturesFragment.gql"
-#import "./../../product/fragments/ProductVariationItemFragment.gql"
+
 fragment LinkedProductsData on ProductLinks {
   id
   links{

@@ -21,7 +21,8 @@ export default {
     },
 
     async loadItem (key) {
-      let variables = {field: 'id', value: key.id, linkType: this.linkType, allVariations: true}
+      let variables = {field: 'id', value: key.id, linkType: this.linkType}
+      console.log('variables %o', variables)
       let { data: { linkedProducts } } = await this.$apollo.query({
         query: LinkedProducts,
         variables,
