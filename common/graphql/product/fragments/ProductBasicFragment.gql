@@ -10,6 +10,7 @@ fragment ProductBasicData on Product{
   displayOrder
   excerpt
   description
+  longDescription
   technicalInformation
   image
 

@@ -7,9 +7,9 @@
     </iframe>
   </template>
   <template v-else>
-    <router-link :to="url">
+    <a :href="url" target="_blank">
       {{ fileTitle }}
-    </router-link>
+    </a>
   </template>
   </div>
 </template>

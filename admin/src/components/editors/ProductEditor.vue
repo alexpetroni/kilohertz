@@ -238,6 +238,7 @@ export default {
         'published',
         'excerpt',
         'description',
+        'longDescription',
         'technicalInformation',
         'displayOrder',
 
@@ -258,6 +259,7 @@ export default {
       if(data.brand){
         data.brand = data.brand.id
       }
+
       return data
     },
 

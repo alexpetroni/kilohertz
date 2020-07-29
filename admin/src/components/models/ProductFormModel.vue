@@ -27,6 +27,7 @@ export default {
 
         excerpt: '',
         description: '',
+        longDescription: '',
 
         technicalInformation: '',
 

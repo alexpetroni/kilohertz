@@ -32,15 +32,27 @@
         />
       </v-col>
 
-<v-col md="8" >
-  <!-- <ProductAttachmetsSetRL
-  :product="product.id"
-  :variation="variationId"
-  name="gallery"
-  v-slot="{set}"
-  >
+      <!-- ==================== INFO TABS DATA ==================== -->
+      <v-col md="12" >
 
-  </ProductAttachmetsSetRL> -->
+        <ProductAttachmetsSetsRL
+        :product="product.id"
+        :variation="variationId"
+        :nameArr="attachmentsSets.map(e => e.slug)"
+        v-slot="{sets}"
+        >
+
+          <ProductTabbedInfo
+          :longDescription="p.longDescription"
+          :technicalInformation="p.technicalInformation"
+          :attSets="sets"
+          :attNameArr="attachmentsSets"
+          />
+
+        </ProductAttachmetsSetsRL>
+      </v-col>
+
+<!-- <v-col md="8" >
 
 
 
@@ -51,7 +63,7 @@
   />
 
 
-</v-col>
+</v-col> -->
 
       <v-col md="8" v-if="hasAttachmentsSets">
         <!-- ==================== ATTACHMENTS SETS TABS DATA ==================== -->
@@ -112,14 +124,14 @@
             {{ tab.title }}
           </v-tab>
 
-            <v-tab-item
+            <!-- <v-tab-item
             v-if="hasTechnicalInformation"
             value="tab-technical-informations"
             >
               <ProductTechnicalInformationTable
               :textContent="p.technicalInformation"
               />
-            </v-tab-item>
+            </v-tab-item> -->
 
             <v-tab-item
             v-if="hasPackagingInfo"
@@ -130,14 +142,14 @@
               />
             </v-tab-item>
 
-            <v-tab-item
+            <!-- <v-tab-item
             v-if="hasDimensionsInfo"
             value="tab-dimensions"
             >
               <ProductDimensionsTable
               :dimensions="dimensionsInfo"
               />
-            </v-tab-item>
+            </v-tab-item> -->
 
 
           </base-material-tabs>
@@ -192,10 +204,13 @@ import ProductDimensionsTable from '@/components/layouts/product/ProductDimensio
 import ProductPresentationAddToCart from '@/components/layouts/product/ProductPresentationAddToCart'
 import ProductVariationConfig from '@/components/layouts/product/ProductVariationConfig'
 import ProductVolumeDiscount from '@/components/layouts/product/ProductVolumeDiscount'
-import ProductPresentationAttachmentsSets from '@/components/layouts/product/ProductPresentationAttachmentsSets'
+// import ProductPresentationAttachmentsSets from '@/components/layouts/product/ProductPresentationAttachmentsSets'
+
+import ProductAttachmetsSetsRL from '@/components/rl/ProductAttachmetsSetsRL'
+
+import ProductTabbedInfo from '@/components/layouts/product/ProductTabbedInfo'
 
 import LinkedProductsRL from '@/components/rl/LinkedProductsRL'
-// import ProductAttachmetsSetRL from '@/components/rl/ProductAttachmetsSetRL'
 import ProductPreviewCard from '@/components/layouts/ProductPreviewCard'
 
 
@@ -213,9 +228,10 @@ export default {
     ProductVariationConfig,
     ProductVolumeDiscount,
     LinkedProductsRL,
-    // ProductAttachmetsSetRL,
+    ProductAttachmetsSetsRL,
+    ProductTabbedInfo,
     ProductPreviewCard,
-    ProductPresentationAttachmentsSets,
+    // ProductPresentationAttachmentsSets,
   },
 
   props: {
@@ -244,7 +260,7 @@ export default {
   computed: {
 
     hasTechnicalInformation () {
-      return this.p && this.p.technicalInformation
+      return false // this.p && this.p.technicalInformation
     },
 
     hasPackagingInfo () {

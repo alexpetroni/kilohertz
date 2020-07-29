@@ -90,11 +90,28 @@
         v-model="editedItem.excerpt"
         ></v-textarea>
       </v-col>
-
+      <v-col cols="12">
+        <base-subheading>
+          Short Description
+        </base-subheading>
+      </v-col>
       <v-col sm="12">
         <quillEditor
         class="editor mt-n4 mb-12"
         v-model="editedItem.description"
+        :options="quillOptions"
+        ></quillEditor>
+      </v-col>
+
+      <v-col cols="12">
+        <base-subheading>
+          Long Description
+        </base-subheading>
+      </v-col>
+      <v-col sm="12">
+        <quillEditor
+        class="editor mt-n4 mb-12"
+        v-model="editedItem.longDescription"
         :options="quillOptions"
         ></quillEditor>
       </v-col>
@@ -228,7 +245,7 @@ export default {
       const name = this.editedItem.name && this.editedItem.name.trim()
       const sku = this.editedItem.sku && this.editedItem.sku.trim()
       const type = this.editedItem.type
-      return !(this.isProductVariation ? sku && type : name && sku && type) 
+      return !(this.isProductVariation ? sku && type : name && sku && type)
     },
 
     publishedLabel () {
