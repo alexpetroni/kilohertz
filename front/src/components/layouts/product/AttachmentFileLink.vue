@@ -67,6 +67,7 @@ export default {
     },
 
     isVideo () {
+      console.log('this.attachment %o', this.attachment)
       return this.attachment.type == 'videoUrl'
     }
   },

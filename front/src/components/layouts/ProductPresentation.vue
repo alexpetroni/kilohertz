@@ -2,10 +2,17 @@
   <v-row>
     <template v-if="product">
       <v-col sm="6" md="6">
-        <ImgTransf
+        <!-- <ImgTransf
         :path="p.image"
         :transformation="[{w: 600}]"
         style="max-width: 100%;"
+        /> -->
+        <ProductGallery
+        :product="product.id"
+        :variation="variationId"
+        name="gallery"
+        :mainImage="p.image"
+
         />
       </v-col>
 
@@ -197,7 +204,7 @@
 <script>
 import ProductPresentationMixin  from '@/mixins/ProductPresentationMixin'
 
-import ImgTransf from '@common/components/img/ImgTransf'
+// import ImgTransf from '@common/components/img/ImgTransf'
 import ProductPackagingTable from '@/components/layouts/product/ProductPackagingTable'
 import ProductTechnicalInformationTable from '@/components/layouts/product/ProductTechnicalInformationTable'
 import ProductDimensionsTable from '@/components/layouts/product/ProductDimensionsTable'
@@ -213,14 +220,13 @@ import ProductTabbedInfo from '@/components/layouts/product/ProductTabbedInfo'
 import LinkedProductsRL from '@/components/rl/LinkedProductsRL'
 import ProductPreviewCard from '@/components/layouts/ProductPreviewCard'
 
-
-
+import ProductGallery from '@/components/layouts/product/ProductGallery'
 
 export default {
   mixins: [ ProductPresentationMixin ],
 
   components: {
-    ImgTransf,
+    // ImgTransf,
     ProductPackagingTable,
     ProductTechnicalInformationTable,
     ProductDimensionsTable,
@@ -232,6 +238,7 @@ export default {
     ProductTabbedInfo,
     ProductPreviewCard,
     // ProductPresentationAttachmentsSets,
+    ProductGallery,
   },
 
   props: {
@@ -254,6 +261,8 @@ export default {
         {title: "Layouts", slug: "layouts"},
         {title: "Videos", slug: "videos"},
       ],
+
+      currentId: null,
     }
   },
 
@@ -299,7 +308,8 @@ export default {
 
     variationId () {
       return this.isVariableProduct && this.selectedVariation ? this.selectedVariation.id : null
-    }
+    },
+
   },
 
   watch: {

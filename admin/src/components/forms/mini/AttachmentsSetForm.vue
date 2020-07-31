@@ -17,7 +17,12 @@
             >
           <div class="img-container">
             <template v-if="f.type=='videoUrl'">
-              <video ref="videoRef" :src="f.path" id="video-container" width="100%" controls></video>
+              <VideoViewer
+              :src="f.path"
+              width="200"
+              height="175"
+              />
+              <!-- <video ref="videoRef" :src="f.path" id="video-container" width="100%" controls></video> -->
             </template>
 
           <template v-else>
@@ -79,7 +84,7 @@ import ImgTransf from '@common/components/img/ImgTransf'
 import ConfirmationDialog from '@common/components/ConfirmationDialog'
 import AttachmentsSelectDialog from '@/components/selectors/AttachmentsSelectDialog'
 import VideoAttachmentDialog from '@/components/forms/mini/VideoAttachmentDialog'
-
+import VideoViewer from '@common/components/video/VideoViewer'
 
 export default {
   props: {
@@ -106,6 +111,7 @@ export default {
     ConfirmationDialog,
     AttachmentsSelectDialog,
     VideoAttachmentDialog,
+    VideoViewer,
   },
 
   data () {
