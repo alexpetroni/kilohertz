@@ -19,6 +19,7 @@ function wireRoutes (app) {
 
 
   app.get('/export/products', async (req, res) => {
+    console.log('publicDirPath %s', publicDirPath)
     const fileName = productExportFileName()
     const outputDir = 'export/products'
     const destination = path.join(publicDirPath, outputDir)

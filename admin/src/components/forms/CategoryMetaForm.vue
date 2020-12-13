@@ -45,7 +45,7 @@
 
             <v-col
             v-for="(p, index) in editedItem.previewFields"
-            :key="index+'p'"
+            :key="'prev_' + index"
             cols="12"
             sm="4"
             >
@@ -63,7 +63,7 @@
 
             <v-col
             v-for="(h, index) in editedItem.highlights"
-            :key="index+'h'"
+            :key="'high_' + index"
             cols="12"
             sm="4"
             >
@@ -132,7 +132,8 @@ export default {
     },
 
     onDeleteHighlight (index) {
-      this.editedItem.highlights.splice(index, 1)
+      console.log('incex %s', index)
+      this.editedItem.highlights = this.editedItem.highlights.splice(index, 1)
     },
   },
 }
